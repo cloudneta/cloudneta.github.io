@@ -242,7 +242,7 @@
 <p>☝ AWS Global Accelerator의 핵심은 고정 Anycast IP을 제공하여 사용자 입장에서 고정 IP 주소로 접근이 가능하며, AWS 글로벌 네트워크를 경유하여 안정적이고 빠른 서비스가 가능하는 점이다.</p>
 </blockquote>
 <h3 id="2-AWS-Global-Accelerator-Lab-Preview"><a href="#2-AWS-Global-Accelerator-Lab-Preview" class="headerlink" title="2. AWS Global Accelerator Lab Preview"></a>2. AWS Global Accelerator Lab Preview</h3><p>2.1 Lab Topology</p>
-<p><img src="/images/LabGuide-AWS-Global-Accelerator/Untitled%201.png" alt="LabGuide%20AWS%20Global%20Accelerator%2086f3714d71d24b4c940958dfd90b2d52/Untitled%201.png"></p>
+<p><img src="/images/LabGuide-AWS-Global-Accelerator/Untitled1.png" alt="LabGuide%20AWS%20Global%20Accelerator%2086f3714d71d24b4c940958dfd90b2d52/Untitled%201.png"></p>
 <p>그림 2-1 AWS Global Accelerator Lab Topology</p>
 <ul>
 <li><code>시드니, 상파울루</code> Region에 Web 서버용 EC2-Instance 2대씩 배치</li>
@@ -363,7 +363,7 @@
 </ul>
 </li>
 </ul>
-<p><img src="/images/LabGuide-AWS-Global-Accelerator/Untitled%202.png" alt="LabGuide%20AWS%20Global%20Accelerator%2086f3714d71d24b4c940958dfd90b2d52/Untitled%202.png"><br>그림 3-1 시드니 EndPoint Group의 EndPoint 설정 화면 (ALB)</p>
+<p><img src="/images/LabGuide-AWS-Global-Accelerator/Untitled2.png" alt="LabGuide%20AWS%20Global%20Accelerator%2086f3714d71d24b4c940958dfd90b2d52/Untitled%202.png"><br>그림 3-1 시드니 EndPoint Group의 EndPoint 설정 화면 (ALB)</p>
 <ul>
 <li><p>Endpoint group: sa-east-1</p>
 <ul>
@@ -383,7 +383,7 @@
 </li>
 <li><p>Weight Info: <code>128</code></p>
 </li>
-<li><p>View Screenshot<br><img src="/images/LabGuide-AWS-Global-Accelerator/Untitled%203.png" alt="LabGuide%20AWS%20Global%20Accelerator%2086f3714d71d24b4c940958dfd90b2d52/Untitled%203.png"><br>그림 3-2 상파울루 EndPoint Group의 EndPoint 설정 화면 (EC2-Instance)</p>
+<li><p>View Screenshot<br><img src="/images/LabGuide-AWS-Global-Accelerator/Untitled3.png" alt="LabGuide%20AWS%20Global%20Accelerator%2086f3714d71d24b4c940958dfd90b2d52/Untitled%203.png"><br>그림 3-2 상파울루 EndPoint Group의 EndPoint 설정 화면 (EC2-Instance)</p>
 </li>
 </ul>
 </li>
@@ -392,7 +392,7 @@
 </ul>
 <p>3.2 AWS Global Accelerator 정보 확인</p>
 <p>[STEP 1] Accelerator &amp; Listener 정보</p>
-<p><img src="/images/LabGuide-AWS-Global-Accelerator/Untitled%204.png" alt="LabGuide%20AWS%20Global%20Accelerator%2086f3714d71d24b4c940958dfd90b2d52/Untitled%204.png"><br>그림 3-3 Accelerator 정보와 이에 속한 Listener 정보</p>
+<p><img src="/images/LabGuide-AWS-Global-Accelerator/Untitled4.png" alt="LabGuide%20AWS%20Global%20Accelerator%2086f3714d71d24b4c940958dfd90b2d52/Untitled%204.png"><br>그림 3-3 Accelerator 정보와 이에 속한 Listener 정보</p>
 <ul>
 <li>Accelerator Provisioning Status는 <code>Deployed</code> 상태로 전환되었다.</li>
 <li>Accelerator에 Static한 <code>Anycast IP 2개</code>를 할당 받는다.</li>
@@ -402,18 +402,18 @@
 <ul>
 <li>Listener 를 선택 후 <code>View Details</code>에 접근 한다.</li>
 </ul>
-<p><img src="/images/LabGuide-AWS-Global-Accelerator/Untitled%205.png" alt="LabGuide%20AWS%20Global%20Accelerator%2086f3714d71d24b4c940958dfd90b2d52/Untitled%205.png"><br>그림 3-4 생성된 Listener 정보와 이에 속한 Endpoint Group 정보</p>
+<p><img src="/images/LabGuide-AWS-Global-Accelerator/Untitled5.png" alt="LabGuide%20AWS%20Global%20Accelerator%2086f3714d71d24b4c940958dfd90b2d52/Untitled%205.png"><br>그림 3-4 생성된 Listener 정보와 이에 속한 Endpoint Group 정보</p>
 <ul>
 <li>TCP 80에 대한 Listener 정보이다. (Client Affinity는 비활성화 상태)</li>
 <li>해당 Listener에 속한 EndPoint Group을 확인한다. (ap-soutcheast-2의 EndPoint Group, sa-east-1의 EndPoint Group)</li>
 <li>현재 각 EndPoint Group에 대한 <code>Traffic Dial</code>은 모두 100%이다. (트래픽 수용력 100%)</li>
 </ul>
 <p>[STEP 3] EndPoint 확인</p>
-<p><img src="/images/LabGuide-AWS-Global-Accelerator/Untitled%206.png" alt="LabGuide%20AWS%20Global%20Accelerator%2086f3714d71d24b4c940958dfd90b2d52/Untitled%206.png"><br>그림 3-5 시드니 Endpoint Group 정보와 이에 속한 Endpoint 정보</p>
+<p><img src="/images/LabGuide-AWS-Global-Accelerator/Untitled6.png" alt="LabGuide%20AWS%20Global%20Accelerator%2086f3714d71d24b4c940958dfd90b2d52/Untitled%206.png"><br>그림 3-5 시드니 Endpoint Group 정보와 이에 속한 Endpoint 정보</p>
 <ul>
 <li>ap-southeast-2의 EndPoint Group에 대한 EndPoint 정보를 확인한다. (EndPoint Type: <code>ALB</code>)</li>
 </ul>
-<p><img src="/images/LabGuide-AWS-Global-Accelerator/Untitled%207.png" alt="LabGuide%20AWS%20Global%20Accelerator%2086f3714d71d24b4c940958dfd90b2d52/Untitled%207.png"><br>그림 3-6 상파울루 Endpoint Group 정보와 이에 속한 Endpoint 정보</p>
+<p><img src="/images/LabGuide-AWS-Global-Accelerator/Untitled7.png" alt="LabGuide%20AWS%20Global%20Accelerator%2086f3714d71d24b4c940958dfd90b2d52/Untitled%207.png"><br>그림 3-6 상파울루 Endpoint Group 정보와 이에 속한 Endpoint 정보</p>
 <ul>
 <li>sa-east-1의 EndPoint Group에 대한 EndPoint 2대의 정보를 확인한다. (EndPoint Type: <code>EC2</code>)</li>
 </ul>
@@ -461,12 +461,12 @@
 </ul>
 <p>a) Global Accelerator 미사용</p>
 <p>b) Global Accelerator 사용</p>
-<p><img src="/images/LabGuide-AWS-Global-Accelerator/Untitled%208.png" alt="LabGuide%20AWS%20Global%20Accelerator%2086f3714d71d24b4c940958dfd90b2d52/Untitled%208.png"></p>
+<p><img src="/images/LabGuide-AWS-Global-Accelerator/Untitled8.png" alt="LabGuide%20AWS%20Global%20Accelerator%2086f3714d71d24b4c940958dfd90b2d52/Untitled%208.png"></p>
 <p>그림 출처: <a href="https://aws.amazon.com/ko/global-accelerator/?blogs-global-accelerator.sort-by=item.additionalFields.createdDate&blogs-global-accelerator.sort-order=desc&aws-global-accelerator-wn.sort-by=item.additionalFields.postDateTime&aws-global-accelerator-wn.sort-order=desc" target="_blank" rel="noopener">AWS Global Accelerator 개요</a></p>
 <ul>
 <li>서비스를 위해 수많은 네트워크를 거쳐가며, 각 Hop은 성능에 영향을 주며 위험을 초래할 수 있다.</li>
 </ul>
-<p><img src="/images/LabGuide-AWS-Global-Accelerator/Untitled%209.png" alt="LabGuide%20AWS%20Global%20Accelerator%2086f3714d71d24b4c940958dfd90b2d52/Untitled%209.png"></p>
+<p><img src="/images/LabGuide-AWS-Global-Accelerator/Untitled9.png" alt="LabGuide%20AWS%20Global%20Accelerator%2086f3714d71d24b4c940958dfd90b2d52/Untitled%209.png"></p>
 <p>그림 출처: <a href="https://aws.amazon.com/ko/global-accelerator/?blogs-global-accelerator.sort-by=item.additionalFields.createdDate&blogs-global-accelerator.sort-order=desc&aws-global-accelerator-wn.sort-by=item.additionalFields.postDateTime&aws-global-accelerator-wn.sort-order=desc" target="_blank" rel="noopener">AWS Global Accelerator 개요</a></p>
 <ul>
 <li>AWS Global Accelerator를 추가하면 AWS 글로벌 네트워크를 활용하므로 성능이 개선 및 효율적인 통신을 보장한다.</li>
@@ -500,7 +500,7 @@
 </li>
 </ul>
 <p>4.1.3) Web 접속 흐름</p>
-<p><img src="/images/LabGuide-AWS-Global-Accelerator/Untitled%2010.png" alt="LabGuide%20AWS%20Global%20Accelerator%2086f3714d71d24b4c940958dfd90b2d52/Untitled%2010.png"></p>
+<p><img src="/images/LabGuide-AWS-Global-Accelerator/Untitled10.png" alt="LabGuide%20AWS%20Global%20Accelerator%2086f3714d71d24b4c940958dfd90b2d52/Untitled%2010.png"></p>
 <p>그림 4-1 리전 별 User에서 Web 서버로 접근 시 논리적인 흐름</p>
 <ul>
 <li>User에서 가장 가까운 Edge Location으로 트래픽이 전송한다. (Target: Anycast IP 사용)</li>
@@ -520,7 +520,7 @@
 <ul>
 <li>Accelerator 선택 —&gt; Listener 선택 후 view detail —&gt; endpoint group을 선택 후 edit</li>
 </ul>
-<p><img src="/images/LabGuide-AWS-Global-Accelerator/Untitled%2011.png" alt="LabGuide%20AWS%20Global%20Accelerator%2086f3714d71d24b4c940958dfd90b2d52/Untitled%2011.png"></p>
+<p><img src="/images/LabGuide-AWS-Global-Accelerator/Untitled11.png" alt="LabGuide%20AWS%20Global%20Accelerator%2086f3714d71d24b4c940958dfd90b2d52/Untitled%2011.png"></p>
 <p>그림 4-2 시드니 EndPoint Group의 Traffic Dial을 50%로 조정</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> &#123;1..100&#125;; <span class="keyword">do</span> curl -s -q 75.2.44.82 ; <span class="keyword">done</span> | sort | uniq -c | sort -nr</span><br><span class="line">     27 &lt;h1&gt;CloudNeta Web Server_2 [Region= ap-southeast-2] &lt;/h1&gt;</span><br><span class="line">     27 &lt;h1&gt;CloudNeta Web Server_1 [Region= ap-southeast-2] &lt;/h1&gt;</span><br><span class="line">     23 &lt;h1&gt;CloudNeta Web Server_2 [Region= sa-east-1] &lt;/h1&gt;</span><br><span class="line">     23 &lt;h1&gt;CloudNeta Web Server_1 [Region= sa-east-1] &lt;/h1&gt;</span><br><span class="line">[root@ip-172-31-36-23 ec2-user]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
 
@@ -528,7 +528,7 @@
 <li>한국 사용자 기준으로 약 50%정도는 <code>시드니(ap-southeast-2)</code>에서 처리되고 나머지는 <code>상파울루(sa-east-1)</code>에서 처리된다.</li>
 </ul>
 <p>4.2.1-2) Traffic Dial: <code>시드니</code> 0%, <code>상파울루</code> 100% (<code>서울</code> 에서 테스트)</p>
-<p><img src="/images/LabGuide-AWS-Global-Accelerator/Untitled%2012.png" alt="LabGuide%20AWS%20Global%20Accelerator%2086f3714d71d24b4c940958dfd90b2d52/Untitled%2012.png"></p>
+<p><img src="/images/LabGuide-AWS-Global-Accelerator/Untitled12.png" alt="LabGuide%20AWS%20Global%20Accelerator%2086f3714d71d24b4c940958dfd90b2d52/Untitled%2012.png"></p>
 <p>그림 4-3 시드니 EndPoint Group의 Traffic Dial을 0%로 조정</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> &#123;1..100&#125;; <span class="keyword">do</span> curl -s -q 75.2.44.82 ; <span class="keyword">done</span> | sort | uniq -c | sort -nr</span><br><span class="line">     50 &lt;h1&gt;CloudNeta Web Server_2 [Region= sa-east-1] &lt;/h1&gt;</span><br><span class="line">     50 &lt;h1&gt;CloudNeta Web Server_1 [Region= sa-east-1] &lt;/h1&gt;</span><br><span class="line">[root@ip-172-31-36-23 ec2-user]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
 
@@ -548,7 +548,7 @@
 </li>
 </ul>
 <p>4.2.2-1) <code>상파울루</code> EndPoint#1 Weight: 64, <code>상파울루</code> EndPoint#2 Weight: 128 (<code>버지니아</code> 에서 테스트)</p>
-<p><img src="/images/LabGuide-AWS-Global-Accelerator/Untitled%2013.png" alt="LabGuide%20AWS%20Global%20Accelerator%2086f3714d71d24b4c940958dfd90b2d52/Untitled%2013.png"></p>
+<p><img src="/images/LabGuide-AWS-Global-Accelerator/Untitled13.png" alt="LabGuide%20AWS%20Global%20Accelerator%2086f3714d71d24b4c940958dfd90b2d52/Untitled%2013.png"></p>
 <p>그림 4-4 상파울루 EndPoint Group의 EndPoint#1의 Weight 값을 64로 조정</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> &#123;1..100&#125;; <span class="keyword">do</span> curl -s -q 75.2.44.82 ; <span class="keyword">done</span> | sort | uniq -c | sort -nr</span><br><span class="line">     67 &lt;h1&gt;CloudNeta Web Server_2 [Region= sa-east-1] &lt;/h1&gt;</span><br><span class="line">     33 &lt;h1&gt;CloudNeta Web Server_1 [Region= sa-east-1] &lt;/h1&gt;</span><br><span class="line">[root@ip-172-31-95-200 ec2-user]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
 
@@ -556,7 +556,7 @@
 <li>계산을 해보면 EP#1 = 64 / (64+128) = 1/3 이고, EP#2 = 128 / (64+128) = 2/3 이다.</li>
 </ul>
 <p>4.2.2-2) <code>상파울루</code> EndPoint#1 Weight: 0, <code>상파울루</code> EndPoint#2 Weight: 128 (<code>버지니아</code> 에서 테스트)</p>
-<p><img src="/images/LabGuide-AWS-Global-Accelerator/Untitled%2014.png" alt="LabGuide%20AWS%20Global%20Accelerator%2086f3714d71d24b4c940958dfd90b2d52/Untitled%2014.png"></p>
+<p><img src="/images/LabGuide-AWS-Global-Accelerator/Untitled14.png" alt="LabGuide%20AWS%20Global%20Accelerator%2086f3714d71d24b4c940958dfd90b2d52/Untitled%2014.png"></p>
 <p>그림 4-5 상파울루 EndPoint Group의 EndPoint#1의 Weight 값을 0으로 조정</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> &#123;1..100&#125;; <span class="keyword">do</span> curl -s -q 75.2.44.82 ; <span class="keyword">done</span> | sort | uniq -c | sort -nr</span><br><span class="line">    100 &lt;h1&gt;CloudNeta Web Server_2 [Region= sa-east-1] &lt;/h1&gt;</span><br><span class="line">[root@ip-172-31-95-200 ec2-user]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
 
@@ -571,7 +571,7 @@
 <li>AWS Global Accelerator에서 특정 Source IP 주소의 사용자 요청을 동일한 EndPoint 자원으로 보내 접속 선호도를 유지하도록 선택할 수 있다.</li>
 </ul>
 <p><a href="https://docs.aws.amazon.com/global-accelerator/latest/dg/about-listeners.html#about-listeners-client-affinity" target="_blank" rel="noopener">Listeners in AWS Global Accelerator</a></p>
-<p><img src="/images/LabGuide-AWS-Global-Accelerator/Untitled%2015.png" alt="LabGuide%20AWS%20Global%20Accelerator%2086f3714d71d24b4c940958dfd90b2d52/Untitled%2015.png"></p>
+<p><img src="/images/LabGuide-AWS-Global-Accelerator/Untitled15.png" alt="LabGuide%20AWS%20Global%20Accelerator%2086f3714d71d24b4c940958dfd90b2d52/Untitled%2015.png"></p>
 <p>그림 4-6 Listener에서 Client Affinity 설정을 Source IP로 변경</p>
 <ul>
 <li><p>GA에서 생성한 Listener를 Edit하여 Client Affinity를 None에서 Source IP로 수정한다.</p>
@@ -590,7 +590,7 @@
 <ul>
 <li><code>서울</code>에서 접속 시 <code>시드니</code> Web Server로만 접속되므로, Traffic Dial을 0으로 조정하여 <code>상파울루</code>로 향하게 설정한 후 테스트 한다.</li>
 </ul>
-<p><img src="/images/LabGuide-AWS-Global-Accelerator/Untitled%2012.png" alt="LabGuide%20AWS%20Global%20Accelerator%2086f3714d71d24b4c940958dfd90b2d52/Untitled%2012.png"></p>
+<p><img src="/images/LabGuide-AWS-Global-Accelerator/Untitled12.png" alt="LabGuide%20AWS%20Global%20Accelerator%2086f3714d71d24b4c940958dfd90b2d52/Untitled%2012.png"></p>
 <p>그림 4-7 시드니 EndPoint Group의 Traffic Dial을 0%로 조정</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> &#123;1..100&#125;; <span class="keyword">do</span> curl -s -q 75.2.44.82 ; <span class="keyword">done</span> | sort | uniq -c | sort -nr</span><br><span class="line">    100 &lt;h1&gt;CloudNeta Web Server_2 [Region= sa-east-1] &lt;/h1&gt;</span><br><span class="line">[root@ip-172-31-37-218 ec2-user]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
 
@@ -615,7 +615,7 @@
 <p><a href="https://docs.aws.amazon.com/global-accelerator/latest/dg/preserve-client-ip-address.html" target="_blank" rel="noopener">Preserve Client IP Addresses in AWS Global Accelerator</a></p>
 <p>참고링크 : 클라이언트 IP 보존 관련 문서</p>
 <p>4.4.1) EC2 EndPoint 대상 Client IP 보존 (<code>상파울루</code>)</p>
-<p><img src="/images/LabGuide-AWS-Global-Accelerator/Untitled%2016.png" alt="LabGuide%20AWS%20Global%20Accelerator%2086f3714d71d24b4c940958dfd90b2d52/Untitled%2016.png"><br>그림 4-8 EC2 EndPoint Type에서 Client IP 보존 상태 (활성화)</p>
+<p><img src="/images/LabGuide-AWS-Global-Accelerator/Untitled16.png" alt="LabGuide%20AWS%20Global%20Accelerator%2086f3714d71d24b4c940958dfd90b2d52/Untitled%2016.png"><br>그림 4-8 EC2 EndPoint Type에서 Client IP 보존 상태 (활성화)</p>
 <ul>
 <li>EndPoint 타입이 EC2 일 경우  Client IP 보존 기능은 항상 활성화 상태이다.</li>
 </ul>
@@ -637,7 +637,7 @@
 <p><a href="https://aws.amazon.com/ko/premiumsupport/knowledge-center/elb-capture-client-ip-addresses/" target="_blank" rel="noopener">ELB 액세스 로그에서 클라이언트 IP 주소 캡처</a></p>
 <p>참고링크 : ELB 엑세스 로그에서 클라이언트 IP 주소 확인</p>
 <p>4.4.2.1) Client IP 보존 활성화</p>
-<p><img src="/images/LabGuide-AWS-Global-Accelerator/Untitled%2017.png" alt="LabGuide%20AWS%20Global%20Accelerator%2086f3714d71d24b4c940958dfd90b2d52/Untitled%2017.png"><br>그림 4-9 ALB EndPoint Type에서 Client IP 보존 상태 (활성화)</p>
+<p><img src="/images/LabGuide-AWS-Global-Accelerator/Untitled17.png" alt="LabGuide%20AWS%20Global%20Accelerator%2086f3714d71d24b4c940958dfd90b2d52/Untitled%2017.png"><br>그림 4-9 ALB EndPoint Type에서 Client IP 보존 상태 (활성화)</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/httpd/conf/httpd.conf</span><br><span class="line">:</span><br><span class="line">LogFormat <span class="string">"%&#123;X-Forwarded-For&#125;i %h %l %u %t \"%r\" %&gt;s %b \"%&#123;Referer&#125;i\" \"%&#123;User-Agent&#125;i\""</span> combined</span><br><span class="line">LogFormat <span class="string">"%h %l %u %t \"%r\" %&gt;s %b"</span> common</span><br><span class="line">:</span><br><span class="line">[root@ip-10-0-0-211 ec2-user]<span class="comment"># service httpd reload</span></span><br><span class="line">Reloading httpd:</span><br><span class="line">[root@ip-10-0-0-211 ec2-user]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
 
 <ul>
@@ -654,7 +654,7 @@
 <li><code>시드니</code> Web 서버에서 HTTP 로그를 확인해 보면 Client IP (<code>서울</code>)가 보존되어 그대로 인입되는 것을 확인할 수 있다.</li>
 </ul>
 <p>4.4.2.2) Client IP 보존 비활성화</p>
-<p><img src="/images/LabGuide-AWS-Global-Accelerator/Untitled%2018.png" alt="LabGuide%20AWS%20Global%20Accelerator%2086f3714d71d24b4c940958dfd90b2d52/Untitled%2018.png"><br>그림 4-10 ALB EndPoint Type에서 Client IP 보존 설정 변경 (비활성화)</p>
+<p><img src="/images/LabGuide-AWS-Global-Accelerator/Untitled18.png" alt="LabGuide%20AWS%20Global%20Accelerator%2086f3714d71d24b4c940958dfd90b2d52/Untitled%2018.png"><br>그림 4-10 ALB EndPoint Type에서 Client IP 보존 설정 변경 (비활성화)</p>
 <ul>
 <li><code>시드니</code>의 ALB EndPoint Type을 Edit하여 Preserve Client IP address 체크를 해제한다. (Client IP 보존 비활성화)</li>
 <li>Global Accelerator 가 재시동 되어 약간의 대기가 필요하다.</li>
@@ -677,36 +677,36 @@
 <li>Client는 <code>서울</code>을 기준으로 한다.</li>
 </ul>
 <p>4.5.1) <code>시드니</code> Web 서버 1대 Stop</p>
-<p><img src="/images/LabGuide-AWS-Global-Accelerator/Untitled%2019.png" alt="LabGuide%20AWS%20Global%20Accelerator%2086f3714d71d24b4c940958dfd90b2d52/Untitled%2019.png"><br>그림 4-11 시드니 Web Server 1대 중지</p>
+<p><img src="/images/LabGuide-AWS-Global-Accelerator/Untitled19.png" alt="LabGuide%20AWS%20Global%20Accelerator%2086f3714d71d24b4c940958dfd90b2d52/Untitled%2019.png"><br>그림 4-11 시드니 Web Server 1대 중지</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> &#123;1..100&#125;; <span class="keyword">do</span> curl -s -q 75.2.44.82 ; <span class="keyword">done</span> | sort | uniq -c | sort -nr</span><br><span class="line">    100 &lt;h1&gt;CloudNeta Web Server_1 [Region= ap-southeast-2] &lt;/h1&gt;</span><br><span class="line">[root@ip-172-31-37-218 ec2-user]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
 
 <ul>
 <li>ALB에 의하여 Load Balancing 되는 환경이라 다른 Web 서버가 모두 처리 해 준다.</li>
 </ul>
 <p>4.5.2) <code>시드니</code> Web 서버 모두 Stop</p>
-<p><img src="/images/LabGuide-AWS-Global-Accelerator/Untitled%2020.png" alt="LabGuide%20AWS%20Global%20Accelerator%2086f3714d71d24b4c940958dfd90b2d52/Untitled%2020.png"><br>그림 4-12 시드니 나머지 Web Server 1대 중지 (전체 중지)</p>
+<p><img src="/images/LabGuide-AWS-Global-Accelerator/Untitled20.png" alt="LabGuide%20AWS%20Global%20Accelerator%2086f3714d71d24b4c940958dfd90b2d52/Untitled%2020.png"><br>그림 4-12 시드니 나머지 Web Server 1대 중지 (전체 중지)</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> &#123;1..100&#125;; <span class="keyword">do</span> curl -s -q 75.2.44.82 ; <span class="keyword">done</span> | sort | uniq -c | sort -nr</span><br><span class="line">     50 &lt;h1&gt;CloudNeta Web Server_2 [Region= sa-east-1] &lt;/h1&gt;</span><br><span class="line">     50 &lt;h1&gt;CloudNeta Web Server_1 [Region= sa-east-1] &lt;/h1&gt;</span><br><span class="line">[root@ip-172-31-37-218 ec2-user]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
 
 <ul>
 <li><code>시드니(ap-southeast-2)</code>의 Web 서버 모든 자원이 Stop 되자 <code>상파울루(sa-east-1)</code>로 경로를 변경하여 모두 처리한다.</li>
 </ul>
 <p>4.5.3) Global Accelerator 상태 확인</p>
-<p><img src="/images/LabGuide-AWS-Global-Accelerator/Untitled%2021.png" alt="LabGuide%20AWS%20Global%20Accelerator%2086f3714d71d24b4c940958dfd90b2d52/Untitled%2021.png"><br>그림 4-13 Lisener 상태 확인</p>
+<p><img src="/images/LabGuide-AWS-Global-Accelerator/Untitled21.png" alt="LabGuide%20AWS%20Global%20Accelerator%2086f3714d71d24b4c940958dfd90b2d52/Untitled%2021.png"><br>그림 4-13 Lisener 상태 확인</p>
 <ul>
 <li>리스너의 상태를 확인해보면 <code>1 Unhealthy endpoints</code> 상태이다.</li>
 </ul>
-<p><img src="/images/LabGuide-AWS-Global-Accelerator/Untitled%2022.png" alt="LabGuide%20AWS%20Global%20Accelerator%2086f3714d71d24b4c940958dfd90b2d52/Untitled%2022.png"><br>그림 4-14 EndPoints Health Check 상태 확인</p>
+<p><img src="/images/LabGuide-AWS-Global-Accelerator/Untitled22.png" alt="LabGuide%20AWS%20Global%20Accelerator%2086f3714d71d24b4c940958dfd90b2d52/Untitled%2022.png"><br>그림 4-14 EndPoints Health Check 상태 확인</p>
 <ul>
 <li>Unhealthy 상태의 Endpoint를 확인할 수 있다.</li>
 </ul>
 <p>4.5.4) <code>시드니</code> Web 서버 모두 Start</p>
-<p><img src="/images/LabGuide-AWS-Global-Accelerator/Untitled%2023.png" alt="LabGuide%20AWS%20Global%20Accelerator%2086f3714d71d24b4c940958dfd90b2d52/Untitled%2023.png"><br>그림 4-15 시드니 Web Server 모두 활성화</p>
+<p><img src="/images/LabGuide-AWS-Global-Accelerator/Untitled23.png" alt="LabGuide%20AWS%20Global%20Accelerator%2086f3714d71d24b4c940958dfd90b2d52/Untitled%2023.png"><br>그림 4-15 시드니 Web Server 모두 활성화</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> &#123;1..100&#125;; <span class="keyword">do</span> curl -s -q 75.2.44.82 ; <span class="keyword">done</span> | sort | uniq -c | sort -nr</span><br><span class="line">     46 &lt;h1&gt;CloudNeta Web Server_1 [Region= ap-southeast-2] &lt;/h1&gt;</span><br><span class="line">     44 &lt;h1&gt;CloudNeta Web Server_2 [Region= ap-southeast-2] &lt;/h1&gt;</span><br><span class="line">      5 &lt;h1&gt;CloudNeta Web Server_2 [Region= sa-east-1] &lt;/h1&gt;</span><br><span class="line">      5 &lt;h1&gt;CloudNeta Web Server_1 [Region= sa-east-1] &lt;/h1&gt;</span><br><span class="line">[root@ip-172-31-37-218 ec2-user]<span class="comment">#</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> &#123;1..100&#125;; <span class="keyword">do</span> curl -s -q 75.2.44.82 ; <span class="keyword">done</span> | sort | uniq -c | sort -nr</span><br><span class="line">     51 &lt;h1&gt;CloudNeta Web Server_2 [Region= ap-southeast-2] &lt;/h1&gt;</span><br><span class="line">     49 &lt;h1&gt;CloudNeta Web Server_1 [Region= ap-southeast-2] &lt;/h1&gt;</span><br><span class="line">[root@ip-172-31-37-218 ec2-user]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
 
 <ul>
 <li>Health Check에 의하여 <code>시드니</code> 쪽 EndPoint Group이 Healthy 상태로 전환되기 까지 <code>상파울루</code>에서 처리하며, 이 후 <code>시드니</code>에서 모두 처리한다.</li>
 </ul>
-<p><img src="/images/LabGuide-AWS-Global-Accelerator/Untitled%2024.png" alt="LabGuide%20AWS%20Global%20Accelerator%2086f3714d71d24b4c940958dfd90b2d52/Untitled%2024.png"><br>그림 4-16 Lisener 상태 확인</p>
+<p><img src="/images/LabGuide-AWS-Global-Accelerator/Untitled24.png" alt="LabGuide%20AWS%20Global%20Accelerator%2086f3714d71d24b4c940958dfd90b2d52/Untitled%2024.png"><br>그림 4-16 Lisener 상태 확인</p>
 <ul>
 <li>All Healthy 상태로 전환</li>
 </ul>
