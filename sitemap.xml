@@ -4,7 +4,22 @@
 
     <sitemap>
         <loc>http://cloudneta.github.io/post-sitemap.xml</loc>
-        <lastmod>2020-06-01T10:21:38.515Z</lastmod>
+        <lastmod>2020-06-01T16:59:50.807Z</lastmod>
+    </sitemap>
+
+    <sitemap>
+        <loc>http://cloudneta.github.io/page-sitemap.xml</loc>
+        <lastmod>2020-06-01T16:14:20.569Z</lastmod>
+    </sitemap>
+
+    <sitemap>
+        <loc>http://cloudneta.github.io/category-sitemap.xml</loc>
+        <lastmod>2020-06-01T16:59:50.807Z</lastmod>
+    </sitemap>
+
+    <sitemap>
+        <loc>http://cloudneta.github.io/tag-sitemap.xml</loc>
+        <lastmod>2020-06-01T16:59:50.807Z</lastmod>
     </sitemap>
 
 </sitemapindex>
