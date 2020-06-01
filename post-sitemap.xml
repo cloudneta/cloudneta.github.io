@@ -8,24 +8,16 @@
     </url>
 
     <url>
+        <loc>http://cloudneta.github.io/2020/06/01/Transit-Gateway/</loc>
+        <lastmod>2020-06-01T09:20:59.479Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>http://cloudneta.github.io/2020/05/30/Accelerator/</loc>
-        <lastmod>2020-05-31T11:44:15.934Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>http://cloudneta.github.io/2020/05/31/test/</loc>
-        <lastmod>2020-05-31T11:19:00.990Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>http://cloudneta.github.io/2020/05/31/hello-world/</loc>
-        <lastmod>2020-05-31T08:14:40.939Z</lastmod>
+        <lastmod>2020-06-01T04:15:11.824Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
