@@ -8,8 +8,16 @@
     </url>
 
     <url>
+        <loc>http://cloudneta.github.io/2020/05/06/Route53-Geolocation/</loc>
+        <lastmod>2020-06-02T03:33:15.966Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>http://cloudneta.github.io/2020/05/07/VPN-SitetoSite-with-Dynamic-Route/</loc>
-        <lastmod>2020-06-02T02:56:04.408Z</lastmod>
+        <lastmod>2020-06-02T03:30:36.282Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 

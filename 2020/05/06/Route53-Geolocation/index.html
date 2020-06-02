@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+<meta name="naver-site-verification" content="0e8ced0bfa10b2d3e75a852580f99d3bba940a32" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Noto Serif KR:300,300italic,400,400italic,700,700italic|Noto Sans KR:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"cloudneta.github.io","root":"/","scheme":"Mist","version":"8.0.0-rc.3","exturl":true,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="작성자 : gasida.cloudnet@">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Route53 Geolocation">
+<meta property="og:url" content="http://cloudneta.github.io/2020/05/06/Route53-Geolocation/index.html">
+<meta property="og:site_name" content="CloudNet@">
+<meta property="og:description" content="작성자 : gasida.cloudnet@">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:image" content="http://cloudneta.github.io/images/Route53-Geolocation/Untitled.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/Route53-Geolocation/Untitled1.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/Route53-Geolocation/Untitled2.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/Route53-Geolocation/Untitled3.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/Route53-Geolocation/Untitled4.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/Route53-Geolocation/Untitled5.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/Route53-Geolocation/Untitled6.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/Route53-Geolocation/Untitled7.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/Route53-Geolocation/Untitled8.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/Route53-Geolocation/Untitled9.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/Route53-Geolocation/Untitled10.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/Route53-Geolocation/Untitled11.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/Route53-Geolocation/Untitled12.png">
+<meta property="article:published_time" content="2020-05-06T03:02:10.000Z">
+<meta property="article:modified_time" content="2020-06-02T03:33:15.966Z">
+<meta property="article:author" content="CloudNet@">
+<meta property="article:tag" content="Route53">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://cloudneta.github.io/images/Route53-Geolocation/Untitled.png">
+
+<link rel="canonical" href="http://cloudneta.github.io/2020/05/06/Route53-Geolocation/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'ko'
+  };
+</script>
+
+  <title>Route53 Geolocation | CloudNet@</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/rss2.xml" title="CloudNet@" type="application/rss+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+        <span class="toggle-line toggle-line-first"></span>
+        <span class="toggle-line toggle-line-middle"></span>
+        <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">CloudNet@</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>홈</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>카테고리</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>아카이브</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>태그</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="ko">
+    <link itemprop="mainEntityOfPage" href="http://cloudneta.github.io/2020/05/06/Route53-Geolocation/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="CloudNet@">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CloudNet@">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Route53 Geolocation
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">작성일</span>
+
+              <time title="Post created: 2020-05-06 03:02:10" itemprop="dateCreated datePublished" datetime="2020-05-06T03:02:10+00:00">2020-05-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Updated at: 2020-06-02 03:33:15" itemprop="dateModified" datetime="2020-06-02T03:33:15+00:00">2020-06-02</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Load-Balancing-Route53/" itemprop="url" rel="index"><span itemprop="name">Load Balancing - Route53</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2020/05/06/Route53-Geolocation/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/05/06/Route53-Geolocation/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><em>작성자 : gasida.cloudnet@</em></p>
+<a id="more"></a>
+
+<br>
+
+<details>
+<summary>AWS Document Route53</summary>
+<div markdown="1">
+
+<ul>
+<li><span class="exturl" data-url="aHR0cHM6Ly9kb2NzLmF3cy5hbWF6b24uY29tL2tvX2tyL1JvdXRlNTMvbGF0ZXN0L0RldmVsb3Blckd1aWRlL1dlbGNvbWUuaHRtbA==">Route53 설명서<i class="fa fa-external-link-alt"></i></span></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly9kb2NzLmF3cy5hbWF6b24uY29tL2tvX2tyL1JvdXRlNTMvbGF0ZXN0L0RldmVsb3Blckd1aWRlL3JlZ2lzdHJhci10bGQtbGlzdC5odG1s">Route53 등록 가능 도메인<i class="fa fa-external-link-alt"></i></span></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly9kb2NzLmF3cy5hbWF6b24uY29tL2tvX2tyL1JvdXRlNTMvbGF0ZXN0L0RldmVsb3Blckd1aWRlL3JvdXRpbmctcG9saWN5Lmh0bWw=">Route53 라우팅 정책<i class="fa fa-external-link-alt"></i></span></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly9kb2NzLmF3cy5hbWF6b24uY29tL2tvX2tyL1JvdXRlNTMvbGF0ZXN0L0RldmVsb3Blckd1aWRlL3JvdXRpbmctcG9saWN5Lmh0bWwjcm91dGluZy1wb2xpY3ktZWRuczA=">Amazon Route 53에서 EDNS0을 사용하여 사용자의 위치를 예측하는 방법<i class="fa fa-external-link-alt"></i></span></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly9hd3MuYW1hem9uLmNvbS9rby9wcmVtaXVtc3VwcG9ydC9rbm93bGVkZ2UtY2VudGVyL3Ryb3VibGVzaG9vdC1yb3V0ZTUzLWdlb2xvY2F0aW9uLw==">Route53 점검방법1<i class="fa fa-external-link-alt"></i></span></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly9hd3MuYW1hem9uLmNvbS9rby9wcmVtaXVtc3VwcG9ydC9rbm93bGVkZ2UtY2VudGVyL3Ryb3VibGVzaG9vdC1sYXRlbmN5LWJhc2VkLXJlY29yZHMv">Route53 점검방법2<i class="fa fa-external-link-alt"></i></span></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly9kb2NzLmF3cy5hbWF6b24uY29tL2tvX2tyL1JvdXRlNTMvbGF0ZXN0L0RldmVsb3Blckd1aWRlL3F1ZXJ5LWxvZ3MuaHRtbA==">Route53 쿼리 로깅 설정<i class="fa fa-external-link-alt"></i></span></li>
+</ul>
+</div>
+</details>
+
+<br>
+
+<details>
+<summary>DNS GeoLocation 및 기타</summary>
+<div markdown="1">
+
+<ul>
+<li><span class="exturl" data-url="aHR0cHM6Ly93d3cubmV0bWFuaWFzLmNvbS9rby9wb3N0L2Jsb2cvNTM1OS9ha2FtYWktY2RuLWRucy1nb29nbGUtbmV0d29yay1wcm90b2NvbC9hbnN3ZXItZ29vZ2xlLWRucy1ha2FtYWktY2Ru">DNS 와 CDN 의 동작<i class="fa fa-external-link-alt"></i></span> (넷매니아즈 2011)</li>
+<li><span class="exturl" data-url="aHR0cHM6Ly90b29scy5pZXRmLm9yZy9odG1sL3JmYzc4NzE=">RFC 7871 - Client Subnet in DNS Queries<i class="fa fa-external-link-alt"></i></span></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly9kb2NzLm1pY3Jvc29mdC5jb20va28ta3Ivd2luZG93cy1zZXJ2ZXIvbmV0d29ya2luZy9kbnMvZGVwbG95L3ByaW1hcnktZ2VvLWxvY2F0aW9u">Windows DNS - 위치기반<i class="fa fa-external-link-alt"></i></span></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly93d3cudGVjbWludC5jb20vZmluZC1saW51eC1zZXJ2ZXItZ2VvZ3JhcGhpYy1sb2NhdGlvbi8=">IP 로 위치 찾기<i class="fa fa-external-link-alt"></i></span></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly9wdWJsaWMtZG5zLmluZm8vbmFtZXNlcnZlci91cy5odG1s">Public DNS List<i class="fa fa-external-link-alt"></i></span></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly9jYWNoZWNoZWNrLm9wZW5kbnMuY29tLw==">DNS Cache check (OpenDNS)<i class="fa fa-external-link-alt"></i></span></li>
+</ul>
+</div>
+</details>
+
+<br>
+
+<blockquote>
+<p>💡 AWS 서비스 관련해서는 항상 최우선으로 ‘AWS 설명서’ 를 읽어보는 것을 추천한다. 한글 번역이 매끄럽지 못하면 English 로 변경 후 읽어보기를 바란다.</p>
+</blockquote>
+<hr>
+<br>
+
+<h3 id="1-AWS-Route-53-amp-Geolocation-Routing-Policy"><a href="#1-AWS-Route-53-amp-Geolocation-Routing-Policy" class="headerlink" title="1. AWS Route 53 &amp; Geolocation Routing Policy"></a>1. AWS Route 53 &amp; Geolocation Routing Policy</h3><ul>
+<li>AWS Route 53 은 AWS 관리형의 DNS(Domain Name Server) 이다.<ul>
+<li>Hosted private or public zones (including subdomains)</li>
+<li>Health checks, routing policies and failovers</li>
+</ul>
+</li>
+<li>도메인 등록, DNS 라우팅, 상태 확인을 조합하여 실행할 수 있다.</li>
+</ul>
+<br>
+
+<p><span class="exturl" data-url="aHR0cHM6Ly9kb2NzLmF3cy5hbWF6b24uY29tL2tvX2tyL1JvdXRlNTMvbGF0ZXN0L0RldmVsb3Blckd1aWRlL3dlbGNvbWUtZG5zLXNlcnZpY2UuaHRtbCN3ZWxjb21lLWRucy1zZXJ2aWNlLWhvdy1yb3V0ZS01My1yb3V0ZXMtdHJhZmZpYw==">1.1 Amazon Route 53이 도메인의 트래픽을 라우팅하는 방법<i class="fa fa-external-link-alt"></i></span></p>
+<ul>
+<li><p>사용자가 웹 서버에 접속 시 DNS 서버를 통하여 도메인 주소를 IP 주소로 전달 받은 후 해당 IP로 접속을 한다</p>
+<p>  <img src="/images/Route53-Geolocation/Untitled.png" alt="Route53%20Geolocation%20247d8a8c113e42e29a751d6e98ff864f/Untitled.png"></p>
+<p>  그림 출처 <span class="exturl" data-url="aHR0cHM6Ly9hbXpuLnRvLzNhRE9keks=">https://amzn.to/3aDOdzK<i class="fa fa-external-link-alt"></i></span></p>
+</li>
+</ul>
+<br>
+
+<p><span class="exturl" data-url="aHR0cHM6Ly9kb2NzLmF3cy5hbWF6b24uY29tL2tvX2tyL1JvdXRlNTMvbGF0ZXN0L0RldmVsb3Blckd1aWRlL3JvdXRpbmctcG9saWN5Lmh0bWwjcm91dGluZy1wb2xpY3ktZ2Vv">1.2 Geolocation Routing Policy<i class="fa fa-external-link-alt"></i></span></p>
+<ul>
+<li>EDNS 를 지원하는 Local DNS 서버에 따라서 동작 방식이 달라진다</li>
+</ul>
+<p>1.2.1 Local DNS 서버가 EDNS 를 미지원 하는 경우</p>
+<ul>
+<li><p>Geolocation 정책은 기본적으로 DNS 질의(Query)를 하는 Local DNS Server(예, KT DNS 등)의 IP의 위치를 기반하여 AWS Route 53에 지정된 IP 정보를 전달(Answer)한다</p>
+</li>
+<li><p>아래처럼 한국에 PC에서 한국 DNS서버(168.126.63.1)로 <span class="exturl" data-url="aHR0cDovL3d3dy5nc2lkYS5uZXQ=">www.gsida.net<i class="fa fa-external-link-alt"></i></span> 질의 시 한국 DNS서버는 자신의 IP로 AWS Route53에 질의하게 된다.</p>
+</li>
+<li><p>이때 Route53은 한국DNS 서버의 IP를 확인하고 위치가 한국인 것을 알고 Seoul-Web 의 IP정보인 60.1.1.1 을 전달한다.</p>
+<p>  <img src="/images/Route53-Geolocation/Untitled1.png" alt="Route53%20Geolocation%20247d8a8c113e42e29a751d6e98ff864f/Untitled%201.png"></p>
+</li>
+</ul>
+<p>1.2.2 Local DNS 서버가 EDNS 를 지원 하는 경우</p>
+<ul>
+<li><p>DNS 서버(예. 구글DNS 8.8.8.8)가 ENDS 를 지원하는 경우 사용자가 DNS 질의 시 사용자의 IP대역을 DNS 확장 헤더에 담아서 AWS Route 53에 질의를 하게 된다.</p>
+</li>
+<li><p>AWS Route 53 역시 EDNS 를 지원하므로 DNS 확장 헤더의 Client-Subnet 의 대역의 IP의 위치를 기준하여 결정한다</p>
+<p>  <img src="/images/Route53-Geolocation/Untitled2.png" alt="Route53%20Geolocation%20247d8a8c113e42e29a751d6e98ff864f/Untitled%202.png"></p>
+</li>
+</ul>
+<hr>
+<br>
+
+<h3 id="2-DNS-동작에-대한-오해"><a href="#2-DNS-동작에-대한-오해" class="headerlink" title="2. DNS 동작에 대한 오해"></a>2. DNS 동작에 대한 오해</h3><ul>
+<li>DNS 서버로 데이터 트래픽(웹 트래픽)이 전달 된다.<ul>
+<li>🙅🏻‍♀️No! 위 그림 동작을 보면 알겠지만 DNS 트래픽은 사람이 알기 쉬운 ‘도메인 주소(예. <span class="exturl" data-url="aHR0cDovL3d3dy5kYXVtLm5ldCkmIzM5Ow==">www.daum.net)&#39;<i class="fa fa-external-link-alt"></i></span> 에 대한 ‘IP 주소’를 알아오는 과정이다.</li>
+<li>실제 ‘IP주소’ 를 알아온 이후에는  해당 단말PC에서 ‘웹서버 IP’ 로 직접 데이터 트래픽(웹 트래픽) 통신을 시작한다.</li>
+</ul>
+</li>
+<li>DNS 서버는 사용자의 IP를 기반으로 정확한 위치를 알 수 있다.<ul>
+<li>🙅🏻‍♀️꼭 그렇지만은 않는다. 예를 들면 한국에 단말PC에 미국DNS서버를 설정하게 되면 DNS질의 시 미국DNS서버 IP이므로 미국웹서버 IP를 알려준다.</li>
+<li>즉, Geolocation 의 기본 동작은 최종 DNS Query 하는 소스IP의 위치(일반적인 로컬DNS서버)를 기반하여 ‘IP주소’ 값을 반환한다</li>
+</ul>
+</li>
+<li>그럼 사용자의 IP를 알 수 있는 방법이 없나요?<ul>
+<li>그래서 DNS에 확장 필드 EDNS 에 Client Subnet 필드를 통해서 ‘최종 사용자’의 IP 대역 정보를 전달함으로써 DNS서버가 사용자의 위치를 알 수 있다</li>
+</ul>
+</li>
+</ul>
+<hr>
+<br>
+
+<h3 id="3-Lab-Topology"><a href="#3-Lab-Topology" class="headerlink" title="3. Lab Topology"></a>3. Lab Topology</h3><ul>
+<li><p>Route 53 DNS - GeoLocation Policy → <span class="exturl" data-url="aHR0cDovL2dlb2xvLmdhc2lkYS5uZXQ=">geolo.gasida.net<i class="fa fa-external-link-alt"></i></span></p>
+<ul>
+<li>Query IP가 한국 일 경우 → 한국 위치한 웹서버 IP 정보를 전달</li>
+<li>Query IP가 미국 일 경우 → 미국 위치한 웹서버 IP 정보를 전달</li>
+</ul>
+</li>
+<li><p>단말</p>
+<ul>
+<li><p>한국 위치 단말 : IP주소(한국 위치 IP), DNS서버(한국 위치한 DNS 서버 IP)</p>
+</li>
+<li><p>미국 위치 단말 : IP주소(미국 위치 IP), DNS서버(미국 위치한 DNS 서버 IP)</p>
+<p>  <img src="/images/Route53-Geolocation/Untitled3.png" alt="Route53%20Geolocation%20247d8a8c113e42e29a751d6e98ff864f/Untitled%203.png"></p>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<br>
+
+<h3 id="4-Config-Geolocation-Policy-amp-Logging"><a href="#4-Config-Geolocation-Policy-amp-Logging" class="headerlink" title="4. Config Geolocation Policy &amp; Logging"></a>4. Config Geolocation Policy &amp; Logging</h3><br>
+
+<p>4.1 AWS Web EC2 설정</p>
+<ul>
+<li>Seoul-Web : 서울리전, Public Subnet 에 생성 및 웹 서버 설치 → EC2 Public IP <strong>3.34.3.33</strong></li>
+</ul>
+<details>
+<summary>EC2 생성 시 User Data 에 입력 : 웹 서버 설치, index.html 생성</summary>
+<div markdown="1">
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">AZ=`curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone`</span><br><span class="line">IP=`curl -s http://169.254.169.254/latest/meta-data/<span class="built_in">local</span>-ipv4`</span><br><span class="line">yum install -y httpd</span><br><span class="line">service httpd start</span><br><span class="line">chkconfig httpd on</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"&lt;html&gt;&lt;h1&gt;Hello from Web Server - Region ( "</span><span class="variable">$AZ</span><span class="string">" ) - Private IP ( "</span><span class="variable">$IP</span><span class="string">" )&lt;/h1&gt;&lt;/html&gt;"</span> &gt; /var/www/html/index.html</span><br></pre></td></tr></table></figure>
+
+</div>
+</details>
+
+<br>
+
+<ul>
+<li>Virginia-Web : 버지니아리전, Public Subnet 에 생성 및 웹 서버 설치 → EC2 Public IP <strong>18.206.97.145</strong></li>
+</ul>
+<details>
+<summary>EC2 생성 시 User Data 에 입력 : 웹 서버 설치, index.html 생성</summary>
+<div markdown="1">
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">AZ=`curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone`</span><br><span class="line">IP=`curl -s http://169.254.169.254/latest/meta-data/<span class="built_in">local</span>-ipv4`</span><br><span class="line">yum install -y httpd</span><br><span class="line">service httpd start</span><br><span class="line">chkconfig httpd on</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"&lt;html&gt;&lt;h1&gt;Hello from Web Server - Region ( "</span><span class="variable">$AZ</span><span class="string">" ) - Private IP ( "</span><span class="variable">$IP</span><span class="string">" )&lt;/h1&gt;&lt;/html&gt;"</span> &gt; /var/www/html/index.html</span><br></pre></td></tr></table></figure>
+
+</div>
+</details>
+
+<br>
+
+<p>4.2 단말 설정</p>
+<ul>
+<li>한국 위치 단말 : 자신의 PC를 활용, DNS서버 (168.126.63.1) → 220.117.X.Y</li>
+<li>미국 위치 단말 : 필자는 GCP 활용, DNS서버(192.221.159.0) → 35.186.188.100</li>
+</ul>
+<details>
+<summary>VM Instance 생성 시 시작 스크립트에 입력 : DNS 관련 툴 설치, 기본 DNS를 변경</summary>
+<div markdown="1">
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">yum -y install <span class="built_in">bind</span>-utils traceroute dig jq</span><br><span class="line">sed -i <span class="string">"s/^nameserver 169.254.169.254/nameserver 192.221.159.0/g"</span> /etc/resolv.conf</span><br></pre></td></tr></table></figure>
+
+</div>
+</details>
+
+<br>
+
+<p>4.3 AWS Route 53 설정</p>
+<ul>
+<li>[Route 53 - 호스팅 영역 - 레코드 세트 생성] geolo.gasida.net</li>
+</ul>
+<details>
+<summary>한국 위치 시 한국 웹서버 전달 레코드 생성</summary>
+<div markdown="1">
+
+<pre><code>- 이름: **geolo**.gasida.net
+- 유형: **A - IPv4 주소**
+- 별침: **아니요**
+- TTL(초): **300**
+- 값: **3.34.3.33**
+- 라우팅 정책: **지리적 위치**
+    - 위치: **대한민국**
+    - 세트 ID(*설명, 일종의 주석*): **한국IP만 허용**
+- 상태 검사와 연결: **아니요**
+    - 하단 `생성` 클릭</code></pre></div>
+</details>
+
+<br>
+
+<details>
+<summary>미국 위치 시 한국 웹서버 전달 레코드 생성</summary>
+<div markdown="1">
+
+<pre><code>- 이름: **geolo**.gasida.net
+- 유형: **A - IPv4 주소**
+- 별침: **아니요**
+- TTL(초): **300**
+- 값: **18.206.97.145**
+- 라우팅 정책: **지리적 위치**
+    - 위치: **미국**
+        - 하위 위치: skip → 미국의 경우 주별로 제한 설정 가능
+    - 세트 ID(*설명, 일종의 주석*): **미국IP만 허용**
+- 상태 검사와 연결: **아니요**
+    - 하단 `생성` 클릭</code></pre></div>
+</details>
+
+<ul>
+<li><p>위치를 ‘기본값’ 을 설정을 해야 위 ‘한국과 미국 위치’ 제외한 나머지 곳에서 접속이 가능하다 ⇒ 즉, 지리적 접속 제한 가능</p>
+<p>  <img src="/images/Route53-Geolocation/Untitled4.png" alt="Route53%20Geolocation%20247d8a8c113e42e29a751d6e98ff864f/Untitled%204.png"></p>
+</li>
+</ul>
+<br>
+
+<ul>
+<li><p><span class="exturl" data-url="aHR0cHM6Ly9kb2NzLmF3cy5hbWF6b24uY29tL2tvX2tyL1JvdXRlNTMvbGF0ZXN0L0RldmVsb3Blckd1aWRlL3F1ZXJ5LWxvZ3MuaHRtbA==">해당 호스팅 영역 ‘쿼리 로깅’ 설정<i class="fa fa-external-link-alt"></i></span></p>
+<ul>
+<li><p>[Route 53 - 호스팅 영역] 도메인  선택 후 우측 하단에 <code>쿼리 로깅</code> 설정 : 동작 발생 후 50초 정도 후에 CloudWatch Log 로 수집된다</p>
+<ul>
+<li>새 로그 그룹 생성 : /aws/route53/hosted-zone-name (필자는 gasida 로 설정)</li>
+<li>새 리소스 정책 생성</li>
+</ul>
+<p><img src="/images/Route53-Geolocation/Untitled5.png" alt="Route53%20Geolocation%20247d8a8c113e42e29a751d6e98ff864f/Untitled%205.png"></p>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<br>
+
+<h3 id="5-Verify"><a href="#5-Verify" class="headerlink" title="5. Verify"></a>5. Verify</h3><br>
+
+<p>5.1 기본 정보 확인</p>
+<ul>
+<li><p>단말 : 자신의 공인IP 정보와 위치 정보를 확인, DNS서버 확인, 웹 서비스 확인(EC2 Public IP)</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 한국 위치 단말 (윈도우 단말의 경우 dig 대신 nslookup 사용)</span></span><br><span class="line">curl https://checkip.amazonaws.com/</span><br><span class="line">curl https://ipvigilante.com/220.117.X.Y</span><br><span class="line">curl -s https://ipvigilante.com/$(curl -s checkip.amazonaws.com) | jq <span class="string">'.data.country_name, .data.city_name, .data.ipv4'</span></span><br><span class="line"><span class="string">"Republic of Korea"</span></span><br><span class="line"><span class="string">"Seoul"</span></span><br><span class="line"><span class="string">"220.117.X.Y"</span></span><br><span class="line"></span><br><span class="line">dig www.google.com |grep SERVER</span><br><span class="line">;; SERVER: 168.126.63.1<span class="comment">#53(168.126.63.1)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 미국 위치 단말</span></span><br><span class="line">curl -s https://ipvigilante.com/$(curl -s checkip.amazonaws.com) | jq <span class="string">'.data.country_name, .data.city_name, .data.ipv4'</span></span><br><span class="line"><span class="string">"United States"</span></span><br><span class="line"><span class="string">"Ann Arbor"</span></span><br><span class="line"><span class="string">"35.245.140.130"</span></span><br><span class="line"></span><br><span class="line">dig www.google.com |grep SERVER</span><br><span class="line">;; SERVER: 192.221.159.0<span class="comment">#53(192.221.159.0)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># EC2 웹서비스 확인</span></span><br><span class="line">curl 3.34.3.33</span><br><span class="line">&lt;html&gt;&lt;h1&gt;Hello from MCN Web Server - Seoul Area&lt;/h1&gt;&lt;/html&gt;</span><br><span class="line">curl 18.206.97.145</span><br><span class="line">&lt;html&gt;&lt;h1&gt;Hello from MCN Web Server - Virgina Area&lt;/h1&gt;&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<br>
+
+<p>5.2 <span class="exturl" data-url="aHR0cDovL2dlb2xvLmdhc2lkYS5uZXQ=">geolo.gasida.net<i class="fa fa-external-link-alt"></i></span> DNS조회 및 접속 확인</p>
+<ul>
+<li><p>한국 위치 단말(한국 DNS서버)와 미국 위치 단말(미국 DNS서버)가 각각 가까운 위치의 웹 서버로 접속됨을 확인</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 한국 단말 (윈도우 단말의 경우 dig 대신 nslookup 사용)</span></span><br><span class="line">curl geolo.gasida.net</span><br><span class="line">&lt;html&gt;&lt;h1&gt;Hello from MCN Web Server - Seoul Area&lt;/h1&gt;&lt;/html&gt;</span><br><span class="line"></span><br><span class="line">dig geolo.gasida.net +short</span><br><span class="line">3.34.3.33</span><br><span class="line"></span><br><span class="line"><span class="comment"># 미국 단말</span></span><br><span class="line">curl geolo.gasida.net</span><br><span class="line">&lt;html&gt;&lt;h1&gt;Hello from MCN Web Server - Virgina Area&lt;/h1&gt;&lt;/html&gt;</span><br><span class="line"></span><br><span class="line">dig geolo.gasida.net +short</span><br><span class="line">18.206.97.145</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>DNS Query Log ( 로그그룹보기, 필터 geolo -“AAAA” )</p>
+<ul>
+<li><p>KT DNS서버 에서 소스IP를 121.138.224.3(한국IP) 로 AWS Route53(gasida.net)로 질의를 했음 ⇒ Seoul-Web IP 정보를 전달</p>
+</li>
+<li><p>미국 DNS서버 에서 소스IP를 192.221.159.15(미국IP) 로 AWS Route53(gasida.net)로 질의를 했음 ⇒ Virginia-Web IP 정보를 전달</p>
+<p>  <img src="/images/Route53-Geolocation/Untitled6.png" alt="Route53%20Geolocation%20247d8a8c113e42e29a751d6e98ff864f/Untitled%206.png"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">geolo.gasida.net A NOERROR UDP ICN51-C1 (121.138.224.3 &#x3D; 한국 KT IP)</span><br><span class="line">geolo.gasida.net A NOERROR UDP ATL51-C1 (192.221.159.15 &#x3D; 미국 Lv3 LLC IP)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+<br>
+
+<p>(옵션) 5.3 한국과 미국이 아닌 타 나라의 사용자에서 접속 확인</p>
+<details>
+<summary>현재 '한국 , 미국' 이외에 타 나라(예, 중국 단말에서 테스트)에서는 DNS Query 에 대한 응답을 하지 않는다</summary>
+<div markdown="1">
+
+<ul>
+<li>이럴 경우에 위치를 <code>기본값</code> 을 선택하게 되면 지리 위치에 매칭되지 않는 모든 경우에 <code>기본값</code>에 정의된 IP 정보를 전달해준다</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 중국 단말</span></span><br><span class="line">curl -s https://ipvigilante.com/$(curl -s checkip.amazonaws.com) | jq <span class="string">'.data.country_name, .data.city_name, .data.ipv4'</span></span><br><span class="line"><span class="string">"China"</span></span><br><span class="line"><span class="string">"Suzhou"</span></span><br><span class="line"><span class="string">"103.125.234.199"</span></span><br><span class="line"></span><br><span class="line">curl geox.gasida.net</span><br><span class="line">curl: (6) Could not resolve host: geox.gasida.net</span><br><span class="line"></span><br><span class="line">dig geox.gasida.net +short</span><br></pre></td></tr></table></figure>
+
+</div>
+</details>
+
+<hr>
+<br>
+
+<h3 id="6-Issue"><a href="#6-Issue" class="headerlink" title="6. Issue"></a>6. Issue</h3><ul>
+<li><p>VPN, CDN 환경이나 혹은 아래 처럼 다른 지역의 DNS서버를 설정 할 경우 Issue 가 발생한다</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 미국 단말 DNS서버를 KT DNS로 변경</span></span><br><span class="line">cat /etc/resolv.conf |grep ^name</span><br><span class="line">nameserver 192.221.159.0</span><br><span class="line"></span><br><span class="line">sed -i <span class="string">"s/^nameserver 192.221.159.0/nameserver 168.126.63.1/g"</span> /etc/resolv.conf</span><br><span class="line"></span><br><span class="line">dig www.google.com |grep SERVER</span><br><span class="line">;; SERVER: 168.126.63.1<span class="comment">#53(168.126.63.1)</span></span><br></pre></td></tr></table></figure>
+
+<p>  <img src="/images/Route53-Geolocation/Untitled7.png" alt="Route53%20Geolocation%20247d8a8c113e42e29a751d6e98ff864f/Untitled%207.png"></p>
+</li>
+<li><p>아래 처럼 실제로는 미국에 위치한 단말에서 웹 접속 시 자신의 위치와 떨어진 미국에 위치한 웹서버로 접속을 한다</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 미국 단말</span></span><br><span class="line">curl -s https://ipvigilante.com/$(curl -s checkip.amazonaws.com) | jq <span class="string">'.data.country_name, .data.city_name, .data.ipv4'</span></span><br><span class="line"><span class="string">"United States"</span></span><br><span class="line"><span class="string">"Ann Arbor"</span></span><br><span class="line"><span class="string">"35.245.140.130"</span></span><br><span class="line"></span><br><span class="line">curl geolo.gasida.net</span><br><span class="line">&lt;html&gt;&lt;h1&gt;Hello from MCN Web Server - Seoul Area&lt;/h1&gt;&lt;/html&gt;</span><br><span class="line"></span><br><span class="line">dig geolo.gasida.net +short</span><br><span class="line">3.34.3.33</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Route Query Log 확인하면 KT DNS IP가 Query를 했음므로 한국에 위치한 웹서버 IP 주소를 전달했다</p>
+<p>  <img src="/images/Route53-Geolocation/Untitled8.png" alt="Route53%20Geolocation%20247d8a8c113e42e29a751d6e98ff864f/Untitled%208.png"></p>
+</li>
+</ul>
+<hr>
+<br>
+
+<h3 id="7-EDNS-Client-Subnet"><a href="#7-EDNS-Client-Subnet" class="headerlink" title="7. EDNS Client Subnet"></a>7. EDNS Client Subnet</h3><ul>
+<li><p>사용자의 위치(IP)를 최종 DNS서버가 알기 위해서 DNS에 확장 필드 EDNS 에 Client Subnet 필드를 통해서 ‘최종 사용자’의 IP 대역 정보를 전달할 수 있다</p>
+<ul>
+<li><span class="exturl" data-url="aHR0cHM6Ly90b29scy5pZXRmLm9yZy9odG1sL3JmYzc4NzE=">Client Subnet in DNS Queries<i class="fa fa-external-link-alt"></i></span> (RFC 7871)</li>
+</ul>
+</li>
+<li><p>EDNS 기능을 제공하는 DNS 서버 : 구글 DNS 서버( 8.8.8.8 8.8.8.4 ) , OpenDNS 서버 ( 208.67.222.222 208.67.220.220)</p>
+<ul>
+<li><p><span class="exturl" data-url="aHR0cHM6Ly9hd3MuYW1hem9uLmNvbS9rby9wcmVtaXVtc3VwcG9ydC9rbm93bGVkZ2UtY2VudGVyL3Ryb3VibGVzaG9vdC1sYXRlbmN5LWJhc2VkLXJlY29yZHMv">EDNS 기능 제공 확인<i class="fa fa-external-link-alt"></i></span></p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># EDNS 제공 시</span></span><br><span class="line">dig +nocl TXT o-o.myaddr.l.google.com @8.8.8.8 +short</span><br><span class="line"><span class="string">"2607:f8b0:4004:c02::102"</span></span><br><span class="line"><span class="string">"edns0-client-subnet 35.245.140.0/24"</span></span><br><span class="line">dig +nocl TXT o-o.myaddr.l.google.com @8.8.4.4 +short</span><br><span class="line">dig +nocl TXT o-o.myaddr.l.google.com @208.67.222.222 +short</span><br><span class="line">dig +nocl TXT o-o.myaddr.l.google.com @208.67.220.220 +short</span><br><span class="line"></span><br><span class="line"><span class="comment"># EDNS 미 제공 시</span></span><br><span class="line">dig +nocl TXT o-o.myaddr.l.google.com @168.126.63.1 +short</span><br><span class="line"><span class="string">"59.18.51.28"</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+<br>
+
+<p>7.1 ENDS 미제공 환경에서 테스트</p>
+<ul>
+<li><p>아래 처럼 미국 위치 단말이 MPLS VPN 등 환경으로 한국을 반드시 경유하는 환경이다</p>
+<ul>
+<li><p>DNS 서버를 한국 KT DNS(EDNS 미제공)를 설정하고 접속 시 한국에 위치한 웹서버로 접속을 한다</p>
+<p>  <img src="/images/Route53-Geolocation/Untitled9.png" alt="Route53%20Geolocation%20247d8a8c113e42e29a751d6e98ff864f/Untitled%209.png"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 미국 위치 단말</span></span><br><span class="line">curl -s https://ipvigilante.com/$(curl -s checkip.amazonaws.com) | jq <span class="string">'.data.country_name, .data.city_name, .data.ipv4'</span></span><br><span class="line"><span class="string">"United States"</span></span><br><span class="line">null</span><br><span class="line"><span class="string">"34.64.138.144"</span></span><br><span class="line">dig www.google.com |grep SERVER</span><br><span class="line">;; SERVER: 168.126.63.1<span class="comment">#53(168.126.63.1)</span></span><br><span class="line"></span><br><span class="line">curl geolo.gasida.net</span><br><span class="line">&lt;html&gt;&lt;h1&gt;Hello from MCN Web Server - Seoul Area&lt;/h1&gt;&lt;/html&gt;</span><br><span class="line"></span><br><span class="line">dig geolo.gasida.net +short</span><br><span class="line">3.34.3.33</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Route 53 Query Log 확인 : 아래  59. IP는 한국 위치 IP 이다</p>
+<p>  <img src="/images/Route53-Geolocation/Untitled10.png" alt="Route53%20Geolocation%20247d8a8c113e42e29a751d6e98ff864f/Untitled%2010.png"></p>
+</li>
+</ul>
+</li>
+</ul>
+<br>
+
+<p>7.2 EDNS 제공 환경에서 테스트</p>
+<ul>
+<li><p>구글 DNS 경우 EDNS 를 제공하기 때문에 DNS Query 시 확장헤더에 사용자의 공인IP대역을 담아서 전달하여 Route53에서 인식 후 미국 위치 웹 서버 IP를 전달 해줌</p>
+<p>  <img src="/images/Route53-Geolocation/Untitled11.png" alt="Route53%20Geolocation%20247d8a8c113e42e29a751d6e98ff864f/Untitled%2011.png"></p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">sed -i <span class="string">"s/^nameserver 168.126.63.1/nameserver 8.8.8.8/g"</span> /etc/resolv.conf</span><br><span class="line">dig www.google.com |grep SERVER</span><br><span class="line">;; SERVER: 8.8.8.8<span class="comment">#53(8.8.8.8)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 아래처럼 EDNS 제공 여부 확인 할 수 있다</span></span><br><span class="line">dig +nocl TXT o-o.myaddr.l.google.com  +short</span><br><span class="line"><span class="string">"173.194.168.5"</span></span><br><span class="line"><span class="string">"edns0-client-subnet 34.64.138.0/24"</span></span><br><span class="line"></span><br><span class="line">curl geolo.gasida.net</span><br><span class="line">&lt;html&gt;&lt;h1&gt;Hello from MCN Web Server - Virgina Area&lt;/h1&gt;&lt;/html&gt;</span><br><span class="line"></span><br><span class="line">dig geolo.gasida.net +short</span><br><span class="line">18.206.97.145</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>EDNS 의 패킷 내용은 대략 아래와 같다</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 아래 처럼 실행 후 패킷 캡쳐 해서 확인 해보자</span></span><br><span class="line">dig +nocl TXT o-o.myaddr.l.google.com @8.8.8.8 +short +subnet=34.64.138.0/24</span><br><span class="line"><span class="string">"2404:6800:400b:c002::101"</span></span><br><span class="line"><span class="string">"edns0-client-subnet 34.64.138.0/24"</span></span><br></pre></td></tr></table></figure>
+
+<p>  <img src="/images/Route53-Geolocation/Untitled12.png" alt="Route53%20Geolocation%20247d8a8c113e42e29a751d6e98ff864f/Untitled%2012.png"></p>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<br>
+
+<h3 id="8-The-bottom-line"><a href="#8-The-bottom-line" class="headerlink" title="8. The bottom line"></a>8. The bottom line</h3><ul>
+<li>일반적인 사용자의 환경에서는 DNS GeoLocation 정책에 Issue 가 발생하지 않아서 DNS서버가 반드시 EDNS 를 제공하는것 필요 없다</li>
+<li>다만, VPN CDN 등의 환경에서 EDNS Client Subnet 을 제공 시 정확한 사용자의 위치를 기반하기 때문에 제공을 권장한다</li>
+</ul>
+<blockquote>
+<p>💡 전 세계 모든 DNS 서버에 EDNS 확장 기능을 제공하기 위해서 2019 DNS Flag Day 에 적용을 하였다. <span class="exturl" data-url="aHR0cHM6Ly9ibG9ncy5ha2FtYWkuY29tL2tyLzIwMTkvMDEvZG5zLWZsYWctZGF5LWFrYW1haS5odG1s">참고링크<i class="fa fa-external-link-alt"></i></span></p>
+</blockquote>
+<br>
+    </div>
+
+    
+    
+    
+        
+
+  <div class="followme">
+    <p>Welcome to my other publishing channels</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/rss2.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Route53/" rel="tag"><i class="fa fa-tag"></i> Route53</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2020/05/06/Accelerator/" rel="next" title="LabGuide - AWS Global Accelerator">
+      LabGuide - AWS Global Accelerator <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          목차
+        </li>
+        <li class="sidebar-nav-overview">
+          상위
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-AWS-Route-53-amp-Geolocation-Routing-Policy"><span class="nav-text">1. AWS Route 53 &amp; Geolocation Routing Policy</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-DNS-동작에-대한-오해"><span class="nav-text">2. DNS 동작에 대한 오해</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-Lab-Topology"><span class="nav-text">3. Lab Topology</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-Config-Geolocation-Policy-amp-Logging"><span class="nav-text">4. Config Geolocation Policy &amp; Logging</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-Verify"><span class="nav-text">5. Verify</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-Issue"><span class="nav-text">6. Issue</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-EDNS-Client-Subnet"><span class="nav-text">7. EDNS Client Subnet</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-The-bottom-line"><span class="nav-text">8. The bottom line</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">CloudNet@</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-name">포스트</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">카테고리</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">태그</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2Nsb3VkbmV0YQ==" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;cloudneta"><i class="fab fa-github fa-fw"></i>GitHub</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="bWFpbHRvOmFkbWluQGNsb3VkbmV0YS5uZXQ=" title="E-Mail → mailto:admin@cloudneta.net"><i class="fa fa-envelope fa-fw"></i>E-Mail</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly93d3cubm90aW9uLnNvL0Nsb3VkTmV0LUJsb2ctYzlkZmE0NGEyN2ZmNDMxZGFmZGQyZWRhY2M4YTE4NjM=" title="Notion → https:&#x2F;&#x2F;www.notion.so&#x2F;CloudNet-Blog-c9dfa44a27ff431dafdd2edacc8a1863"><i class="fa fa-book fa-fw"></i>Notion</span>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CloudNet@</span>
+</div>
+  <div class="powered-by">Powered by <span class="exturl theme-link" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & <span class="exturl theme-link" data-url="aHR0cHM6Ly90aGVtZS1uZXh0LmpzLm9yZy9taXN0Lw==">NexT.Mist</span>
+  </div>
+  <div class="addthis_inline_share_toolbox">
+    <script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5ed513b1de5cbed6" async="async"></script>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://cloudnet-1.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://cloudneta.github.io/2020/05/06/Route53-Geolocation/";
+    this.page.identifier = "2020/05/06/Route53-Geolocation/";
+    this.page.title = "Route53 Geolocation";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://cloudnet-1.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+</body>
+</html>
