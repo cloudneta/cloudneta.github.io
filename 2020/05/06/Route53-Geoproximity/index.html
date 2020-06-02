@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+<meta name="naver-site-verification" content="0e8ced0bfa10b2d3e75a852580f99d3bba940a32" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Noto Serif KR:300,300italic,400,400italic,700,700italic|Noto Sans KR:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"cloudneta.github.io","root":"/","scheme":"Mist","version":"8.0.0-rc.3","exturl":true,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="작성자 : gasida.cloudnet@">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Route53 Geoproximity">
+<meta property="og:url" content="http://cloudneta.github.io/2020/05/06/Route53-Geoproximity/index.html">
+<meta property="og:site_name" content="CloudNet@">
+<meta property="og:description" content="작성자 : gasida.cloudnet@">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:image" content="http://cloudneta.github.io/images/Route53-Geoproximity/Untitled.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/Route53-Geoproximity/Untitled1.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/Route53-Geoproximity/Untitled2.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/Route53-Geoproximity/Untitled3.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/Route53-Geoproximity/Untitled4.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/Route53-Geoproximity/Untitled5.png">
+<meta property="article:published_time" content="2020-05-06T03:49:11.000Z">
+<meta property="article:modified_time" content="2020-06-02T03:57:45.702Z">
+<meta property="article:author" content="CloudNet@">
+<meta property="article:tag" content="Route53">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://cloudneta.github.io/images/Route53-Geoproximity/Untitled.png">
+
+<link rel="canonical" href="http://cloudneta.github.io/2020/05/06/Route53-Geoproximity/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'ko'
+  };
+</script>
+
+  <title>Route53 Geoproximity | CloudNet@</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/rss2.xml" title="CloudNet@" type="application/rss+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+        <span class="toggle-line toggle-line-first"></span>
+        <span class="toggle-line toggle-line-middle"></span>
+        <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">CloudNet@</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>홈</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>카테고리</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>아카이브</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>태그</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="ko">
+    <link itemprop="mainEntityOfPage" href="http://cloudneta.github.io/2020/05/06/Route53-Geoproximity/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="CloudNet@">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CloudNet@">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Route53 Geoproximity
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">작성일</span>
+
+              <time title="Post created: 2020-05-06 03:49:11" itemprop="dateCreated datePublished" datetime="2020-05-06T03:49:11+00:00">2020-05-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Updated at: 2020-06-02 03:57:45" itemprop="dateModified" datetime="2020-06-02T03:57:45+00:00">2020-06-02</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Load-Balancing-Route53/" itemprop="url" rel="index"><span itemprop="name">Load Balancing - Route53</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2020/05/06/Route53-Geoproximity/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/05/06/Route53-Geoproximity/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><em>작성자 : gasida.cloudnet@</em></p>
+<a id="more"></a>
+
+<br>
+
+<details>
+<summary>AWS Document Route53</summary>
+<div markdown="1">
+
+<ul>
+<li><span class="exturl" data-url="aHR0cHM6Ly9kb2NzLmF3cy5hbWF6b24uY29tL2tvX2tyL1JvdXRlNTMvbGF0ZXN0L0RldmVsb3Blckd1aWRlL3JvdXRpbmctcG9saWN5Lmh0bWwjcm91dGluZy1wb2xpY3ktZ2VvcHJveGltaXR5">지리 근접 라우팅(트래픽 흐름 전용)<i class="fa fa-external-link-alt"></i></span></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly9kb2NzLmF3cy5hbWF6b24uY29tL2tvX2tyL1JvdXRlNTMvbGF0ZXN0L0RldmVsb3Blckd1aWRlL3RyYWZmaWMtZmxvdy5odG1s">트래픽 흐름을 사용하여 DNS 트래픽 라우팅<i class="fa fa-external-link-alt"></i></span></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly95b3V0dS5iZS82SU82aFc3eWcybw==">Youtube 1<i class="fa fa-external-link-alt"></i></span></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly95b3V0dS5iZS96eFNEUlBRUmQ1MA==">Youtube 2<i class="fa fa-external-link-alt"></i></span></li>
+</ul>
+</div>
+</details>
+
+<br>
+
+<blockquote>
+<p>💡 AWS 서비스 관련해서는 항상 최우선으로 ‘AWS 설명서’ 를 읽어보는 것을 추천한다. 한글 번역이 매끄럽지 못하면 English 로 변경 후 읽어보기를 바란다.</p>
+</blockquote>
+<hr>
+<br>
+
+<h3 id="1-Geoproximity-Routing-Policy"><a href="#1-Geoproximity-Routing-Policy" class="headerlink" title="1. Geoproximity Routing Policy"></a>1. Geoproximity Routing Policy</h3><ul>
+<li>기본적인 동작은 Geolocation Policy 의 내용을 가져간다 - 위치기반, EDNS 지원 <span class="exturl" data-url="aHR0cHM6Ly93d3cubm90aW9uLnNvL0xhYkd1aWRlLVJvdXRlNTMtR2VvbG9jYXRpb24tMDRiOTZmMjdjNGUwNDllZmFmMTdkMzQ5ZjQ3ZmY5NzM=">LabGuide - Route53 Geolocation<i class="fa fa-external-link-alt"></i></span></li>
+<li>사용자 위치(IP)와 리소스(타겟 서버 자원) 위치(IP)의 위도 경도를 기반으로 근접 영역 내로 라우팅<ul>
+<li>EDNS Client Subnet 를 이용한 사용자 위치(IP) 기반 트래픽 라우팅 선택 가능<ul>
+<li>EDNS 미 동작 시 Local DNS 서버의 위치(IP)를 기반함</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Bias 를 사용하여 해당 리소스의 근접 영역(영향력)을 늘리거나 줄임</li>
+</ul>
+<p><img src="/images/Route53-Geoproximity/Untitled.png" alt="Route53%20Geoproximity%2071d2807e015f4272a1fd106310b3096c/Untitled.png"></p>
+<p>3개의 리소스(타켓 엔드포인트)가 전부 Bias 0</p>
+<br>
+
+<p><img src="/images/Route53-Geoproximity/Untitled1.png" alt="Route53%20Geoproximity%2071d2807e015f4272a1fd106310b3096c/Untitled%201.png"></p>
+<p>3번 리전(엔드포인트) Bias +25 영향력 올림</p>
+<br>
+
+<p><img src="/images/Route53-Geoproximity/Untitled2.png" alt="Route53%20Geoproximity%2071d2807e015f4272a1fd106310b3096c/Untitled%202.png"></p>
+<p>3번 리전(엔드포인트) Bias -25 영향력 내림</p>
+<br>
+
+<ul>
+<li><p>Custom Coordinates 리소스(타켓 서버 자원)의 위치를 직접 좌표(위도, 경도)를 입력 할 수 있음</p>
+<p>  <img src="/images/Route53-Geoproximity/Untitled3.png" alt="Route53%20Geoproximity%2071d2807e015f4272a1fd106310b3096c/Untitled%203.png"></p>
+</li>
+</ul>
+<hr>
+<br>
+
+<h3 id="2-Lab-Topology"><a href="#2-Lab-Topology" class="headerlink" title="2. Lab Topology"></a>2. Lab Topology</h3><p><strong>Lab 정보</strong></p>
+<ul>
+<li>Seoul 웹서버 : 13.124.1.104</li>
+<li>Virginia 웹서버 : 18.206.155.179</li>
+<li>gcp-seoul 단말 : 34.64.78.168</li>
+<li>gcp-virginia 단말 : 35.186.188.100</li>
+<li>gcp-london 단말 : 34.89.118.195<ul>
+<li>bias 에 따라서 접속 리소스가 변경됨을 확인</li>
+</ul>
+</li>
+</ul>
+<hr>
+<br>
+
+<h3 id="3-Config-Geoproximity-Policy-amp-Verify"><a href="#3-Config-Geoproximity-Policy-amp-Verify" class="headerlink" title="3. Config Geoproximity Policy &amp; Verify"></a>3. Config Geoproximity Policy &amp; Verify</h3><ul>
+<li><p>[Route53 - 트래픽 정책 생성]</p>
+<ul>
+<li><p>정책 이름 : geoproximity</p>
+</li>
+<li><p>버전 설명 : geoproximity test</p>
+<ul>
+<li><code>다음</code> 클릭</li>
+</ul>
+</li>
+<li><p>시작 지점 : A: IPv4</p>
+<ul>
+<li><p><code>+</code> 연결 대상 클릭 → <code>지리 근접 규칙</code> 선택</p>
+<ul>
+<li><p>리전 <code>1</code></p>
+<ul>
+<li>엔드 포인트 위치 : 아시아 태평양(서울)</li>
+<li><code>+</code> 연결 대상 클릭 → <code>새로운 엔드포인트</code> 선택<ul>
+<li>유형 : 값</li>
+<li>값 : 13.124.1.104</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>리전 <code>2</code></p>
+<ul>
+<li>엔드 포인트 위치 : 미국 동부(버지니아 북구)</li>
+<li><code>+</code> 연결 대상 클릭 → <code>새로운 엔드포인트</code> 선택<ul>
+<li>유형 : 값</li>
+<li>값 : 18.206.155.179</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>지리 근접 맵 표시 우측에 <code>🏴</code> 클릭</p>
+<p>  <img src="/images/Route53-Geoproximity/Untitled4.png" alt="Route53%20Geoproximity%2071d2807e015f4272a1fd106310b3096c/Untitled%204.png"></p>
+<p>  런던 단말은 버지니아에 위치한 영향권에 있어서 버지니아 웹서버에 연결된다</p>
+</li>
+<li><p>하단 <code>트래픽 정책 생성</code> 클릭</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>트래픽 정책으로 정책 레코드 생성</p>
+<ul>
+<li>정책 레코드<ul>
+<li>정책 레코드 DNS 이름 : geop1<ul>
+<li>하단 <code>정책 레코드 생성</code> 클릭</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>단말 접속 확인 : 서울, 버지니아, 런던</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 런던 단말</span></span><br><span class="line">curl geop1.gasida.net</span><br><span class="line">&lt;html&gt;&lt;h1&gt;Hello from Web Server - Virgina Area&lt;/h1&gt;&lt;/html&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 버지니아 단말</span></span><br><span class="line">curl geop1.gasida.net</span><br><span class="line">&lt;html&gt;&lt;h1&gt;Hello from Web Server - Virgina Area&lt;/h1&gt;&lt;/html&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 서울 단말</span></span><br><span class="line">curl geop1.gasida.net</span><br><span class="line">&lt;html&gt;&lt;h1&gt;Hello from Web Server - Seoul Area&lt;/h1&gt;&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Cloudwatch Log 에도 geop1 으로 DNS 쿼리 로그 확인</li>
+</ul>
+</li>
+</ul>
+<hr>
+<br>
+
+<h3 id="4-Geoproximity-Bias-Modify-amp-Verify"><a href="#4-Geoproximity-Bias-Modify-amp-Verify" class="headerlink" title="4. Geoproximity Bias Modify &amp; Verify"></a>4. Geoproximity Bias Modify &amp; Verify</h3><ul>
+<li><p>[Route53 - 트래픽 정책] 클릭 → 하단에 버전 번호 <code>1</code> 클릭</p>
+<ul>
+<li><p>상단에 <code>새 버전으로 정책 편집</code> 클릭</p>
+<ul>
+<li><p>새 버전 설명 : geoproximity bias modify</p>
+<ul>
+<li>하단 <code>다음</code> 클릭</li>
+</ul>
+</li>
+<li><p>지리 근접 맵 표시 우측에 <code>🏴</code> 클릭 → 아래 바이어스 입력 후 지도 변화 확인</p>
+<ul>
+<li><p>리전 <code>2</code></p>
+<ul>
+<li><p>바이어스 : -50</p>
+<p>  <img src="/images/Route53-Geoproximity/Untitled5.png" alt="Route53%20Geoproximity%2071d2807e015f4272a1fd106310b3096c/Untitled%205.png"></p>
+<p>  런던 단말은 서울에 위치한 영향권에 있어서 서울 웹서버에 연결된다</p>
+<ul>
+<li>하단에 <code>새 버전으로 저장</code> 클릭</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>트래픽 정책으로 정책 레코드 생성</p>
+<ul>
+<li>정책 레코드<ul>
+<li>정책 레코드 DNS 이름 : geop2<ul>
+<li>하단 <code>정책 레코드 생성</code> 클릭</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>단말 접속 확인 : 서울, 버지니아, 런던</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 런던 단말</span></span><br><span class="line">curl geop2.gasida.net</span><br><span class="line">&lt;html&gt;&lt;h1&gt;Hello from Web Server - Seoul Area&lt;/h1&gt;&lt;/html&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment">## geop1 는 version 1 로 기존 geoproximity 정책이다</span></span><br><span class="line">curl geop1.gasida.net</span><br><span class="line">&lt;html&gt;&lt;h1&gt;Hello from Web Server - Virgina Area&lt;/h1&gt;&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Cloudwatch Log 에도 geop2 으로 DNS 쿼리 로그 확인</li>
+</ul>
+</li>
+</ul>
+<hr>
+<br>
+
+<h3 id="5-Route-53-Policy-Delete"><a href="#5-Route-53-Policy-Delete" class="headerlink" title="5. Route 53 Policy Delete"></a>5. Route 53 Policy Delete</h3><ul>
+<li>[Route53 - 정책 레코드] 정책 2개 선택 후 <code>정책 레코드 삭제</code></li>
+<li>[Route53 - 트래픽 정책] 트래픽 정책 선택 후 <code>트래픽 정책 삭제</code></li>
+<li>[Route53 - 호스팅 영역] 도메인 옆 ⚪️ 선택 후 우측에 <code>쿼리 로깅 삭제</code><ul>
+<li>(버지니아 리전) [Cloudwatch - 로그그룹] aws/route53/도메인 선택 후 <code>작업 - 로그 그룹 삭제</code></li>
+</ul>
+</li>
+</ul>
+<br>
+    </div>
+
+    
+    
+    
+        
+
+  <div class="followme">
+    <p>Welcome to my other publishing channels</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/rss2.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Route53/" rel="tag"><i class="fa fa-tag"></i> Route53</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/05/06/Route53-Geolocation/" rel="prev" title="Route53 Geolocation">
+      <i class="fa fa-chevron-left"></i> Route53 Geolocation
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/05/06/Accelerator/" rel="next" title="LabGuide - AWS Global Accelerator">
+      LabGuide - AWS Global Accelerator <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          목차
+        </li>
+        <li class="sidebar-nav-overview">
+          종합
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Geoproximity-Routing-Policy"><span class="nav-text">1. Geoproximity Routing Policy</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Lab-Topology"><span class="nav-text">2. Lab Topology</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-Config-Geoproximity-Policy-amp-Verify"><span class="nav-text">3. Config Geoproximity Policy &amp; Verify</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-Geoproximity-Bias-Modify-amp-Verify"><span class="nav-text">4. Geoproximity Bias Modify &amp; Verify</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-Route-53-Policy-Delete"><span class="nav-text">5. Route 53 Policy Delete</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">CloudNet@</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-name">포스트</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">카테고리</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">태그</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2Nsb3VkbmV0YQ==" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;cloudneta"><i class="fab fa-github fa-fw"></i>GitHub</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="bWFpbHRvOmFkbWluQGNsb3VkbmV0YS5uZXQ=" title="E-Mail → mailto:admin@cloudneta.net"><i class="fa fa-envelope fa-fw"></i>E-Mail</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly93d3cubm90aW9uLnNvL0Nsb3VkTmV0LUJsb2ctYzlkZmE0NGEyN2ZmNDMxZGFmZGQyZWRhY2M4YTE4NjM=" title="Notion → https:&#x2F;&#x2F;www.notion.so&#x2F;CloudNet-Blog-c9dfa44a27ff431dafdd2edacc8a1863"><i class="fa fa-book fa-fw"></i>Notion</span>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CloudNet@</span>
+</div>
+  <div class="powered-by">Powered by <span class="exturl theme-link" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & <span class="exturl theme-link" data-url="aHR0cHM6Ly90aGVtZS1uZXh0LmpzLm9yZy9taXN0Lw==">NexT.Mist</span>
+  </div>
+  <div class="addthis_inline_share_toolbox">
+    <script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5ed513b1de5cbed6" async="async"></script>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://cloudnet-1.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://cloudneta.github.io/2020/05/06/Route53-Geoproximity/";
+    this.page.identifier = "2020/05/06/Route53-Geoproximity/";
+    this.page.title = "Route53 Geoproximity";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://cloudnet-1.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+</body>
+</html>
