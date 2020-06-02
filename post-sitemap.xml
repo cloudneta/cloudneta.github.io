@@ -8,16 +8,8 @@
     </url>
 
     <url>
-        <loc>http://cloudneta.github.io/2020/05/16/Transit-Gateway/</loc>
-        <lastmod>2020-06-01T17:52:10.110Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>http://cloudneta.github.io/2020/05/06/Accelerator/</loc>
-        <lastmod>2020-06-01T17:51:37.550Z</lastmod>
+        <loc>http://cloudneta.github.io/2020/05/07/VPN-SitetoSite-with-Dynamic-Route/</loc>
+        <lastmod>2020-06-02T02:56:04.408Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -25,7 +17,23 @@
 
     <url>
         <loc>http://cloudneta.github.io/2020/05/07/VPN-SitetoSite-with-Static-Route/</loc>
-        <lastmod>2020-06-01T17:50:48.961Z</lastmod>
+        <lastmod>2020-06-02T02:35:21.844Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://cloudneta.github.io/2020/05/06/Accelerator/</loc>
+        <lastmod>2020-06-02T02:32:08.068Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://cloudneta.github.io/2020/05/16/Transit-Gateway/</loc>
+        <lastmod>2020-06-02T02:25:44.462Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 

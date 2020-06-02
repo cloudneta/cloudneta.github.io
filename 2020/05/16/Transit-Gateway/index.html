@@ -69,7 +69,7 @@
 <meta property="og:image" content="http://cloudneta.github.io/images/LabGuide-AWS-Transit-Gateway/Untitled36.png">
 <meta property="og:image" content="http://cloudneta.github.io/images/LabGuide-AWS-Transit-Gateway/Untitled37.png">
 <meta property="article:published_time" content="2020-05-16T04:10:03.000Z">
-<meta property="article:modified_time" content="2020-06-01T17:52:10.110Z">
+<meta property="article:modified_time" content="2020-06-02T02:25:44.462Z">
 <meta property="article:author" content="CloudNet@">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://cloudneta.github.io/images/LabGuide-AWS-Transit-Gateway/Untitled.png">
@@ -238,7 +238,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Updated at: 2020-06-01 17:52:10" itemprop="dateModified" datetime="2020-06-01T17:52:10+00:00">2020-06-01</time>
+                <time title="Updated at: 2020-06-02 02:25:44" itemprop="dateModified" datetime="2020-06-02T02:25:44+00:00">2020-06-02</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -289,18 +289,22 @@
 </details>
 
 <blockquote>
-<p>☝ AWS 서비스 관련해서는 항상 최우선으로 ‘AWS 설명서’ 를 읽어보는 것을 추천한다.<br>한글 번역이 매끄럽지 못하면 English 로 변경 후 읽어보길 바란다.</p>
+<p>💡 AWS 서비스 관련해서는 항상 최우선으로 ‘AWS 설명서’ 를 읽어보는 것을 추천한다.<br>한글 번역이 매끄럽지 못하면 English 로 변경 후 읽어보길 바란다.</p>
 </blockquote>
 <hr>
 <br>
 
 
-<h3 id="1-AWS-Transit-Gateway-Theory"><a href="#1-AWS-Transit-Gateway-Theory" class="headerlink" title="1. AWS Transit Gateway Theory"></a>1. AWS Transit Gateway Theory</h3><p><span class="exturl" data-url="aHR0cHM6Ly9hd3MuYW1hem9uLmNvbS9rby90cmFuc2l0LWdhdGV3YXkv">1.1 AWS Transit Gateway 란?<i class="fa fa-external-link-alt"></i></span></p>
+<h3 id="1-AWS-Transit-Gateway-Theory"><a href="#1-AWS-Transit-Gateway-Theory" class="headerlink" title="1. AWS Transit Gateway Theory"></a>1. AWS Transit Gateway Theory</h3><br>
+
+<p><span class="exturl" data-url="aHR0cHM6Ly9hd3MuYW1hem9uLmNvbS9rby90cmFuc2l0LWdhdGV3YXkv">1.1 AWS Transit Gateway 란?<i class="fa fa-external-link-alt"></i></span></p>
 <ul>
 <li>AWS Transit Gateway는 VPC나 On-Premise 등의 네트워크를 단일 Gateway에 연결할 수 있도록 지원해 주는 서비스이다.</li>
 <li>AWS Transit Gateway를 사용하면 중앙 게이트웨이와 네트워크 전반의 단일 연결만 생성하여 관리하면 된다.</li>
 <li>Hub &amp; Spoke 모델로 구성되며, 연결 된 네트워크들은 다른 네트워크에 연결할 필요 없이 AWS Transit Gateway에만 연결하면 되므로 관리를 크게 간소화하고 운영 비용을 크게 줄여 준다.</li>
 </ul>
+<br>
+
 <p><span class="exturl" data-url="aHR0cHM6Ly9hd3MuYW1hem9uLmNvbS9rby90cmFuc2l0LWdhdGV3YXkvZmVhdHVyZXMv">1.2 AWS Transit Gateway 주요 기능<i class="fa fa-external-link-alt"></i></span></p>
 <ul>
 <li><p><em>라우팅</em></p>
@@ -328,6 +332,8 @@
 <p>  : 성능과 송수신된 바이트, 패킷, 폐기된 패킷을 비롯한 트래픽 지표를 통해 글로벌 네트워크를 모니터링한다.</p>
 </li>
 </ul>
+<br>
+
 <p>1.3 Non Transit Gateway vs Transit Gateway</p>
 <p><img src="/images/LabGuide-AWS-Transit-Gateway/Untitled.png" alt="LabGuide%20AWS%20Transit%20Gateway%20efff213e58a546c5bc56273e4425244a/Untitled.png"></p>
 <p>그림 1.1 Transit Gateway 미사용 / 사용 비교 Diagram</p>
@@ -338,8 +344,10 @@
 </li>
 </ul>
 <blockquote>
-<p>☝ Transit Gateway를 사용하면 복잡한 AWS 네트워크 아키텍처를 간소화 가능하여 관리 및 운용 효율이 보장되며, 향상된 보안과 멀티캐스트를 활용하여 유용한 통신이 가능하다.</p>
+<p>💡 Transit Gateway를 사용하면 복잡한 AWS 네트워크 아키텍처를 간소화 가능하여 관리 및 운용 효율이 보장되며, 향상된 보안과 멀티캐스트를 활용하여 유용한 통신이 가능하다.</p>
 </blockquote>
+<br>
+
 <p>1.4 AWS Transit Gateway Key Words</p>
 <ul>
 <li><p><em>Transit Gateway</em> - VPC들의 접점이 되는 중앙 집중형 단일 Gateway로 Hub &amp; Spoke 환경에서 Hub 역할</p>
@@ -376,7 +384,9 @@
 <hr>
 <br>
 
-<h3 id="2-AWS-Transit-Gateway-Lab-Preview"><a href="#2-AWS-Transit-Gateway-Lab-Preview" class="headerlink" title="2. AWS Transit Gateway Lab Preview"></a>2. AWS Transit Gateway Lab Preview</h3><p>2.1 Lab Topology</p>
+<h3 id="2-AWS-Transit-Gateway-Lab-Preview"><a href="#2-AWS-Transit-Gateway-Lab-Preview" class="headerlink" title="2. AWS Transit Gateway Lab Preview"></a>2. AWS Transit Gateway Lab Preview</h3><br>
+
+<p>2.1 Lab Topology</p>
 <p><img src="/images/LabGuide-AWS-Transit-Gateway/Untitled1.png" alt="LabGuide%20AWS%20Transit%20Gateway%20efff213e58a546c5bc56273e4425244a/Untitled%201.png"></p>
 <p>그림 2.1 AWS Transit Gateway Lab Topology</p>
 <p>① <em>TGW Intra Region VPC Attachment</em> - <code>버지니아</code>에 MAIN SITE 구축 (동일 리전 내 VPC와 TGW를 생성하여 연결)</p>
@@ -386,6 +396,8 @@
 <p>⑤ <em>TGW VPN Attachment</em> - <code>서울</code>에 OpenSwan VPN 서버를 설치 후 TGW와 연결</p>
 <p>⑥ <em>NATGW though TGW</em> - Private Subnet 중 DEV 환경의 대상으로, TGW를 통해 <code>버지니아</code> MAIN SITE의 Egress VPC에 존재하는 NAT GW로 인터넷 통신</p>
 <p>⑦ <em>TGW Network Manager</em> - TGW 네트워크 매니저를 통해 글로벌 네트워크 시각화</p>
+<br>
+
 <p>2.2 AWS 기본 설정</p>
 <ul>
 <li>본 실습에서 활용할 AWS Region은 <code>버지니아, 아일랜드, 서울</code> 이다. 해당 Region에 대한 <em>EC2-Key Pair</em>를 생성</li>
@@ -393,6 +405,8 @@
 <li>모든 Region에 대한 기본적인 인프라는 <em>CloudFormation</em>에 의해 자동 구축 (모든 인프라가 구축되는 것은 아니다.)</li>
 <li>생성된 모든 EC2-Instance의 IP 주소는 X.X.X.10으로 고정하였다. (예시: 10.1.1.10, 10.5.1.10 …)</li>
 </ul>
+<br>
+
 <p>2.3 CloudFormation (Infrastructure as Code)</p>
 <p>⤵ <span class="exturl" data-url="aHR0cHM6Ly9zMy5hcC1ub3J0aGVhc3QtMi5hbWF6b25hd3MuY29tL2Nsb3VkZm9ybWF0aW9uLmNsb3VkbmV0YS5uZXQvVEdXL1ZpcmdpbmlhX1RyYW5zaXRHV19MYWJfQ0YueWFtbA==">Download Virginia_TransitGW_Lab_CF.yaml<i class="fa fa-external-link-alt"></i></span></p>
 <p>⤵ <span class="exturl" data-url="aHR0cHM6Ly9zMy5hcC1ub3J0aGVhc3QtMi5hbWF6b25hd3MuY29tL2Nsb3VkZm9ybWF0aW9uLmNsb3VkbmV0YS5uZXQvVEdXL0lyZWxhbmRfVHJhbnNpdEdXX0xhYl9DRi55YW1s">Download Ireland_TransitGW_Lab_CF.yaml<i class="fa fa-external-link-alt"></i></span></p>
@@ -402,7 +416,7 @@
 <li>지금 바로 배포하지 않고, 실습 단계 별로 하나씩 배포할 것이니 일단 다운로드만 받아 두자.</li>
 </ul>
 <blockquote>
-<p>☝ 본격적인 실습에 앞서, 리소스 당 소량의 과금이 불가피 하다.<br>자세한 사항은 <span class="exturl" data-url="aHR0cHM6Ly9hd3MuYW1hem9uLmNvbS9rby90cmFuc2l0LWdhdGV3YXkvcHJpY2luZy8=">Transit Gateway 요금<i class="fa fa-external-link-alt"></i></span> 링크를 참고 바란다.</p>
+<p>💡 본격적인 실습에 앞서, 리소스 당 소량의 과금이 불가피 하다.<br>자세한 사항은 <span class="exturl" data-url="aHR0cHM6Ly9hd3MuYW1hem9uLmNvbS9rby90cmFuc2l0LWdhdGV3YXkvcHJpY2luZy8=">Transit Gateway 요금<i class="fa fa-external-link-alt"></i></span> 링크를 참고 바란다.</p>
 </blockquote>
 <hr>
 <br>
@@ -411,13 +425,15 @@
 <li><strong>이 번 단계의 실습은 동일 리전에 존재하는 VPC와 TGW 간의 연결을 테스트한다. (Intra Region VPC Attachment)</strong></li>
 <li>실습 환경: Region - <code>버지니아</code> , Account - 본 AWS 계정</li>
 </ul>
+<br>
+
 <p>3.1 버지니아 CloufFormation 배포</p>
 <p>3.1.1) CloudFormation 배포</p>
 <ul>
 <li>2.3항에서 제공한 Virginia_TransitGW_Lab_CF.yaml 파일을 배포하자.</li>
 </ul>
 <blockquote>
-<p>☝ 주의: CF Condition에 의해 Main Site와 Sub Site의 생성 인프라가 다르다. <strong>파라미터 값을 Main으로 지정</strong>하자!</p>
+<p>💡 주의: CF Condition에 의해 Main Site와 Sub Site의 생성 인프라가 다르다. <strong>파라미터 값을 Main으로 지정</strong>하자!</p>
 </blockquote>
 <p><img src="/images/LabGuide-AWS-Transit-Gateway/Untitled2.png" alt="LabGuide%20AWS%20Transit%20Gateway%20efff213e58a546c5bc56273e4425244a/Untitled%202.png"></p>
 <p>그림 3.1 버지니아 CF 템플릿 생성 중 EnvType 파라미터 값을 Main으로 지정</p>
@@ -454,6 +470,8 @@
 <li><code>./pingall.sh</code> 로 전체 타겟에 대한 Ping 테스트가 가능하다.</li>
 <li>현재 자기 자신과 외부 인터넷만 가능하다.</li>
 </ul>
+<br>
+
 <p>3.2 Transit Gatewaay 생성</p>
 <ul>
 <li>VPC  —&gt; Transit Gateway —&gt; Create Transit Gateway</li>
@@ -463,6 +481,8 @@
 <li>Name Tag 기입하고, Multicast support enable을 반드시 체크 하자! (4장 Multicast on TGW 실습 때 필요하다. 추후 수정이 되지 않아 미리 활성화)</li>
 <li>1~2분 정도 대기하면, 상태가 available 로 변경 된다.</li>
 </ul>
+<br>
+
 <p>3.3 Transit Gateway Attachment 생성</p>
 <ul>
 <li><p>VPC —&gt; Transit Gateway Attachment —&gt; Create Transit Gateway Attachment (😓 굳이 한글 번역을 해놔서 Attachment를 첨부파일로 표현함;)</p>
@@ -493,6 +513,8 @@
 <ul>
 <li>생성된 2개의 TGW Attachment를 확인할 수 있다. (Resource Type: VPC, State: available)</li>
 </ul>
+<br>
+
 <p>3.4 Routing Table 설정</p>
 <ul>
 <li><p>CloudFormation에 의해 생성된 3개의 라우팅 테이블에 경로를 추가한다.</p>
@@ -506,6 +528,8 @@
 <ul>
 <li>라우팅 테이블 3개 모두 라우팅 정책 추가</li>
 </ul>
+<br>
+
 <p>3.5 Verify</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@MAIN-MGT ec2-user]<span class="comment"># ./pingall.sh</span></span><br><span class="line">node google.com is up</span><br><span class="line">node 10.1.1.10 is up</span><br><span class="line">node 10.2.1.10 is up</span><br><span class="line">node 10.2.2.10 is up</span><br><span class="line">node 10.3.1.10 is down</span><br><span class="line">node 10.3.2.10 is down</span><br><span class="line">node 10.4.1.10 is down</span><br><span class="line">node 10.5.1.10 is down</span><br><span class="line">node 10.6.1.10 is down</span><br><span class="line">[root@MAIN-MGT ec2-user]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
 
@@ -540,6 +564,8 @@
 <li>EC2 인스턴스 타입이 Nitro 여야 Sender가 될 수 있고, Non Nitro가 Receicer가 될 수 있지만 Source/Destination Check를 비활성화해야 동작한다.</li>
 <li>본 실습에서 CloudFormation으로 생성한 EC2 인스턴스 타입은 Nitro 타입으로 지정하였다.</li>
 </ul>
+<br>
+
 <p>4.1 Multicast 라우팅 설정 전에 테스트</p>
 <p>4.1.1) MAIN-MGT 인스턴스에 접속 (Sender)</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@MAIN-MGT ec2-user]<span class="comment"># omping -m 239.1.1.1 -p 10000 10.1.1.10</span></span><br><span class="line">10.1.1.10 : waiting <span class="keyword">for</span> response msg</span><br><span class="line">10.1.1.10 : joined (S,G) = (*, 239.1.1.1), pinging</span><br><span class="line">10.1.1.10 :   unicast, seq=1, size=69 bytes, dist=0, time=0.016ms</span><br><span class="line">10.1.1.10 : multicast, seq=1, size=69 bytes, dist=0, time=0.021ms</span><br><span class="line">10.1.1.10 :   unicast, seq=2, size=69 bytes, dist=0, time=0.041ms</span><br><span class="line">10.1.1.10 : multicast, seq=2, size=69 bytes, dist=0, time=0.046ms</span><br><span class="line">10.1.1.10 :   unicast, seq=3, size=69 bytes, dist=0, time=0.050ms</span><br></pre></td></tr></table></figure>
@@ -564,6 +590,8 @@
 <ul>
 <li>좌측 Multicast Sender에서 239.1.1.1 트래픽을 발생하고 있지만, 우측 Multicast Receiver들로 인입되지 않는다.</li>
 </ul>
+<br>
+
 <p>4.2 Transit Gateway Multicast 설정</p>
 <p>4.2.1) Create Transit Gateway Multicast Domain</p>
 <ul>
@@ -632,6 +660,8 @@
 <ul>
 <li>MAIN-TEST와 MAIN-DEV를 member 로 지정</li>
 </ul>
+<br>
+
 <p>4.3 Verify</p>
 <ul>
 <li>4.1.2항과 같이 테스트를 해본다.</li>
@@ -644,7 +674,7 @@
 <li>TGW에서 Multicast 설정을 하면 바로 적용되지 않고 1~2분정도 대기 시간이 필요하다.</li>
 </ul>
 <blockquote>
-<p>☝ 현재 Transit Gateway 상에서 동작하는 Multicast는 미완성 서비스이며, 버지니아 리전에만 동작하는 제약이 있다. 향후 다른 리전까지 서비스가 동작하거나 기능이 추가되면, 추가적인 실습을 진행할 예정이다.<br>그리고, 현재 실습 상 Multicast 동작은 강제로 트래픽을 인입하는 형태의 실습이라 추후 기회가 되면 실제 Multicast Stram을 통해 실습을 진행해 보도록 하겠다.</p>
+<p>💡 현재 Transit Gateway 상에서 동작하는 Multicast는 미완성 서비스이며, 버지니아 리전에만 동작하는 제약이 있다. 향후 다른 리전까지 서비스가 동작하거나 기능이 추가되면, 추가적인 실습을 진행할 예정이다.<br>그리고, 현재 실습 상 Multicast 동작은 강제로 트래픽을 인입하는 형태의 실습이라 추후 기회가 되면 실제 Multicast Stram을 통해 실습을 진행해 보도록 하겠다.</p>
 </blockquote>
 <hr>
 <br>
@@ -657,13 +687,15 @@
 </ul>
 <p><span class="exturl" data-url="aHR0cHM6Ly9hd3MuYW1hem9uLmNvbS9rby9ibG9ncy9rb3JlYS9uZXctdXNlLWFuLWF3cy10cmFuc2l0LWdhdGV3YXktdG8tc2ltcGxpZnkteW91ci1uZXR3b3JrLWFyY2hpdGVjdHVyZS8=">AWS Transit Gateway 출시 - VPC 네트워크 아키텍처 단순화 가능 (서울 리전 포함) | Amazon Web Services<i class="fa fa-external-link-alt"></i></span></p>
 <p>참고 링크 : Resource Access Manager를 활용하여 Multi Account VPC Attachment</p>
+<br>
+
 <p>5.1 버지니아 CloufFormation 배포 (서브 계정)</p>
 <p>5.1.1) CloudFormation 배포</p>
 <ul>
 <li>2.3항에서 제공한 Virginia_TransitGW_Lab_CF.yaml 파일을 배포하자.</li>
 </ul>
 <blockquote>
-<p>☝ 주의: CF Condition에 의해 Main Site와 Sub Site의 생성 인프라가 다르다. <strong>파라미터 값을 Sub로 지정</strong>하자!</p>
+<p>💡 주의: CF Condition에 의해 Main Site와 Sub Site의 생성 인프라가 다르다. <strong>파라미터 값을 Sub로 지정</strong>하자!</p>
 </blockquote>
 <p><img src="/images/LabGuide-AWS-Transit-Gateway/Untitled13.png" alt="LabGuide%20AWS%20Transit%20Gateway%20efff213e58a546c5bc56273e4425244a/Untitled%2013.png"></p>
 <p>그림 5.1 서브 계정에서 버지니아 CF 템플릿 생성 중 EnvType 파라미터 값을 Sub로 지정</p>
@@ -683,6 +715,8 @@
 <ul>
 <li>위 생성된 인프라가 정상적으로 올라왔는 지 확인하자</li>
 </ul>
+<br>
+
 <p>5.2 Resource Access Manager를 활용하여 TGW 공유 (본 계정 &amp; 서브 계정)</p>
 <p>5.2.1) Resource Access Manager 리소스 공유 생성 (본 계정)</p>
 <p><img src="/images/LabGuide-AWS-Transit-Gateway/Untitled14.png" alt="LabGuide%20AWS%20Transit%20Gateway%20efff213e58a546c5bc56273e4425244a/Untitled%2014.png"></p>
@@ -739,6 +773,8 @@
 <li>서브 계정에서 TGW VPC Attachment를 수행해도 바로 연결이 되지 않고 pending acceptance 상태이다.</li>
 <li>본 계정에 진입하여 Accept 해준다. (1~2분 후 성공)</li>
 </ul>
+<br>
+
 <p>5.3 Routing Table 설정 (서브 계정)</p>
 <ul>
 <li><p>CloudFormation에 의해 생성된 2개의 라우팅 테이블에 경로를 추가한다.</p>
@@ -747,6 +783,8 @@
 </ul>
 </li>
 </ul>
+<br>
+
 <p>5.4 Verify</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@MAIN-MGT ec2-user]<span class="comment"># ./pingall.sh</span></span><br><span class="line">node google.com is up</span><br><span class="line">node 10.1.1.10 is up</span><br><span class="line">node 10.2.1.10 is up</span><br><span class="line">node 10.2.2.10 is up</span><br><span class="line">node 10.3.1.10 is up</span><br><span class="line">node 10.3.2.10 is up</span><br><span class="line">node 10.4.1.10 is down</span><br><span class="line">node 10.5.1.10 is down</span><br><span class="line">node 10.6.1.10 is down</span><br><span class="line">[root@MAIN-MGT ec2-user]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
 
@@ -772,6 +810,8 @@
 </ul>
 <p><span class="exturl" data-url="aHR0cHM6Ly9hd3MuYW1hem9uLmNvbS9rby9ibG9ncy9hd3MvYXdzLXRyYW5zaXQtZ2F0ZXdheS1hZGRzLW11bHRpY2FzdC1hbmQtaW50ZXItcmVnaW9uYWwtcGVlcmluZy8=">AWS Transit Gateway Adds Multicast and Inter-Regional Peering | Amazon Web Services<i class="fa fa-external-link-alt"></i></span></p>
 <p>참고 링크 : AWS Transit Gateway Adds Multicast &amp; Inter Regional Peering</p>
+<br>
+
 <p>6.1 아일랜드 CloufFormation 배포</p>
 <p>6.1.1) CloudFormation 배포</p>
 <ul>
@@ -793,6 +833,8 @@
 <li>아일랜드에서 사용할 인프라를 CloudFormation에서 모두 정의하였다. (TGW까지 포함)</li>
 <li>Routing Table 추가는 정의하지 않아 수동으로 작업 (🤢TGW 생성 및 Attachment 되는 딜레이가 발생하여 경로 설정을 못하고 타임 아웃)</li>
 </ul>
+<br>
+
 <p>6.2 Inter Region Peering 설정</p>
 <p>6.2.1) TGW Attachment - Inter Region Peering </p>
 <ul>
@@ -823,6 +865,8 @@
 <ul>
 <li>Inter Region Peering Attachment 된 것을 확인 할 수 있다. (구분을 위해 BRC-TGW-ATT로 Tag함)</li>
 </ul>
+<br>
+
 <p>6.3 Routing Table 설정</p>
 <p>6.3.1) BRANCH SITE VPC의 Routing Table 설정</p>
 <ul>
@@ -848,6 +892,8 @@
 </ul>
 </li>
 </ul>
+<br>
+
 <p>6.4 Verify</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[ec2-user@MAIN-MGT ~]$ ./pingall.sh</span><br><span class="line">node google.com is up</span><br><span class="line">node 10.1.1.10 is up</span><br><span class="line">node 10.2.1.10 is up</span><br><span class="line">node 10.2.2.10 is up</span><br><span class="line">node 10.3.1.10 is up</span><br><span class="line">node 10.3.2.10 is up</span><br><span class="line">node 10.4.1.10 is up</span><br><span class="line">node 10.5.1.10 is up</span><br><span class="line">node 10.6.1.10 is down</span><br><span class="line">[ec2-user@MAIN-MGT ~]$</span><br></pre></td></tr></table></figure>
 
@@ -871,6 +917,8 @@
 <li>서울 리전에 VPC를 생성하여 VPN 서버를 배치하는데, 가상으로 On-Premise 환경이라 가정하여 테스트 한다.</li>
 <li>실습 환경: Region - <code>버지니아, 서울</code> , Account - 본 AWS 계정</li>
 </ul>
+<br>
+
 <p>7.1 서울 CloufFormation 배포</p>
 <p>7.1.1) CloudFormation 배포</p>
 <ul>
@@ -889,6 +937,8 @@
 <li><p>위 생성된 인프라가 정상적으로 올라왔는 지 확인하자.</p>
 </li>
 </ul>
+<br>
+
 <p>7.2 AWS Site to Site VPN 설정</p>
 <p>7.2.1) Custom Gateway 생성</p>
 <ul>
@@ -934,6 +984,8 @@
 <li>구성 다운로드  —&gt; 공급업체 : Openswan 선택</li>
 </ul>
 <p><img src="/images/LabGuide-AWS-Transit-Gateway/Untitled26.png" alt="LabGuide%20AWS%20Transit%20Gateway%20efff213e58a546c5bc56273e4425244a/Untitled%2026.png"></p>
+<br>
+
 <p>7.3 OpenSwan VPN 서버 설정</p>
 <ul>
 <li><code>서울</code>에 생성한 EC2-Instance에 SSH 접속을 한다.</li>
@@ -983,6 +1035,8 @@
 <ul>
 <li>버지니아 Site to Site VPN 상태를 보면 Tunnel 1이 작동 상태로 올라왔다.</li>
 </ul>
+<br>
+
 <p>7.4 TGW 라우팅 테이블 설정</p>
 <ul>
 <li><p>Transit Gateway 라우팅 테이블에서 On-Premise 대역에 대한 라우팅을 잡아야 한다.</p>
@@ -997,6 +1051,8 @@
 </ul>
 </li>
 </ul>
+<br>
+
 <p>7.5 Verify</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@MAIN-MGT ec2-user]<span class="comment"># ./pingall.sh</span></span><br><span class="line">node google.com is up</span><br><span class="line">node 10.1.1.10 is up</span><br><span class="line">node 10.2.1.10 is up</span><br><span class="line">node 10.2.2.10 is up</span><br><span class="line">node 10.3.1.10 is up</span><br><span class="line">node 10.3.2.10 is up</span><br><span class="line">node 10.4.1.10 is up</span><br><span class="line">node 10.5.1.10 is up</span><br><span class="line">node 10.6.1.10 is up</span><br><span class="line">[root@MAIN-MGT ec2-user]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
 
@@ -1020,13 +1076,15 @@
 <li>본 실습에서 Private Subnet은 크게 TEST 환경과 DEV 환경으로 구분할 수 있다. 이 중에 DEV 환경만 NAT GW를 통해 외부 인터넷 통신을하고, TEST 환경은 폐쇄망 성격으로 외부 인터넷 통신을 하지 않도록 하는 컨셉이다.</li>
 <li>실습 환경: Region - <code>버지니아</code> , Account - 본 AWS 계정 + 서브 AWS 계정</li>
 </ul>
+<br>
+
 <p>8.1 버지니아 CloufFormation 배포</p>
 <p>8.1.1) CloudFormation 배포</p>
 <ul>
 <li>2.3항에서 제공한 Virginia_TransitGW_Lab_CF.yaml 파일을 배포하자.</li>
 </ul>
 <blockquote>
-<p>☝ 주의: CF Condition에 의해 <strong>파라미터 값을 Nat로 지정</strong>하자!</p>
+<p>💡 주의: CF Condition에 의해 <strong>파라미터 값을 Nat로 지정</strong>하자!</p>
 </blockquote>
 <p><img src="/images/LabGuide-AWS-Transit-Gateway/Untitled30.png" alt="LabGuide%20AWS%20Transit%20Gateway%20efff213e58a546c5bc56273e4425244a/Untitled%2030.png"><br>그림 8.1 NAT 용도의 CloudFormation 생성 (EnvType을 Nat로 지정)</p>
 <details>
@@ -1041,6 +1099,8 @@
 <ul>
 <li>위 생성된 인프라가 정상적으로 올라왔는 지 확인하자.</li>
 </ul>
+<br>
+
 <p>8.2 TGW Attachment</p>
 <ul>
 <li><p>VPC —&gt; Transit Gateway Attachment —&gt; Create Transit Gateway Attachment</p>
@@ -1056,6 +1116,8 @@
 </ul>
 </li>
 </ul>
+<br>
+
 <p>8.3 Routing Table 설정</p>
 <p>8.3.1) DEV 환경의 라우팅 설정</p>
 <ul>
@@ -1141,6 +1203,8 @@
 <h3 id="9-AWS-Transit-Gateway-Network-Manager"><a href="#9-AWS-Transit-Gateway-Network-Manager" class="headerlink" title="9. AWS Transit Gateway Network Manager"></a>9. AWS Transit Gateway Network Manager</h3><ul>
 <li><strong>이 번 단계의 실습은 TGW Network Manager 기능을 통해 가시성 있게 Global Network를 모니터링한다.</strong></li>
 </ul>
+<br>
+
 <p>9.1 Create Global Network</p>
 <ul>
 <li><p>VPC —&gt; Transit Gateway —&gt; 네트워크 관리자 —&gt; Create a Global Network</p>
@@ -1149,6 +1213,8 @@
 </ul>
 </li>
 </ul>
+<br>
+
 <p>9.2 Transit Gateway 등록</p>
 <ul>
 <li><p>네트워크 관리자 데시보드에서 전송 게이트웨이 추가한다.</p>
@@ -1162,6 +1228,8 @@
 </ul>
 <p><img src="/images/LabGuide-AWS-Transit-Gateway/Untitled32.png" alt="LabGuide%20AWS%20Transit%20Gateway%20efff213e58a546c5bc56273e4425244a/Untitled%2032.png"></p>
 <p>그림 9.1 TGW Global Network 네트워크 관리자에서 Transit Gateway 등록</p>
+<br>
+
 <p>9.3 Verify</p>
 <p>9.3.1) 지리적 정보</p>
 <p><img src="/images/LabGuide-AWS-Transit-Gateway/Untitled33.png" alt="LabGuide%20AWS%20Transit%20Gateway%20efff213e58a546c5bc56273e4425244a/Untitled%2033.png"></p>
@@ -1233,8 +1301,8 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/05/07/VPN-SitetoSite-with-Static-Route/" rel="prev" title="AWS VPN Site to Site with Static Route">
-      <i class="fa fa-chevron-left"></i> AWS VPN Site to Site with Static Route
+    <a href="/2020/05/07/VPN-SitetoSite-with-Dynamic-Route/" rel="prev" title="AWS VPN Site to Site with Dynamic Route">
+      <i class="fa fa-chevron-left"></i> AWS VPN Site to Site with Dynamic Route
     </a></div>
       <div class="post-nav-item"></div>
     </div>
@@ -1316,7 +1384,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-count">4</span>
           <span class="site-state-item-name">포스트</span>
         </a>
       </div>

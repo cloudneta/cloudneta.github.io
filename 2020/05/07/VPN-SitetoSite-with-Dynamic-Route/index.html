@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+<meta name="naver-site-verification" content="0e8ced0bfa10b2d3e75a852580f99d3bba940a32" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Noto Serif KR:300,300italic,400,400italic,700,700italic|Noto Sans KR:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"cloudneta.github.io","root":"/","scheme":"Mist","version":"8.0.0-rc.3","exturl":true,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="작성자 : gasida.cloudnet@">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AWS VPN Site to Site with Dynamic Route">
+<meta property="og:url" content="http://cloudneta.github.io/2020/05/07/VPN-SitetoSite-with-Dynamic-Route/index.html">
+<meta property="og:site_name" content="CloudNet@">
+<meta property="og:description" content="작성자 : gasida.cloudnet@">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:image" content="http://cloudneta.github.io/images/VPN-SitetoSite-with-Dynamic-Route/Untitled.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/VPN-SitetoSite-with-Dynamic-Route/Untitled1.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/VPN-SitetoSite-with-Dynamic-Route/2020-05-07-01.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/VPN-SitetoSite-with-Dynamic-Route/Untitled2.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/VPN-SitetoSite-with-Dynamic-Route/Untitled3.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/VPN-SitetoSite-with-Dynamic-Route/2020-05-07-02.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/VPN-SitetoSite-with-Dynamic-Route/2020-05-07-03.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/VPN-SitetoSite-with-Dynamic-Route/2020-05-06-01.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/VPN-SitetoSite-with-Dynamic-Route/2020-05-07-04.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/VPN-SitetoSite-with-Dynamic-Route/Untitled4.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/VPN-SitetoSite-with-Dynamic-Route/Untitled5.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/VPN-SitetoSite-with-Dynamic-Route/2020-05-07-05.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/VPN-SitetoSite-with-Dynamic-Route/Untitled6.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/VPN-SitetoSite-with-Dynamic-Route/2020-05-07-06.png">
+<meta property="article:published_time" content="2020-05-07T10:45:01.000Z">
+<meta property="article:modified_time" content="2020-06-02T02:56:04.408Z">
+<meta property="article:author" content="CloudNet@">
+<meta property="article:tag" content="VPN">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://cloudneta.github.io/images/VPN-SitetoSite-with-Dynamic-Route/Untitled.png">
+
+<link rel="canonical" href="http://cloudneta.github.io/2020/05/07/VPN-SitetoSite-with-Dynamic-Route/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'ko'
+  };
+</script>
+
+  <title>AWS VPN Site to Site with Dynamic Route | CloudNet@</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/rss2.xml" title="CloudNet@" type="application/rss+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+        <span class="toggle-line toggle-line-first"></span>
+        <span class="toggle-line toggle-line-middle"></span>
+        <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">CloudNet@</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>홈</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>카테고리</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>아카이브</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>태그</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="ko">
+    <link itemprop="mainEntityOfPage" href="http://cloudneta.github.io/2020/05/07/VPN-SitetoSite-with-Dynamic-Route/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="CloudNet@">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CloudNet@">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          AWS VPN Site to Site with Dynamic Route
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">작성일</span>
+
+              <time title="Post created: 2020-05-07 10:45:01" itemprop="dateCreated datePublished" datetime="2020-05-07T10:45:01+00:00">2020-05-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Updated at: 2020-06-02 02:56:04" itemprop="dateModified" datetime="2020-06-02T02:56:04+00:00">2020-06-02</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Network-Connectivity-External-Connectivity/" itemprop="url" rel="index"><span itemprop="name">Network Connectivity - External Connectivity</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2020/05/07/VPN-SitetoSite-with-Dynamic-Route/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/05/07/VPN-SitetoSite-with-Dynamic-Route/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><em>작성자 : gasida.cloudnet@</em></p>
+<a id="more"></a>
+
+<br>
+
+<details>
+<summary>AWS Document Link</summary>
+<div markdown="1">
+
+<ul>
+<li><span class="exturl" data-url="aHR0cHM6Ly9kb2NzLmF3cy5hbWF6b24uY29tL2tvX2tyL3Zwbi9sYXRlc3QvczJzdnBuL1ZQQ19WUE4uaHRtbA==">Site-to-Site VPN User Guide<i class="fa fa-external-link-alt"></i></span></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly9kb2NzLmF3cy5hbWF6b24uY29tL2tvX2tyL3ZwYy9sYXRlc3QvYWRtaW5ndWlkZS9XZWxjb21lLmh0bWw=">Site-to-Site VPN Network Administrator Guide<i class="fa fa-external-link-alt"></i></span></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly93aWtpLnZ5b3MubmV0L3dpa2kvVXNlcl9HdWlkZQ==">VYOS User Guide<i class="fa fa-external-link-alt"></i></span></li>
+</ul>
+</div>
+</details>
+
+<hr>
+<br>
+
+<h3 id="1-AWS-VPN-Site-to-Site-with-Dynamic-Route-BGP"><a href="#1-AWS-VPN-Site-to-Site-with-Dynamic-Route-BGP" class="headerlink" title="1. AWS VPN Site to Site with Dynamic Route (BGP)"></a>1. AWS VPN Site to Site with Dynamic Route (BGP)</h3><ul>
+<li><p>VPN 을 통한 내부 네트워크 대역에 대한 라우팅 광로를 BGP 를 통하여 동적으로 업데이트 한다</p>
+</li>
+<li><p>BGP AS 는 2- or 4-byte ASN 를 사용</p>
+</li>
+<li><p>AWS VGW는 BGP로 Amazon VPC 대역을 광고한다</p>
+<p>  → 즉, IDC(고객측)에는 AWS VPC대역의 네트워크 정보를 알게 된다</p>
+</li>
+<li><p>AWS VGW는 BGP로 VPC대역 광고 시 BGP MED 100 과 200 을 각각 Tunnel 로 광고한다</p>
+<p>  → 즉, IDC(고객측)에서는 BGP MED 100이 우선함으로 1개의 Tunnel 이 선정되고 실제 트래픽이 해당 Tunnel 로 통신한다</p>
+</li>
+<li><p>IPsec tunnels 과 BGP sessions 는 항상 고객측(CGW)에서 시작한다</p>
+</li>
+</ul>
+<hr>
+<br>
+
+<h3 id="2-AWS-VPN-Site-to-Site-with-Dynamic-Route-BGP-Lab-Preview"><a href="#2-AWS-VPN-Site-to-Site-with-Dynamic-Route-BGP-Lab-Preview" class="headerlink" title="2. AWS VPN Site to Site with Dynamic Route (BGP) Lab Preview"></a>2. AWS VPN Site to Site with Dynamic Route (BGP) Lab Preview</h3><br>
+
+<p>2.1 Lab Topology</p>
+<ul>
+<li><p><code>서울, 싱가폴</code> Region에 각각 AWS 환경과, IDC 환경(가정)으로 구성</p>
+<ul>
+<li>IDC 환경은 실제 AWS 영역이 아니라 일반 기업 물리망이지만 실습의 편리성을 위해서 AWS 환경에서 구성함</li>
+</ul>
+</li>
+<li><p><code>서울</code> Region 은 AWS VGW를 배치하고 Public Subnet 에 테스트 용도의 EC2를 배치함</p>
+</li>
+<li><p><code>싱가폴</code> Region (IDC환경)은 VPN 역할을 VYOS(커뮤니티AMI)로 하며 Private Subnet에 테스트 용도의 EC2를 배치함</p>
+<p>  <img src="/images/VPN-SitetoSite-with-Dynamic-Route/Untitled.png" alt="AWS%20VPN%20Site%20to%20Site%20with%20Dynamic%20Route%20BGP%2005b6a5e86b864ae6b876cae1b8184477/Untitled.png"></p>
+</li>
+</ul>
+<blockquote>
+<p>💡 VYOS는 리눅스(Debina) 기반에 라우팅, 방화벽, VPN 기능을 제공하여 VPN 역할로 선택함. <span class="exturl" data-url="aHR0cHM6Ly93aWtpLnZ5b3MubmV0L3dpa2kvVXNlcl9HdWlkZQ==">참고 링크<i class="fa fa-external-link-alt"></i></span></p>
+</blockquote>
+<br>
+
+<p>2.2 기본 설정</p>
+<ul>
+<li>본 실습에서 활용할 AWS Region은 <code>서울, 싱가폴</code> 입니다. 해당 Region에 대한 <em>EC2-Key Pair</em>를 생성</li>
+<li><code>시드니, 상파울루</code> Region 에 리소스는 <em>CloudFormation</em>에 의해 2.1 그림의 인프라를 자동 구축 (2.3항에서 진행)</li>
+</ul>
+<br>
+
+<p>2.3 CloudFormation (Infrastructure as Code)</p>
+<details>
+<summary><b>싱가폴 Region에서 CloudFormation 스택을 생성한다.</summary></b>
+<div markdown="1">
+
+<ul>
+<li>1단계 템플릿 지정<ul>
+<li>템플릿 준비 : 준비된 템플릿</li>
+<li>템플릿 소스 : Amazon S3 URL</li>
+<li>Amazon S3 URL : <span class="exturl" data-url="aHR0cHM6Ly9zMy5hcC1ub3J0aGVhc3QtMi5hbWF6b25hd3MuY29tL2Nsb3VkZm9ybWF0aW9uLmNsb3VkbmV0YS5uZXQvVlBOL2dhc2lkYV92cG5faWRjMS55YW1s">https://s3.ap-northeast-2.amazonaws.com/cloudformation.cloudneta.net/VPN/gasida_vpn_idc1.yaml<i class="fa fa-external-link-alt"></i></span><ul>
+<li>우측 하단 <code>다음</code> 클릭</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>2단계 스택 세부 정보 지정<ul>
+<li>스택 이름 : VPN-IDC</li>
+<li>KeyName : 자신의 <em>EC2-Key Pair</em> 를 지정<ul>
+<li>우측 하단 <code>다음</code> 클릭</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>3단계 스택 옵션 구성<ul>
+<li>우측 하단 <code>다음</code> 클릭</li>
+</ul>
+</li>
+<li>4단계 검토<ul>
+<li>우측 하단 <code>스택 생성</code> 클릭</li>
+</ul>
+</li>
+</ul>
+</div>
+</details>
+
+<details>
+<summary><b>싱가폴 Region에서 CloudFormation 스택 생성 완료 후 (5분 정도 소요) 출력에서 VYOSInstancePublicIP 의 값(IP)를 확인한다.</summary></b>
+<div markdown="1">
+
+<p><img src="/images/VPN-SitetoSite-with-Dynamic-Route/Untitled1.png" alt="AWS%20VPN%20Site%20to%20Site%20with%20Dynamic%20Route%20BGP%2005b6a5e86b864ae6b876cae1b8184477/Untitled%201.png"></p>
+</div>
+</details>
+
+<details>
+<summary><b>서울 Region에서 CloudFormation 스택을 생성한다.</summary></b>
+<div markdown="1">
+
+<ul>
+<li>1단계 템플릿 지정<ul>
+<li>템플릿 준비 : 준비된 템플릿</li>
+<li>템플릿 소스 : Amazon S3 URL</li>
+<li>Amazon S3 URL : <span class="exturl" data-url="aHR0cHM6Ly9zMy5hcC1ub3J0aGVhc3QtMi5hbWF6b25hd3MuY29tL2Nsb3VkZm9ybWF0aW9uLmNsb3VkbmV0YS5uZXQvVlBOL2dhc2lkYV92cG5fYXdzLnlhbWw=">https://s3.ap-northeast-2.amazonaws.com/cloudformation.cloudneta.net/VPN/gasida_vpn_aws.yaml<i class="fa fa-external-link-alt"></i></span><ul>
+<li>우측 하단 <code>다음</code> 클릭</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>2단계 스택 세부 정보 지정<ul>
+<li>스택 이름 : VPN-AWS</li>
+<li>KeyName : 자신의 <em>EC2-Key Pair</em> 를 지정</li>
+<li>StaticRoutesOnlyForVPN : <strong>false</strong> ← AWS VPN 와 IDC VPN 간 <strong>Dynamic Route(BGP)</strong> 설정을 할 예정이므로</li>
+<li>VPCAWSCustomerGatewayIP : 52.76.100.41 ← 위 싱가폴에서 스택 출력에서 VYOSInstancePublicIP 값<ul>
+<li>우측 하단 <code>다음</code> 클릭</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>3단계 스택 옵션 구성<ul>
+<li>우측 하단 <code>다음</code> 클릭</li>
+</ul>
+</li>
+<li>4단계 검토<ul>
+<li>우측 하단 <code>스택 생성</code> 클릭</li>
+</ul>
+</li>
+</ul>
+</div>
+</details>
+
+<ul>
+<li>CloudFormation에 의해 생성되는 리소스는 아래와 같으며, 각 Region 별 정상적으로 생성되었는지 확인한다.</li>
+</ul>
+<details>
+<summary>싱가폴 CloudFormation 생성 인프라</summary>
+<div markdown="1">
+
+<pre><code>- VPC, 2 Subnet, IGW, 2 Route table
+- EIP, VYOS EC2 Instance (eth0, eth1)
+- Amazon Linux 2 EC2 Instance (Test용)</code></pre></div>
+</details>
+
+<details>
+<summary>서울 CloudFormation 생성 인프라</summary>
+<div markdown="1">
+
+<pre><code>- VPC, 2 Subnet, IGW, 2 Route table
+- VGW, CGW, VPN Connection
+- EIP, Amazon Linux 2 EC2 Instance (Test용)</code></pre></div>
+</details>
+
+<br>
+
+<blockquote>
+<p>💡 실무에서의 AWS VGW 와 연결 시 IDC 위치한 VPN(예. VYOS)설정은 보통 ‘IDC 네트워크(혹은 보안) 엔지니어’ 가 설정을 하게 되어서 개발자 분들의 경우 아래 Lab 따라하기가 어려운 부분이 있다. 그래서 VYOS 관련 설정과 IDC1에 관련 설정은 toggle ‘▶︎’ 접어 두었다. 필요 시 toggle 클릭하여 상세히 내용을 보시기 바란다. VYOS 내용을 제외한 AWS VPN 관련 설정 내용을 위주로 보시면 된다.</p>
+</blockquote>
+<br>
+
+<p>2.4 검증</p>
+<ul>
+<li><p>사용자 PC에서 <code>싱가폴</code> VYOS Public IP 주소로 SSH 접근한다. 추가로 VYOS 인터페이스 설정을 한다.</p>
+<ul>
+<li><p>VYOS 설정 모드(conf) 로 진입해서 VYOS eth1 IP(스택 출력 VYOSInstanceINTERNALPrivateIP 확인)는 설정 후 적용한다.</p>
+</li>
+<li><p>Private Subnet 에 있는 Test EC2 IP 로 ping 및 SSH 접근한다. 접속 계정 root / qwe123</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 자신의 VYOSInstanceINTERNALPrivateIP 로 SSH 접속</span></span><br><span class="line">ssh -i <span class="string">'*EC2-Key Pair'</span>* vyos@52.76.100.41</span><br><span class="line">..</span><br><span class="line"></span><br><span class="line"><span class="comment"># 해당 AMI 이미지는 기본적으로 eth1 IP 가 미설정 되어 있다</span></span><br><span class="line">vyos@ip-10-100-1-198:~$ show interfaces</span><br><span class="line">Codes: S - State, L - Link, u - Up, D - Down, A - Admin Down</span><br><span class="line">Interface        IP Address                        S/L  Description</span><br><span class="line">---------        ----------                        ---  -----------</span><br><span class="line">eth0             10.100.1.198/24                    u/u</span><br><span class="line">eth1             -                                 u/u</span><br><span class="line">..</span><br><span class="line"></span><br><span class="line"><span class="comment"># VYOS 설정모드(conf)로 진입하여 eth1의 IP를 설정 후 적용과 저장을 한다</span></span><br><span class="line">vyos@ip-10-100-1-198$ conf</span><br><span class="line">vyos@ip-10-100-1-198<span class="comment"># set interfaces ethernet eth1 address 10.100.100.56/24</span></span><br><span class="line">vyos@ip-10-100-1-198<span class="comment"># commit</span></span><br><span class="line">vyos@ip-10-100-1-198<span class="comment"># exit</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># VYOS에서 내부에 있는 EC2 인스턴스로 ping 테스트를 한다</span></span><br><span class="line">vyos@ip-10-100-1-198:~$ ping 10.100.100.192</span><br><span class="line">PING 10.100.100.192 (10.100.100.192) 56(84) bytes of data.</span><br><span class="line">64 bytes from 10.100.100.192: icmp_seq=1 ttl=255 time=0.732 ms</span><br><span class="line">..</span><br><span class="line"></span><br><span class="line"><span class="comment"># VYOS에서 내부에 있는 EC2 인스턴스로 SSH 접속 확인을 한다.</span></span><br><span class="line">vyos@ip-10-100-1-198:~$ ssh root@10.100.100.192</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>사용자 PC에서 <code>서울</code> EC2 Instance EIP 주소로 SSH 접근한다. 접속 계정 root / qwe123</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh root@52.78.176.204</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>참고로 CloudFormation에 의해 리소스가 정상적으로 올라오기 까지 약간의 시간이 필요하니 일정 시간 대기가 필요하다.</p>
+</li>
+</ul>
+<blockquote>
+<p>💡 본격적인 실습에 앞서, Site to Site VPN 리소스는 소량의 과금이 불가피 하다. (VPN 연결 시간 단위 요금 부과 - 시간 당 $0.05 등)<br>자세한 사항은 <span class="exturl" data-url="aHR0cHM6Ly9hd3MuYW1hem9uLmNvbS9rby9nbG9iYWwtYWNjZWxlcmF0b3IvcHJpY2luZy9odHRwczovL2F3cy5hbWF6b24uY29tL2tvL3Zwbi9wcmljaW5nLw==">요금 링크<i class="fa fa-external-link-alt"></i></span>를 참고 바란다.</p>
+</blockquote>
+<hr>
+<br>
+
+<h3 id="3-Configuration-Site-to-Site-VPN"><a href="#3-Configuration-Site-to-Site-VPN" class="headerlink" title="3. Configuration Site to Site VPN"></a>3. Configuration Site to Site VPN</h3><br>
+
+<p>3.1 <code>서울</code> Region 의 VPN 정보 확인</p>
+<ul>
+<li><p>VPN Tunnel 1 과  Tunnel 2 의 외부IP와  내부IP CIDR을 확인 한다.</p>
+<p>  <img src="/images/VPN-SitetoSite-with-Dynamic-Route/2020-05-07-01.png" alt="AWS%20VPN%20Site%20to%20Site%20with%20Dynamic%20Route%20BGP%2005b6a5e86b864ae6b876cae1b8184477/_2020-05-07__10.03.33.png"></p>
+</li>
+</ul>
+<br>
+
+<p>3.2 <code>서울</code> Region 의 고객 VPN 장비 설정을 위한 구성 다운로드 후 <code>싱가폴</code> Region 에 VYOS 에 VPN Config 설정</p>
+<ul>
+<li><p>💁🏻‍♂️ VPN 구성 다운로드?  AWS VGW 에 연결되는 고객VPN 장비(공급업체 별)의 VPN 관련 설정을 AWS 에서 제공</p>
+</li>
+<li><p>[AWS VPN 사이트 간 VPN 연결 - 구성 다운로드] 선택 후 Vyatta 선택 후 <code>다운로드</code></p>
+<p>  <img src="/images/VPN-SitetoSite-with-Dynamic-Route/Untitled2.png" alt="AWS%20VPN%20Site%20to%20Site%20with%20Dynamic%20Route%20BGP%2005b6a5e86b864ae6b876cae1b8184477/Untitled%202.png"></p>
+<ul>
+<li><p>다운로드 파일 예시</p>
+<p>  <a href="/images/VPN-SitetoSite-with-Dynamic-Route/vpn-0056e880bc3e56d15.txt">vpn-0056e880bc3e56d15.txt</a></p>
+</li>
+</ul>
+</li>
+<li><p>다운 받은 config 파일 내용을 일부 변경 후 VYOS 에 적용한다</p>
+</li>
+</ul>
+<details>
+<summary>일부 내용 변경 : 찾기 사용을 권장</summary>
+<div markdown="1">
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">41줄, 132줄) VYOS eth0(EIP)를 etho(private ip)로 변경</span><br><span class="line"><span class="built_in">set</span> vpn ipsec site-to-site peer 15.164.80.217 <span class="built_in">local</span>-address <span class="string">'10.100.1.198'</span></span><br><span class="line"><span class="built_in">set</span> vpn ipsec site-to-site peer 52.78.188.212 <span class="built_in">local</span>-address <span class="string">'10.100.1.198'</span></span><br><span class="line"></span><br><span class="line">98줄, 189줄) VYOS 의 BGP 명령어 입력이 버전 상향으로 일부 바뀌었음</span><br><span class="line"><span class="built_in">set</span> protocols bgp 65000 neighbor 169.254.13.29 soft-reconfiguration <span class="string">'inbound'</span> -(아래 내용으로 변경)-&gt;</span><br><span class="line"><span class="built_in">set</span> protocols bgp 65000 neighbor 169.254.13.29 address-family ipv4-unicast soft-reconfiguration inbound</span><br><span class="line"></span><br><span class="line">106줄, 197줄) 해당 내용 삭제, 해당 내용은 IDC에서 디폴트 route 정보를 광고하는 내용이다</span><br><span class="line"><span class="built_in">set</span> protocols bgp 65000 network 0.0.0.0/0 - 해당 줄 내용 삭제</span><br><span class="line"></span><br><span class="line">맨 마지막줄 내용 추가) IDC내부 대역인 10.100.0.0/16 대역을 BGP로 광고한다</span><br><span class="line"><span class="built_in">set</span> protocols bgp 65000 address-family ipv4-unicast network 10.100.0.0/16</span><br></pre></td></tr></table></figure>
+
+</div>
+</details>
+
+<br>
+
+<details>
+<summary>변경 적용 한 VYOS VPN Config → VYOS conf 모드에 복사 붙여넣기를 한다</summary>
+<div markdown="1">
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">conf</span><br><span class="line"><span class="built_in">set</span> vpn ipsec ike-group AWS lifetime <span class="string">'28800'</span></span><br><span class="line"><span class="built_in">set</span> vpn ipsec ike-group AWS proposal 1 dh-group <span class="string">'2'</span></span><br><span class="line"><span class="built_in">set</span> vpn ipsec ike-group AWS proposal 1 encryption <span class="string">'aes128'</span></span><br><span class="line"><span class="built_in">set</span> vpn ipsec ike-group AWS proposal 1 <span class="built_in">hash</span> <span class="string">'sha1'</span></span><br><span class="line"><span class="built_in">set</span> vpn ipsec site-to-site peer 15.164.80.217 authentication mode <span class="string">'pre-shared-secret'</span></span><br><span class="line"><span class="built_in">set</span> vpn ipsec site-to-site peer 15.164.80.217 authentication pre-shared-secret <span class="string">'NCN1B7Xzjv0NnGOLxFQJMnWBG8FlJnzT'</span></span><br><span class="line"><span class="built_in">set</span> vpn ipsec site-to-site peer 15.164.80.217 description <span class="string">'VPC tunnel 1'</span></span><br><span class="line"><span class="built_in">set</span> vpn ipsec site-to-site peer 15.164.80.217 ike-group <span class="string">'AWS'</span></span><br><span class="line"><span class="built_in">set</span> vpn ipsec site-to-site peer 15.164.80.217 <span class="built_in">local</span>-address <span class="string">'10.100.1.198'</span></span><br><span class="line"><span class="built_in">set</span> vpn ipsec site-to-site peer 15.164.80.217 vti <span class="built_in">bind</span> <span class="string">'vti0'</span></span><br><span class="line"><span class="built_in">set</span> vpn ipsec site-to-site peer 15.164.80.217 vti esp-group <span class="string">'AWS'</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">set</span> vpn ipsec ipsec-interfaces interface <span class="string">'eth0'</span></span><br><span class="line"><span class="built_in">set</span> vpn ipsec esp-group AWS compression <span class="string">'disable'</span></span><br><span class="line"><span class="built_in">set</span> vpn ipsec esp-group AWS lifetime <span class="string">'3600'</span></span><br><span class="line"><span class="built_in">set</span> vpn ipsec esp-group AWS mode <span class="string">'tunnel'</span></span><br><span class="line"><span class="built_in">set</span> vpn ipsec esp-group AWS pfs <span class="string">'enable'</span></span><br><span class="line"><span class="built_in">set</span> vpn ipsec esp-group AWS proposal 1 encryption <span class="string">'aes128'</span></span><br><span class="line"><span class="built_in">set</span> vpn ipsec esp-group AWS proposal 1 <span class="built_in">hash</span> <span class="string">'sha1'</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">set</span> vpn ipsec ike-group AWS dead-peer-detection action <span class="string">'restart'</span></span><br><span class="line"><span class="built_in">set</span> vpn ipsec ike-group AWS dead-peer-detection interval <span class="string">'10'</span></span><br><span class="line"><span class="built_in">set</span> vpn ipsec ike-group AWS dead-peer-detection timeout <span class="string">'30'</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">set</span> interfaces vti vti0 address <span class="string">'169.254.70.182/30'</span></span><br><span class="line"><span class="built_in">set</span> interfaces vti vti0 description <span class="string">'VPC tunnel 1'</span></span><br><span class="line"><span class="built_in">set</span> interfaces vti vti0 mtu <span class="string">'1436'</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">set</span> protocols bgp 65000 neighbor 169.254.70.181 remote-as <span class="string">'64512'</span></span><br><span class="line"><span class="built_in">set</span> protocols bgp 65000 neighbor 169.254.70.181 address-family ipv4-unicast soft-reconfiguration inbound</span><br><span class="line"><span class="built_in">set</span> protocols bgp 65000 neighbor 169.254.70.181 timers holdtime <span class="string">'30'</span></span><br><span class="line"><span class="built_in">set</span> protocols bgp 65000 neighbor 169.254.70.181 timers keepalive <span class="string">'10'</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">set</span> vpn ipsec site-to-site peer 52.78.188.212 authentication mode <span class="string">'pre-shared-secret'</span></span><br><span class="line"><span class="built_in">set</span> vpn ipsec site-to-site peer 52.78.188.212 authentication pre-shared-secret <span class="string">'MfmyxlydtXvvC2FLGmBsqMQlW5q89Z0S'</span></span><br><span class="line"><span class="built_in">set</span> vpn ipsec site-to-site peer 52.78.188.212 description <span class="string">'VPC tunnel 2'</span></span><br><span class="line"><span class="built_in">set</span> vpn ipsec site-to-site peer 52.78.188.212 ike-group <span class="string">'AWS'</span></span><br><span class="line"><span class="built_in">set</span> vpn ipsec site-to-site peer 52.78.188.212 <span class="built_in">local</span>-address <span class="string">'10.100.1.198'</span></span><br><span class="line"><span class="built_in">set</span> vpn ipsec site-to-site peer 52.78.188.212 vti <span class="built_in">bind</span> <span class="string">'vti1'</span></span><br><span class="line"><span class="built_in">set</span> vpn ipsec site-to-site peer 52.78.188.212 vti esp-group <span class="string">'AWS'</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">set</span> interfaces vti vti1 address <span class="string">'169.254.50.254/30'</span></span><br><span class="line"><span class="built_in">set</span> interfaces vti vti1 description <span class="string">'VPC tunnel 2'</span></span><br><span class="line"><span class="built_in">set</span> interfaces vti vti1 mtu <span class="string">'1436'</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">set</span> protocols bgp 65000 neighbor 169.254.50.253 remote-as <span class="string">'64512'</span></span><br><span class="line"><span class="built_in">set</span> protocols bgp 65000 neighbor 169.254.50.253 address-family ipv4-unicast soft-reconfiguration inbound</span><br><span class="line"><span class="built_in">set</span> protocols bgp 65000 neighbor 169.254.50.253 timers holdtime <span class="string">'30'</span></span><br><span class="line"><span class="built_in">set</span> protocols bgp 65000 neighbor 169.254.50.253 timers keepalive <span class="string">'10'</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">set</span> protocols bgp 65000 address-family ipv4-unicast network 10.100.0.0/16</span><br><span class="line"></span><br><span class="line">commit</span><br><span class="line">save</span><br></pre></td></tr></table></figure>
+</div>
+</details>
+
+<br>
+
+<ul>
+<li><p>VPN 관련 Tunnel, Interface, IP 를 표현</p>
+<p>  <img src="/images/VPN-SitetoSite-with-Dynamic-Route/Untitled3.png" alt="AWS%20VPN%20Site%20to%20Site%20with%20Dynamic%20Route%20BGP%2005b6a5e86b864ae6b876cae1b8184477/Untitled%203.png"></p>
+</li>
+</ul>
+<hr>
+<br>
+
+<h3 id="4-Verify-Site-to-Site-VPN"><a href="#4-Verify-Site-to-Site-VPN" class="headerlink" title="4. Verify Site to Site VPN"></a>4. Verify Site to Site VPN</h3><br>
+
+<p>4.1 <code>서울</code> Region 의 VPN 정보 확인</p>
+<ul>
+<li><p>VPN Tunnel 2개의 상태가 정상 작동을 확인 , 세부정보에서 VYOS 에서  BGP로 1개의 네트워크 대역을 광고해서 알아왔음을 확인</p>
+<p>  <img src="/images/VPN-SitetoSite-with-Dynamic-Route/2020-05-07-02.png" alt="AWS%20VPN%20Site%20to%20Site%20with%20Dynamic%20Route%20BGP%2005b6a5e86b864ae6b876cae1b8184477/_2020-05-07__10.45.34.png"></p>
+</li>
+</ul>
+<br>
+
+<p>4.2 <code>싱가폴</code> Region 의 VYOS 에서 VPN 정보 확인</p>
+<ul>
+<li><p>Tunnel 인터페이스(= vti0, vti1) 정보 확인 및 VPN 상태 확인 및 라우팅 테이블 확인, VPN Tunnel IP 로 ping 테스트</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># VYOS 의 가상의 터널 인터페이스 정보를 확 </span></span><br><span class="line">$ show interfaces vti</span><br><span class="line">Codes: S - State, L - Link, u - Up, D - Down, A - Admin Down</span><br><span class="line">Interface        IP Address                        S/L  Description</span><br><span class="line">---------        ----------                        ---  -----------</span><br><span class="line">vti0             169.254.70.182/30                 u/u  VPC tunnel 1</span><br><span class="line">vti1             169.254.50.254/30                 u/u  VPC tunnel 2</span><br><span class="line"></span><br><span class="line"><span class="comment"># AWS 내부IP(터널IP)와 ping 통신 확인</span></span><br><span class="line">$ ping 169.254.70.181</span><br><span class="line">64 bytes from 169.254.70.181: icmp_seq=1 ttl=254 time=103 ms</span><br><span class="line">$ ping 169.254.50.253</span><br><span class="line">64 bytes from 169.254.50.253: icmp_seq=1 ttl=254 time=103 ms</span><br><span class="line"></span><br><span class="line"><span class="comment"># VYOS 의 VPN IPsec 상태 정보 확인 및 해당 터널을 통한 트래픽 통계 확인</span></span><br><span class="line">$ show vpn ipsec sa</span><br><span class="line">Connection                     State    Uptime    Bytes In/Out    Packets In/Out    Remote address    Remote ID    Proposal</span><br><span class="line">-----------------------------  -------  --------  --------------  ----------------  ----------------  -----------  ----------------------------------</span><br><span class="line">peer-52.78.188.212-tunnel-vti  up       8m23s     4K/6K           62/112            52.78.188.212     N/A          AES_CBC_128/HMAC_SHA1_96/MODP_1024</span><br><span class="line">peer-15.164.80.217-tunnel-vti  up       8m23s     5K/6K           84/110            15.164.80.217     N/A          AES_CBC_128/HMAC_SHA1_96/MODP_1024</span><br><span class="line"></span><br><span class="line"><span class="comment"># VYOS 장비의 라우팅 테이블을 확인, AWS VGW에 연결된 VPC대역에 대한 라우팅 정보 확인</span></span><br><span class="line">$ show ip route</span><br><span class="line">..</span><br><span class="line">S&gt;* 0.0.0.0/0 [210/0] via 10.100.1.1, eth0, 00:52:07</span><br><span class="line">B&gt;* 10.50.0.0/16 [20/100] via 169.254.50.253, vti1, 00:08:31</span><br><span class="line">C&gt;* 10.100.1.0/24 is directly connected, eth0, 00:52:08</span><br><span class="line">C&gt;* 10.100.100.0/24 is directly connected, eth1, 00:47:21</span><br><span class="line">C&gt;* 169.254.50.252/30 is directly connected, vti1, 00:08:33</span><br><span class="line">C&gt;* 169.254.70.180/30 is directly connected, vti0, 00:08:33</span><br><span class="line"></span><br><span class="line"><span class="comment"># VYOS와 VGW 간 BGP 정보 확인, AWS Tunnel1과2에서 각각 Metric(=MED) 100과 200으로 인입</span></span><br><span class="line">$ show ip bgp</span><br><span class="line">..</span><br><span class="line">   Network          Next Hop            Metric LocPrf Weight Path</span><br><span class="line">*&gt; 10.50.0.0/16     169.254.50.253         100             0 64512 i</span><br><span class="line">*                   169.254.70.181         200             0 64512 i</span><br><span class="line">*&gt; 10.100.0.0/16  0.0.0.0                  0         32768 i</span><br><span class="line"></span><br><span class="line">sh ip bgp summary</span><br><span class="line">sh ip bgp neighbors 169.254.X.Y advertised-routes</span><br><span class="line">sh ip bgp neighbors 169.254.X.Y received-routes</span><br><span class="line">sh ip bgp neighbors 169.254.X.Y routes</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<br>
+
+<p>4.3 <code>싱가폴</code> 내부 대역의 Route Table 설정</p>
+<ul>
+<li><p>[VPC - Route Tables] VPCIDC1 VYOS Internal Subnet Route Table 선택 후 [라우팅 편집]으로 추가</p>
+<ul>
+<li><p>10.50.0.0/16 , Network Interface → VYOS Eth1 후 <code>라우팅 저장</code></p>
+<p>  <img src="/images/VPN-SitetoSite-with-Dynamic-Route/2020-05-07-03.png" alt="AWS%20VPN%20Site%20to%20Site%20with%20Dynamic%20Route%20BGP%2005b6a5e86b864ae6b876cae1b8184477/_2020-05-07__10.57.18.png"></p>
+</li>
+</ul>
+</li>
+</ul>
+<br>
+
+<p>4.4 <code>서울</code> Subnet에 Route Table 설정</p>
+<ul>
+<li><p>[VPC - Route Tables] VPCAWS Subnet Route Table 선택 후 [라우팅 전파 편집]으로 추가</p>
+<ul>
+<li><p>전파 선택 후 <code>저장</code></p>
+<p>  <img src="/images/VPN-SitetoSite-with-Dynamic-Route/2020-05-06-01.png" alt="AWS%20VPN%20Site%20to%20Site%20with%20Dynamic%20Route%20BGP%2005b6a5e86b864ae6b876cae1b8184477/_2020-05-06__3.44.45.png"></p>
+</li>
+<li><p>라우팅 테이블을 확인하면 자동으로 추가되어 있다</p>
+<p>  <img src="/images/VPN-SitetoSite-with-Dynamic-Route/2020-05-07-04.png" alt="AWS%20VPN%20Site%20to%20Site%20with%20Dynamic%20Route%20BGP%2005b6a5e86b864ae6b876cae1b8184477/_2020-05-07__11.05.44.png"></p>
+</li>
+</ul>
+</li>
+</ul>
+<br>
+
+<p>4.5 전체 라우팅 상태 확인</p>
+<ul>
+<li><p><code>서울</code> Region 경우 싱가폴 VPC대역인 10.100.0.0/16 을VGW 로 보냄</p>
+<p>  → 이후 VGW 는 VPN Tunnel 을 통해 VYOS eth0 으로 보냄</p>
+</li>
+<li><p><code>싱가폴</code> Region 경우 내부대역(10.100.100.0/24)에서 서울 VPC대역인 10.50.0.0/16 을 VYOS eth1 으로 보냄</p>
+<p>  → 이후 VYOS는 10.50.0.0/16 을 vti0, vti1 즉 VPN Tunnel 을 통해 VGW 로 보냄</p>
+<p>  <img src="/images/VPN-SitetoSite-with-Dynamic-Route/Untitled4.png" alt="AWS%20VPN%20Site%20to%20Site%20with%20Dynamic%20Route%20BGP%2005b6a5e86b864ae6b876cae1b8184477/Untitled%204.png"></p>
+</li>
+</ul>
+<br>
+
+<p>4.6 통신 확인</p>
+<ul>
+<li><p>서울 EC2 에서 싱가폴 EC2 로 ping 통신, ssh 접속을 확인</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@ip-10-50-1-175 ~]$ ping -c 1 10.100.100.192</span><br><span class="line">PING 10.100.100.192 (10.100.100.192) 56(84) bytes of data.</span><br><span class="line">64 bytes from 10.100.100.192: icmp_seq=1 ttl=254 time=103 ms</span><br><span class="line"></span><br><span class="line">$ ssh root@10.100.100.192</span><br><span class="line">root@10.100.100.192<span class="string">'s password:</span></span><br><span class="line"><span class="string">..</span></span><br><span class="line"><span class="string">[root@ip-10-100-100-192 ~]#</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>위 ping 통신 시도 시, VYOS 에서 icmp 패킷 확인</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vyos@ip-10-100-1-198:~$ sudo tcpdump -i any -nn icmp</span><br><span class="line">..</span><br><span class="line">02:08:35.528632 IP 10.100.100.192 &gt; 10.50.1.175: ICMP <span class="built_in">echo</span> reply, id 32455, seq 14, length 64</span><br><span class="line">02:08:36.529260 IP 10.50.1.175 &gt; 10.100.100.192: ICMP <span class="built_in">echo</span> request, id 32455, seq 15, length 64</span><br><span class="line">..</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<br>
+
+<p>4.7 CloudWatch 모니터링 설정</p>
+<ul>
+<li><p><code>서울</code> Region [CloudWatch - 대시보드 생성] : 이름(VPN)</p>
+<ul>
+<li><p>위젯 추가</p>
+<ul>
+<li><p>유형 : 행</p>
+<ul>
+<li>지표 : VPN 터널 지표 → (VPN Tunnel 1 IP 입력 후 검색 후) TunnelState  선택<ul>
+<li>그래프로 표시된 지표 : 레이블(VPN Tunnel 1 State), 통계(최소), 기간(1분)<ul>
+<li>그래프옵션 : 위젯 유형(누적 면적)<ul>
+<li>상단(사용자지정 - 30분, 현지시간대)</li>
+<li>우측 하단 <code>위젯 생성</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>유형 : 행</p>
+<ul>
+<li>지표 : VPN 터널 지표 → (VPN Tunnel 2 IP 입력 후 검색 후) TunnelState  선택<ul>
+<li>그래프로 표시된 지표 : 색상(변경), 레이블(VPN Tunnel 2 State), 통계(최소), 기간(1분)<ul>
+<li>그래프옵션 : 위젯 유형(누적 면적)<ul>
+<li>상단(사용자지정 - 30분, 현지시간대)</li>
+<li>우측 하단 <code>위젯 생성</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>유형 : 행</p>
+<ul>
+<li>지표 : VPN 터널 지표 → (VPN Tunnel 1 IP 입력 후 검색 후) TunnelDataIn, TunnelDataOut 선택<ul>
+<li>그래프로 표시된 지표 : 상단(VPN Tunnel 1 Data In/Out), 통계(합계), 기간(1분)<ul>
+<li>그래프옵션 : 위젯 유형(누적 면적)<ul>
+<li>상단(사용자지정 - 30분, 현지시간대)</li>
+<li>우측 하단 <code>위젯 생성</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>유형 : 행</p>
+<ul>
+<li>지표 : VPN 터널 지표 → (VPN Tunnel 2 IP 입력 후 검색 후) TunnelDataIn, TunnelDataOut 선택<ul>
+<li>그래프로 표시된 지표 : 상단(VPN Tunnel 2 Data In/Out), 통계(합계), 기간(1분)<ul>
+<li>그래프옵션 : 위젯 유형(누적 면적)<ul>
+<li>상단(사용자지정 - 30분, 현지시간대)</li>
+<li>우측 하단 <code>위젯 생성</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>상단 - <code>대시보드 저장</code></p>
+<p>  <img src="/images/VPN-SitetoSite-with-Dynamic-Route/Untitled5.png" alt="AWS%20VPN%20Site%20to%20Site%20with%20Dynamic%20Route%20BGP%2005b6a5e86b864ae6b876cae1b8184477/Untitled%205.png"></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<br>
+
+<h3 id="5-VPN-Failover-Test"><a href="#5-VPN-Failover-Test" class="headerlink" title="5. VPN Failover Test"></a>5. VPN Failover Test</h3><br>
+
+<p>5.1 <code>싱가폴</code> Region 의 VYOS 재부팅 후 확인</p>
+<ul>
+<li><p><code>서울</code> Region 의 내부 EC2 에서 ping 실행</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ping -i 1 -W 1 10.100.100.192</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>VYOS 인스턴스 재부팅</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vyos@ip-10-100-1-198:~$ reboot now</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>서울</code> Region 의 내부 EC2 에서 ping 결과 확인</p>
+<ul>
+<li><p>82 - 23 = 59개로 대략 59초(=대략 1분) 정도의 절체시간이 있었다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ ping -i 1 -W 1 10.100.100.192</span><br><span class="line">PING 10.100.100.192 (10.100.100.192) 56(84) bytes of data.</span><br><span class="line">64 bytes from 10.100.100.192: icmp_seq=1 ttl=254 time=104 ms</span><br><span class="line">..</span><br><span class="line">^C</span><br><span class="line">--- 10.100.100.192 ping statistics ---</span><br><span class="line">82 packets transmitted, 23 received, 71% packet loss, time 82429ms</span><br><span class="line">rtt min/avg/max/mdev = 103.895/104.418/105.911/0.503 ms</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p><span class="exturl" data-url="aHR0cHM6Ly9kb2NzLmF3cy5hbWF6b24uY29tL2tvX2tyL3Zwbi9sYXRlc3QvczJzdnBuL21vbml0b3JpbmctY2xvdWR3YXRjaC12cG4uaHRtbA==">CloudWatch 모니터링<i class="fa fa-external-link-alt"></i></span>을 확인 : 2개 Tunnel State 가 0 으로 다운되고 정상이 되었다, 트래픽은 여전히 Tunnel 2 를 사용 중이다</p>
+<p>  <img src="/images/VPN-SitetoSite-with-Dynamic-Route/2020-05-07-05.png" alt="AWS%20VPN%20Site%20to%20Site%20with%20Dynamic%20Route%20BGP%2005b6a5e86b864ae6b876cae1b8184477/_2020-05-07__11.36.58.png"></p>
+</li>
+</ul>
+<br>
+
+<p>5.2 현재 Active VPN Tunnel 을 Down 후 확인</p>
+<ul>
+<li><p>현재 통신에 사용되는 VPN Tunnel 을 강제로 Down 하여 다른 VPN Tunnel 사용 시를 테스트 해본다</p>
+<p>  <img src="/images/VPN-SitetoSite-with-Dynamic-Route/Untitled6.png" alt="AWS%20VPN%20Site%20to%20Site%20with%20Dynamic%20Route%20BGP%2005b6a5e86b864ae6b876cae1b8184477/Untitled%206.png"></p>
+</li>
+<li><p><code>서울</code> Region 의 내부 EC2 에서 ping 실행</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ping -i 1 -W 1 10.100.100.192</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>VYOS 에서 터널 정보를 확인 후 해당 터널로 맺혀있는 BGP 네이버를 강제로 Shutdown 한다</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">$ show ip route</span><br><span class="line">B&gt;* 10.50.0.0/16 [20/100] via 169.254.50.253, vti1, 00:00:12</span><br><span class="line"></span><br><span class="line">$ show vpn ipsec sa</span><br><span class="line">Connection                     State    Uptime    Bytes In/Out    Packets In/Out    Remote address    Remote ID    Proposal</span><br><span class="line">-----------------------------  -------  --------  --------------  ----------------  ----------------  -----------  ----------------------------------</span><br><span class="line">peer-52.78.188.212-tunnel-vti  up       15m29s    75K/84K         943/1K            52.78.188.212     N/A          AES_CBC_128/HMAC_SHA1_96/MODP_1024</span><br><span class="line">peer-15.164.80.217-tunnel-vti  up       15m29s    13K/11K         190/194           15.164.80.217     N/A          AES_CBC_128/HMAC_SHA1_96/MODP_1024</span><br><span class="line"></span><br><span class="line">conf</span><br><span class="line"><span class="built_in">set</span> protocols bgp 65000 neighbor 169.254.50.253 shutdown</span><br><span class="line">commit</span><br><span class="line">save</span><br><span class="line"><span class="built_in">exit</span></span><br><span class="line"></span><br><span class="line">$ show ip route</span><br><span class="line">..</span><br><span class="line">B&gt;* 10.50.0.0/16 [20/100] via 169.254.70.181, vti0, 00:04:37</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>서울</code> Region 의 내부 EC2 에서 ping 결과 확인</p>
+<ul>
+<li><p>22 - 21 = 1개로 대략 1초 이내에 절체시간이 있었다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ ping -i 1 -W 1 10.100.100.192</span><br><span class="line">PING 10.100.100.192 (10.100.100.192) 56(84) bytes of data.</span><br><span class="line">64 bytes from 10.100.100.192: icmp_seq=1 ttl=254 time=104 ms</span><br><span class="line">..</span><br><span class="line">^C</span><br><span class="line">--- 10.100.100.192 ping statistics ---</span><br><span class="line">22 packets transmitted, 21 received, 4% packet loss, time 21029ms</span><br><span class="line">rtt min/avg/max/mdev = 104.003/104.743/105.439/0.621 ms</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>CloudWatch 모니터링을 확인 : Tunnel 2 가 Down 되자마자 바로 Tunnel 1 로 데이터 트래픽 통신을 사용했다.</p>
+<p>  <img src="/images/VPN-SitetoSite-with-Dynamic-Route/2020-05-07-06.png" alt="AWS%20VPN%20Site%20to%20Site%20with%20Dynamic%20Route%20BGP%2005b6a5e86b864ae6b876cae1b8184477/_2020-05-07__11.55.13.png"></p>
+</li>
+</ul>
+<hr>
+<br>
+
+<h3 id="6-Delete-Infrastructure"><a href="#6-Delete-Infrastructure" class="headerlink" title="6. Delete Infrastructure"></a>6. Delete Infrastructure</h3><ul>
+<li><code>싱가폴</code> Region 의 CloudFormation Stack 삭제</li>
+<li><code>서울</code> Region 의 CloudFormation Stack 삭제</li>
+<li><code>서울</code> Region 의 CloudWatch 대시보드 삭제</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        
+
+  <div class="followme">
+    <p>Welcome to my other publishing channels</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/rss2.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/VPN/" rel="tag"><i class="fa fa-tag"></i> VPN</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/05/07/VPN-SitetoSite-with-Static-Route/" rel="prev" title="AWS VPN Site to Site with Static Route">
+      <i class="fa fa-chevron-left"></i> AWS VPN Site to Site with Static Route
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/05/16/Transit-Gateway/" rel="next" title="LabGuide - AWS Transit Gateway">
+      LabGuide - AWS Transit Gateway <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          목차
+        </li>
+        <li class="sidebar-nav-overview">
+          상위
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-AWS-VPN-Site-to-Site-with-Dynamic-Route-BGP"><span class="nav-text">1. AWS VPN Site to Site with Dynamic Route (BGP)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-AWS-VPN-Site-to-Site-with-Dynamic-Route-BGP-Lab-Preview"><span class="nav-text">2. AWS VPN Site to Site with Dynamic Route (BGP) Lab Preview</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-Configuration-Site-to-Site-VPN"><span class="nav-text">3. Configuration Site to Site VPN</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-Verify-Site-to-Site-VPN"><span class="nav-text">4. Verify Site to Site VPN</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-VPN-Failover-Test"><span class="nav-text">5. VPN Failover Test</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-Delete-Infrastructure"><span class="nav-text">6. Delete Infrastructure</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">CloudNet@</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-name">포스트</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">카테고리</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">태그</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2Nsb3VkbmV0YQ==" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;cloudneta"><i class="fab fa-github fa-fw"></i>GitHub</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="bWFpbHRvOmFkbWluQGNsb3VkbmV0YS5uZXQ=" title="E-Mail → mailto:admin@cloudneta.net"><i class="fa fa-envelope fa-fw"></i>E-Mail</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly93d3cubm90aW9uLnNvL0Nsb3VkTmV0LUJsb2ctYzlkZmE0NGEyN2ZmNDMxZGFmZGQyZWRhY2M4YTE4NjM=" title="Notion → https:&#x2F;&#x2F;www.notion.so&#x2F;CloudNet-Blog-c9dfa44a27ff431dafdd2edacc8a1863"><i class="fa fa-book fa-fw"></i>Notion</span>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CloudNet@</span>
+</div>
+  <div class="powered-by">Powered by <span class="exturl theme-link" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & <span class="exturl theme-link" data-url="aHR0cHM6Ly90aGVtZS1uZXh0LmpzLm9yZy9taXN0Lw==">NexT.Mist</span>
+  </div>
+  <div class="addthis_inline_share_toolbox">
+    <script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5ed513b1de5cbed6" async="async"></script>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://cloudnet-1.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://cloudneta.github.io/2020/05/07/VPN-SitetoSite-with-Dynamic-Route/";
+    this.page.identifier = "2020/05/07/VPN-SitetoSite-with-Dynamic-Route/";
+    this.page.title = "AWS VPN Site to Site with Dynamic Route";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://cloudnet-1.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+</body>
+</html>

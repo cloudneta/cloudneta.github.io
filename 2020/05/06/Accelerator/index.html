@@ -57,7 +57,7 @@
 <meta property="og:image" content="http://cloudneta.github.io/images/LabGuide-AWS-Global-Accelerator/Untitled23.png">
 <meta property="og:image" content="http://cloudneta.github.io/images/LabGuide-AWS-Global-Accelerator/Untitled24.png">
 <meta property="article:published_time" content="2020-05-06T10:52:54.000Z">
-<meta property="article:modified_time" content="2020-06-01T17:51:37.550Z">
+<meta property="article:modified_time" content="2020-06-02T02:32:08.068Z">
 <meta property="article:author" content="CloudNet@">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://cloudneta.github.io/images/LabGuide-AWS-Global-Accelerator/Untitled.png">
@@ -226,7 +226,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Updated at: 2020-06-01 17:51:37" itemprop="dateModified" datetime="2020-06-01T17:51:37+00:00">2020-06-01</time>
+                <time title="Updated at: 2020-06-02 02:32:08" itemprop="dateModified" datetime="2020-06-02T02:32:08+00:00">2020-06-02</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -277,16 +277,20 @@
 </details>
 
 <blockquote>
-<p>☝ AWS 서비스 관련해서는 항상 최우선으로 ‘AWS 설명서’를 읽어보는 것을 추천한다.<br>   한글 번역이 매끄럽지 못하면 English 로 변경 후 읽어보길 바란다.</p>
+<p>💡 AWS 서비스 관련해서는 항상 최우선으로 ‘AWS 설명서’를 읽어보는 것을 추천한다.<br>   한글 번역이 매끄럽지 못하면 English 로 변경 후 읽어보길 바란다.</p>
 </blockquote>
 <hr>
 <br>
 
-<h3 id="1-AWS-Global-Accelerator-Theory"><a href="#1-AWS-Global-Accelerator-Theory" class="headerlink" title="1. AWS Global Accelerator Theory"></a>1. AWS Global Accelerator Theory</h3><p><span class="exturl" data-url="aHR0cHM6Ly9hd3MuYW1hem9uLmNvbS9rby9nbG9iYWwtYWNjZWxlcmF0b3IvP2Jsb2dzLWdsb2JhbC1hY2NlbGVyYXRvci5zb3J0LWJ5PWl0ZW0uYWRkaXRpb25hbEZpZWxkcy5jcmVhdGVkRGF0ZSZibG9ncy1nbG9iYWwtYWNjZWxlcmF0b3Iuc29ydC1vcmRlcj1kZXNjJmF3cy1nbG9iYWwtYWNjZWxlcmF0b3Itd24uc29ydC1ieT1pdGVtLmFkZGl0aW9uYWxGaWVsZHMucG9zdERhdGVUaW1lJmF3cy1nbG9iYWwtYWNjZWxlcmF0b3Itd24uc29ydC1vcmRlcj1kZXNj">1.1 AWS Global Accelerator 란?<i class="fa fa-external-link-alt"></i></span></p>
+<h3 id="1-AWS-Global-Accelerator-Theory"><a href="#1-AWS-Global-Accelerator-Theory" class="headerlink" title="1. AWS Global Accelerator Theory"></a>1. AWS Global Accelerator Theory</h3><br>
+
+<p><span class="exturl" data-url="aHR0cHM6Ly9hd3MuYW1hem9uLmNvbS9rby9nbG9iYWwtYWNjZWxlcmF0b3IvP2Jsb2dzLWdsb2JhbC1hY2NlbGVyYXRvci5zb3J0LWJ5PWl0ZW0uYWRkaXRpb25hbEZpZWxkcy5jcmVhdGVkRGF0ZSZibG9ncy1nbG9iYWwtYWNjZWxlcmF0b3Iuc29ydC1vcmRlcj1kZXNjJmF3cy1nbG9iYWwtYWNjZWxlcmF0b3Itd24uc29ydC1ieT1pdGVtLmFkZGl0aW9uYWxGaWVsZHMucG9zdERhdGVUaW1lJmF3cy1nbG9iYWwtYWNjZWxlcmF0b3Itd24uc29ydC1vcmRlcj1kZXNj">1.1 AWS Global Accelerator 란?<i class="fa fa-external-link-alt"></i></span></p>
 <ul>
 <li>AWS Global Accelerator는 로컬 또는 글로벌 사용자를 대상으로 어플리케이션의 가용성과 성능을 개선하는 서비스이다.</li>
 <li>AWS Global Accelerator는 AWS 글로벌 네트워크를 통해 사용자에서 어플리케이션으로 이어진 경로를 최적화하여 트래픽의 성능을 개선한다.</li>
 </ul>
+<br>
+
 <p><span class="exturl" data-url="aHR0cHM6Ly9hd3MuYW1hem9uLmNvbS9rby9ibG9ncy9rb3JlYS9uZXctYXdzLWdsb2JhbC1hY2NlbGVyYXRvci1mb3ItYXZhaWxhYmlsaXR5LWFuZC1wZXJmb3JtYW5jZS8=">1.2 AWS Global Accelerator Key Words<i class="fa fa-external-link-alt"></i></span></p>
 <ul>
 <li><p><em>고정 Anycast IP</em> – AWS Global Accelerator는 하나 이상의 AWS 리전에서 호스팅되는 애플리케이션에 대한 고정 진입점 역할을 하는 정적 IP 주소를 사용한다. 이 IP 주소는 AWS 엣지 로케이션에서 할당되는 Anycast입니다. 즉, 이 IP 주소가 여러 AWS 엣지 로케이션에서 발표되므로 트래픽이 사용자에게 최대한 가까운 위치에서 AWS 글로벌 네트워크에 진입할 수 있다.</p>
@@ -310,6 +314,8 @@
 </ul>
 </li>
 </ul>
+<br>
+
 <p>1.3 AWS Global Accelerator 작동 방식</p>
 <p><img src="/images/LabGuide-AWS-Global-Accelerator/Untitled.png" alt="LabGuide%20AWS%20Global%20Accelerator%2086f3714d71d24b4c940958dfd90b2d52/Untitled.png"><br>그림 1-1 AWS Global Accelerator Diagram</p>
 <ul>
@@ -317,12 +323,14 @@
 <li>AWS 글로벌 네트워크를 통해 AWS Global Accelerator로 요청이 라우팅되면, 가장 가까운 정상 상태의 EndPoint Group을 선택하여 서비스 한다.</li>
 </ul>
 <blockquote>
-<p>☝ AWS Global Accelerator의 핵심은 고정 Anycast IP을 제공하여 사용자 입장에서 고정 IP 주소로 접근이 가능하며, AWS 글로벌 네트워크를 경유하여 안정적이고 빠른 서비스가 가능하는 점이다.</p>
+<p>💡 AWS Global Accelerator의 핵심은 고정 Anycast IP을 제공하여 사용자 입장에서 고정 IP 주소로 접근이 가능하며, AWS 글로벌 네트워크를 경유하여 안정적이고 빠른 서비스가 가능하는 점이다.</p>
 </blockquote>
 <hr>
 <br>
 
-<h3 id="2-AWS-Global-Accelerator-Lab-Preview"><a href="#2-AWS-Global-Accelerator-Lab-Preview" class="headerlink" title="2. AWS Global Accelerator Lab Preview"></a>2. AWS Global Accelerator Lab Preview</h3><p>2.1 Lab Topology</p>
+<h3 id="2-AWS-Global-Accelerator-Lab-Preview"><a href="#2-AWS-Global-Accelerator-Lab-Preview" class="headerlink" title="2. AWS Global Accelerator Lab Preview"></a>2. AWS Global Accelerator Lab Preview</h3><br>
+
+<p>2.1 Lab Topology</p>
 <p><img src="/images/LabGuide-AWS-Global-Accelerator/Untitled1.png" alt="LabGuide%20AWS%20Global%20Accelerator%2086f3714d71d24b4c940958dfd90b2d52/Untitled%201.png"></p>
 <p>그림 2-1 AWS Global Accelerator Lab Topology</p>
 <ul>
@@ -332,12 +340,16 @@
 <li>EndPoint Group의 EndPoint 지정 (<code>시드니</code> : ALB, <code>상파울루</code> : EC2-Instance 2대)</li>
 <li><code>서울, 버지니아</code> Region에 Client를 통해 생성된 Anycast IP로 Web 접근하여 동작 확인</li>
 </ul>
+<br>
+
 <p>2.2 AWS 기본 설정</p>
 <ul>
 <li>본 실습에서 활용할 AWS Region은 <code>서울, 버지니아북부, 시드니, 상파울루</code> 이다. 해당 Region에 대한 <em>EC2-Key Pair</em>를 생성</li>
 <li><code>서울, 버지니아북부</code> Region은 클라이언트 영역으로, 실습용 <em>EC2-Instance를 1대씩 구축</em> (Default VPC 내 EC2-Instance 생성)</li>
 <li><code>시드니, 상파울루</code> Region은 서비스 영역으로, <em>CloudFormation</em>에 의해 인프라를 자동 구축 (2.3항에서 진행)</li>
 </ul>
+<br>
+
 <p>2.3 CloudFormation (Infrastructure as Code)</p>
 <p>⤵ <span class="exturl" data-url="aHR0cHM6Ly9zMy5hcC1ub3J0aGVhc3QtMi5hbWF6b25hd3MuY29tL2Nsb3VkZm9ybWF0aW9uLmNsb3VkbmV0YS5uZXQvR0EvR2xvYmFsQWNjZWxlcmF0b3JfTGFiX0NGLnlhbWw=">Download GlobalAccelerator_Lab_CF.yaml<i class="fa fa-external-link-alt"></i></span></p>
 <details>
@@ -378,6 +390,8 @@
 - Security Group 1개</code></pre></div>
 </details>
 
+<br>
+
 <p>2.4 검증</p>
 <ul>
 <li>사용자 PC에서 <code>시드니</code> ALB DNS 주소로 Web 접근한다. (새로고침을 하여 정상적인 로드밸런싱 확인)</li>
@@ -385,12 +399,14 @@
 <li>참고로 CF에 의해 리소스가 정상적으로 올라오기 까지 약간의 시간이 필요하니 일정 시간 대기가 필요하다.</li>
 </ul>
 <blockquote>
-<p>☝ 본격적인 실습에 앞서, Global Accelerator 리소스는 소량의 과금이 불가피 하다. (최초 리소스 생성 시 시간당 약 0.025$)<br>자세한 사항은 <span class="exturl" data-url="aHR0cHM6Ly9hd3MuYW1hem9uLmNvbS9rby9nbG9iYWwtYWNjZWxlcmF0b3IvcHJpY2luZy8=">Global Accelerator 요금<i class="fa fa-external-link-alt"></i></span> 링크를 참고 바란다.</p>
+<p>💡 본격적인 실습에 앞서, Global Accelerator 리소스는 소량의 과금이 불가피 하다. (최초 리소스 생성 시 시간당 약 0.025$)<br>자세한 사항은 <span class="exturl" data-url="aHR0cHM6Ly9hd3MuYW1hem9uLmNvbS9rby9nbG9iYWwtYWNjZWxlcmF0b3IvcHJpY2luZy8=">Global Accelerator 요금<i class="fa fa-external-link-alt"></i></span> 링크를 참고 바란다.</p>
 </blockquote>
 <hr>
 <br>
 
-<h3 id="3-Create-AWS-Global-Accelerator"><a href="#3-Create-AWS-Global-Accelerator" class="headerlink" title="3. Create AWS Global Accelerator"></a>3. Create AWS Global Accelerator</h3><p><span class="exturl" data-url="aHR0cHM6Ly9kb2NzLmF3cy5hbWF6b24uY29tL2dsb2JhbC1hY2NlbGVyYXRvci9sYXRlc3QvZGcvZ2V0dGluZy1zdGFydGVkLmh0bWwjZ2V0dGluZy1zdGFydGVkLWFjY2VsZXJhdG9y">3.1 AWS Global Accelerator 생성<i class="fa fa-external-link-alt"></i></span></p>
+<h3 id="3-Create-AWS-Global-Accelerator"><a href="#3-Create-AWS-Global-Accelerator" class="headerlink" title="3. Create AWS Global Accelerator"></a>3. Create AWS Global Accelerator</h3><br>
+
+<p><span class="exturl" data-url="aHR0cHM6Ly9kb2NzLmF3cy5hbWF6b24uY29tL2dsb2JhbC1hY2NlbGVyYXRvci9sYXRlc3QvZGcvZ2V0dGluZy1zdGFydGVkLmh0bWwjZ2V0dGluZy1zdGFydGVkLWFjY2VsZXJhdG9y">3.1 AWS Global Accelerator 생성<i class="fa fa-external-link-alt"></i></span></p>
 <p>[STEP 1] Enter Name</p>
 <p>1) Global Accelerator 리소스 접근</p>
 <ul>
@@ -486,6 +502,8 @@
 <ul>
 <li><code>Create Accelerator</code></li>
 </ul>
+<br>
+
 <p>3.2 AWS Global Accelerator 정보 확인</p>
 <p>[STEP 1] Accelerator &amp; Listener 정보</p>
 <p><img src="/images/LabGuide-AWS-Global-Accelerator/Untitled4.png" alt="LabGuide%20AWS%20Global%20Accelerator%2086f3714d71d24b4c940958dfd90b2d52/Untitled%204.png"><br>그림 3-3 Accelerator 정보와 이에 속한 Listener 정보</p>
@@ -516,7 +534,9 @@
 <hr>
 <br>
 
-<h3 id="4-Verify-AWS-Global-Accelerator"><a href="#4-Verify-AWS-Global-Accelerator" class="headerlink" title="4. Verify AWS Global Accelerator"></a>4. Verify AWS Global Accelerator</h3><h3 id="4-1-Web-접속-부하-Test"><a href="#4-1-Web-접속-부하-Test" class="headerlink" title="4.1 Web 접속 부하 Test"></a>4.1 Web 접속 부하 Test</h3><p>Web 접속 테스트는 <code>서울, 버지니아</code> Region에 생성한 EC2-Instance를 활용한다.</p>
+<h3 id="4-Verify-AWS-Global-Accelerator"><a href="#4-Verify-AWS-Global-Accelerator" class="headerlink" title="4. Verify AWS Global Accelerator"></a>4. Verify AWS Global Accelerator</h3><br>
+
+<h3 id="4-1-Web-접속-부하-Test"><a href="#4-1-Web-접속-부하-Test" class="headerlink" title="4.1 Web 접속 부하 Test"></a>4.1 Web 접속 부하 Test</h3><p>Web 접속 테스트는 <code>서울, 버지니아</code> Region에 생성한 EC2-Instance를 활용한다.</p>
 <ul>
 <li>Web 접속 테스트는 리눅스의 curl 명령어를 통해 반복 작업과 지연 시간 체크를 한다.</li>
 </ul>
@@ -570,6 +590,8 @@
 <ul>
 <li>AWS Global Accelerator를 추가하면 AWS 글로벌 네트워크를 활용하므로 성능이 개선 및 효율적인 통신을 보장한다.</li>
 </ul>
+<br>
+
 <p>4.1.2) <code>버지니아</code> EC2-Instance에서 테스트</p>
 <p>4.1.2-1) Web 접근 100회 반복 테스트 (Target GA Anycast IP)</p>
 <ul>
@@ -598,6 +620,8 @@
 
 </li>
 </ul>
+<br>
+
 <p>4.1.3) Web 접속 흐름</p>
 <p><img src="/images/LabGuide-AWS-Global-Accelerator/Untitled10.png" alt="LabGuide%20AWS%20Global%20Accelerator%2086f3714d71d24b4c940958dfd90b2d52/Untitled%2010.png"></p>
 <p>그림 4-1 리전 별 User에서 Web 서버로 접근 시 논리적인 흐름</p>
@@ -606,6 +630,8 @@
 <li>AWS 글로벌 네트워크를 통해 최적의 EndPoint Group으로 전송하여 서비스한다.</li>
 <li>예를 들어 한국에서 접근하는 사용자는 인접한 Edge Location으로 Web 접근 요청을 보내고,  Edge Location에서 가장 가깝고 Healthy한 EndPoint Group인 <code>시드니 (ap-southeast-2)</code>로 AWS 글로벌 네트워크를 통해 서비스한다.</li>
 </ul>
+<br>
+
 <h3 id="4-2-Traffic-Dial-amp-Weight-조정-Test"><a href="#4-2-Traffic-Dial-amp-Weight-조정-Test" class="headerlink" title="4.2 Traffic Dial &amp; Weight 조정 Test"></a>4.2 Traffic Dial &amp; Weight 조정 Test</h3><ul>
 <li>Traffic Dial은 EndPoint Group에 대한 트래픽 수용력이며, Weight는 EndPoint 별 트래픽 전송 가중치이다.</li>
 </ul>
@@ -636,8 +662,10 @@
 <li>테스트 완료 후 Traffic Dial 값 원상 복구 (100%)</li>
 </ul>
 <blockquote>
-<p>☝ Traffic Dial 0%는 언제 사용할까?<br>Traffic Dial 0% 설정은 Region 내에서 응용 프로그램을 업그레이드하거나 유지 관리가 필요할때, 먼저 Traffic Dial을 0%으로 설정하여 트래픽을 차단한다. 작업을 완료하고 다시 사용할 준비가 되면, Traffic Dial을 100으로 조정하여 트래픽을 다시 수용한다.</p>
+<p>💡 Traffic Dial 0%는 언제 사용할까?<br>Traffic Dial 0% 설정은 Region 내에서 응용 프로그램을 업그레이드하거나 유지 관리가 필요할때, 먼저 Traffic Dial을 0%으로 설정하여 트래픽을 차단한다. 작업을 완료하고 다시 사용할 준비가 되면, Traffic Dial을 100으로 조정하여 트래픽을 다시 수용한다.</p>
 </blockquote>
+<br>
+
 <p>4.2.2) Weight 조정</p>
 <ul>
 <li><p>현재 상파울루 EndPoint Group의 2개의 EndPoint의 Weight 값은 각각 128로 동일한 비중을 설정하고 있다.</p>
@@ -664,8 +692,10 @@
 <li>테스트 완료 후 Weight 값 원상 복구 (128)</li>
 </ul>
 <blockquote>
-<p>☝ Traffic Dial 값을 조정하여 EndPoint Group의 트래픽 처리 비중을 조절할 수 있으며,<br>Weight 값을 조정하여 EndPoint의 트래픽 처리 비중을 조절할 수 있다.</p>
+<p>💡 Traffic Dial 값을 조정하여 EndPoint Group의 트래픽 처리 비중을 조절할 수 있으며,<br>Weight 값을 조정하여 EndPoint의 트래픽 처리 비중을 조절할 수 있다.</p>
 </blockquote>
+<br>
+
 <h3 id="4-3-Client-Affinity-Test"><a href="#4-3-Client-Affinity-Test" class="headerlink" title="4.3 Client Affinity Test"></a>4.3 Client Affinity Test</h3><ul>
 <li>AWS Global Accelerator에서 특정 Source IP 주소의 사용자 요청을 동일한 EndPoint 자원으로 보내 접속 선호도를 유지하도록 선택할 수 있다.</li>
 </ul>
@@ -697,6 +727,8 @@
 <li><code>상파울루</code>에서 하나의 EndPoint로만 접속이 이루어 진다. (EP#2 - Web Server_2)</li>
 <li>테스트 완료 후 Traffic Dial과 Client Affinity 값 복구</li>
 </ul>
+<br>
+
 <h3 id="4-4-Preserve-Client-IP-Test"><a href="#4-4-Preserve-Client-IP-Test" class="headerlink" title="4.4 Preserve Client IP Test"></a>4.4 Preserve Client IP Test</h3><ul>
 <li><p>AWS Global Accelerator의 추가된 기능으로 Client IP 주소를 유지하여 보존하는 기능이다.</p>
 </li>
@@ -728,6 +760,8 @@
 <ul>
 <li><code>상파울루</code> Web 서버에서 HTTP 로그를 확인해 보면 Client IP (<code>버지니아</code>)가 보존되어 그대로 인입되는 것을 확인할 수 있다.</li>
 </ul>
+<br>
+
 <p>4.4.2) ALB EndPoint 대상 Client IP 보존 (<code>시드니</code>)</p>
 <ul>
 <li>EndPoint 타입이 ALB 일 경우  Client IP 보존 기능은 선택할 수 있다. (활성화/비활성화)</li>
@@ -769,8 +803,10 @@
 <li><code>시드니</code> Web 서버에서 HTTP 로그를 확인해 보면 Client IP (<code>서울</code>)가 보존되지 않고, GA에서 사용하는 내부 주소 대역이 Source IP로 들어 온다.</li>
 </ul>
 <blockquote>
-<p>☝ Client IP 보존 기능을 사용하면?<br>IP 별 필터링을 수월하게 수행할 수 있고, 특정 IP마다 제공 컨텐츠 분류하거나 통계 정보 활용에 유용하다.</p>
+<p>💡 Client IP 보존 기능을 사용하면?<br>IP 별 필터링을 수월하게 수행할 수 있고, 특정 IP마다 제공 컨텐츠 분류하거나 통계 정보 활용에 유용하다.</p>
 </blockquote>
+<br>
+
 <h3 id="4-5-Failover-Test"><a href="#4-5-Failover-Test" class="headerlink" title="4.5 Failover Test"></a>4.5 Failover Test</h3><ul>
 <li><code>시드니(ap-southeast-2)</code>에 위치하는 Web 서버를 한대 씩 Stop 후 동작을 확인한다.</li>
 <li>Client는 <code>서울</code>을 기준으로 한다.</li>
@@ -782,6 +818,8 @@
 <ul>
 <li>ALB에 의하여 Load Balancing 되는 환경이라 다른 Web 서버가 모두 처리 해 준다.</li>
 </ul>
+<br>
+
 <p>4.5.2) <code>시드니</code> Web 서버 모두 Stop</p>
 <p><img src="/images/LabGuide-AWS-Global-Accelerator/Untitled20.png" alt="LabGuide%20AWS%20Global%20Accelerator%2086f3714d71d24b4c940958dfd90b2d52/Untitled%2020.png"><br>그림 4-12 시드니 나머지 Web Server 1대 중지 (전체 중지)</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> &#123;1..100&#125;; <span class="keyword">do</span> curl -s -q 75.2.44.82 ; <span class="keyword">done</span> | sort | uniq -c | sort -nr</span><br><span class="line">     50 &lt;h1&gt;CloudNeta Web Server_2 [Region= sa-east-1] &lt;/h1&gt;</span><br><span class="line">     50 &lt;h1&gt;CloudNeta Web Server_1 [Region= sa-east-1] &lt;/h1&gt;</span><br><span class="line">[root@ip-172-31-37-218 ec2-user]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
@@ -789,6 +827,8 @@
 <ul>
 <li><code>시드니(ap-southeast-2)</code>의 Web 서버 모든 자원이 Stop 되자 <code>상파울루(sa-east-1)</code>로 경로를 변경하여 모두 처리한다.</li>
 </ul>
+<br>
+
 <p>4.5.3) Global Accelerator 상태 확인</p>
 <p><img src="/images/LabGuide-AWS-Global-Accelerator/Untitled21.png" alt="LabGuide%20AWS%20Global%20Accelerator%2086f3714d71d24b4c940958dfd90b2d52/Untitled%2021.png"><br>그림 4-13 Lisener 상태 확인</p>
 <ul>
@@ -798,6 +838,8 @@
 <ul>
 <li>Unhealthy 상태의 Endpoint를 확인할 수 있다.</li>
 </ul>
+<br>
+
 <p>4.5.4) <code>시드니</code> Web 서버 모두 Start</p>
 <p><img src="/images/LabGuide-AWS-Global-Accelerator/Untitled23.png" alt="LabGuide%20AWS%20Global%20Accelerator%2086f3714d71d24b4c940958dfd90b2d52/Untitled%2023.png"><br>그림 4-15 시드니 Web Server 모두 활성화</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> &#123;1..100&#125;; <span class="keyword">do</span> curl -s -q 75.2.44.82 ; <span class="keyword">done</span> | sort | uniq -c | sort -nr</span><br><span class="line">     46 &lt;h1&gt;CloudNeta Web Server_1 [Region= ap-southeast-2] &lt;/h1&gt;</span><br><span class="line">     44 &lt;h1&gt;CloudNeta Web Server_2 [Region= ap-southeast-2] &lt;/h1&gt;</span><br><span class="line">      5 &lt;h1&gt;CloudNeta Web Server_2 [Region= sa-east-1] &lt;/h1&gt;</span><br><span class="line">      5 &lt;h1&gt;CloudNeta Web Server_1 [Region= sa-east-1] &lt;/h1&gt;</span><br><span class="line">[root@ip-172-31-37-218 ec2-user]<span class="comment">#</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> &#123;1..100&#125;; <span class="keyword">do</span> curl -s -q 75.2.44.82 ; <span class="keyword">done</span> | sort | uniq -c | sort -nr</span><br><span class="line">     51 &lt;h1&gt;CloudNeta Web Server_2 [Region= ap-southeast-2] &lt;/h1&gt;</span><br><span class="line">     49 &lt;h1&gt;CloudNeta Web Server_1 [Region= ap-southeast-2] &lt;/h1&gt;</span><br><span class="line">[root@ip-172-31-37-218 ec2-user]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
@@ -941,7 +983,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-count">4</span>
           <span class="site-state-item-name">포스트</span>
         </a>
       </div>
