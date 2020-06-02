@@ -8,6 +8,14 @@
     </url>
 
     <url>
+        <loc>http://cloudneta.github.io/2020/05/15/SecurityGroup-NetworkACL/</loc>
+        <lastmod>2020-06-02T05:11:35.865Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>http://cloudneta.github.io/2020/05/06/Route53-Geoproximity/</loc>
         <lastmod>2020-06-02T03:57:45.702Z</lastmod>
         <changefreq>weekly</changefreq>

@@ -1,0 +1,1510 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+<meta name="naver-site-verification" content="0e8ced0bfa10b2d3e75a852580f99d3bba940a32" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Noto Serif KR:300,300italic,400,400italic,700,700italic|Noto Sans KR:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"cloudneta.github.io","root":"/","scheme":"Mist","version":"8.0.0-rc.3","exturl":true,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="작성자 : gasida.cloudnet@">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Security Group &amp; Network ACL">
+<meta property="og:url" content="http://cloudneta.github.io/2020/05/15/SecurityGroup-NetworkACL/index.html">
+<meta property="og:site_name" content="CloudNet@">
+<meta property="og:description" content="작성자 : gasida.cloudnet@">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:image" content="http://cloudneta.github.io/images/SG-ACL/security-diagram.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/SG-ACL/security-diagram1.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/SG-ACL/Untitled.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/SG-ACL/Untitled1.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/SG-ACL/2020-05-12-01.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/SG-ACL/2020-05-12-02.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/SG-ACL/2020-05-12-03.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/SG-ACL/2020-05-12-04.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/SG-ACL/Untitled2.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/SG-ACL/Untitled3.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/SG-ACL/2020-05-12-05.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/SG-ACL/2020-05-12-06.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/SG-ACL/Untitled4.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/SG-ACL/2020-05-12-07.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/SG-ACL/2020-05-12-08.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/SG-ACL/Untitled5.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/SG-ACL/Untitled6.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/SG-ACL/Untitled7.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/SG-ACL/Untitled8.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/SG-ACL/2020-05-13-01.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/SG-ACL/2020-05-13-02.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/SG-ACL/Untitled9.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/SG-ACL/Untitled10.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/SG-ACL/Untitled11.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/SG-ACL/2020-05-13-03.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/SG-ACL/2020-05-13-04.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/SG-ACL/Untitled12.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/SG-ACL/2020-05-13-05.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/SG-ACL/Untitled13.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/SG-ACL/2020-05-13-06.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/SG-ACL/2020-05-13-07.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/SG-ACL/2020-05-13-08.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/SG-ACL/2020-05-13-09.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/SG-ACL/2020-05-13-10.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/SG-ACL/Untitled14.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/SG-ACL/Untitled15.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/SG-ACL/Untitled16.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/SG-ACL/Untitled17.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/SG-ACL/Untitled18.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/SG-ACL/Untitled19.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/SG-ACL/2020-05-14-01.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/SG-ACL/Untitled20.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/SG-ACL/2020-05-15-01.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/SG-ACL/Untitled21.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/SG-ACL/2020-05-15-02.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/SG-ACL/2020-05-15-03.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/SG-ACL/Untitled22.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/SG-ACL/2020-05-15-04.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/SG-ACL/Untitled23.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/SG-ACL/Untitled24.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/SG-ACL/Untitled25.png">
+<meta property="og:image" content="http://cloudneta.github.io/images/SG-ACL/Untitled26.png">
+<meta property="article:published_time" content="2020-05-15T04:07:00.000Z">
+<meta property="article:modified_time" content="2020-06-02T05:11:35.865Z">
+<meta property="article:author" content="CloudNet@">
+<meta property="article:tag" content="SecurityGroup">
+<meta property="article:tag" content="ACL">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://cloudneta.github.io/images/SG-ACL/security-diagram.png">
+
+<link rel="canonical" href="http://cloudneta.github.io/2020/05/15/SecurityGroup-NetworkACL/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'ko'
+  };
+</script>
+
+  <title>Security Group & Network ACL | CloudNet@</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/rss2.xml" title="CloudNet@" type="application/rss+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+        <span class="toggle-line toggle-line-first"></span>
+        <span class="toggle-line toggle-line-middle"></span>
+        <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">CloudNet@</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>홈</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>카테고리</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>아카이브</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>태그</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="ko">
+    <link itemprop="mainEntityOfPage" href="http://cloudneta.github.io/2020/05/15/SecurityGroup-NetworkACL/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="CloudNet@">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CloudNet@">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Security Group & Network ACL
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">작성일</span>
+
+              <time title="Post created: 2020-05-15 04:07:00" itemprop="dateCreated datePublished" datetime="2020-05-15T04:07:00+00:00">2020-05-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Updated at: 2020-06-02 05:11:35" itemprop="dateModified" datetime="2020-06-02T05:11:35+00:00">2020-06-02</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Network-Connectivity-Network-Security/" itemprop="url" rel="index"><span itemprop="name">Network Connectivity - Network Security</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2020/05/15/SecurityGroup-NetworkACL/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/05/15/SecurityGroup-NetworkACL/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><em>작성자 : gasida.cloudnet@</em></p>
+<a id="more"></a>
+
+<br>
+
+<details>
+<summary>AWS Document</summary>
+<div markdown="1">
+
+<ul>
+<li><span class="exturl" data-url="aHR0cHM6Ly9kb2NzLmF3cy5hbWF6b24uY29tL2tvX2tyL3ZwYy9sYXRlc3QvdXNlcmd1aWRlL1ZQQ19TZWN1cml0eUdyb3Vwcy5odG1s">AWS Security Group (보안 그룹)<i class="fa fa-external-link-alt"></i></span></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly9kb2NzLmF3cy5hbWF6b24uY29tL2tvX2tyL3ZwYy9sYXRlc3QvdXNlcmd1aWRlL3ZwYy1uZXR3b3JrLWFjbHMuaHRtbA==">AWS Network Access Control List (네트워크 ACL)<i class="fa fa-external-link-alt"></i></span></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly9kb2NzLmF3cy5hbWF6b24uY29tL2tvX2tyL3ZwYy9sYXRlc3QvdXNlcmd1aWRlL1ZQQ19TZWN1cml0eS5odG1s">보안 그룹과 네트워크 ACL 비교<i class="fa fa-external-link-alt"></i></span></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly9kb2NzLmF3cy5hbWF6b24uY29tL2tvX2tyL3ZwYy9sYXRlc3QvdXNlcmd1aWRlL3ZwYy1zZWN1cml0eS1iZXN0LXByYWN0aWNlcy5odG1s">VPC 보안 모범 사례<i class="fa fa-external-link-alt"></i></span></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly9kb2NzLmF3cy5hbWF6b24uY29tL2tvX2tyL3ZwYy9sYXRlc3QvdXNlcmd1aWRlL1ZQQ19TY2VuYXJpbzIuaHRtbCNWUENfU2NlbmFyaW8yX1NlY3VyaXR5">VPC 보안 예시<i class="fa fa-external-link-alt"></i></span></li>
+</ul>
+</div>
+</details>
+
+<hr>
+<br>
+
+<h2 id="0-AWS-Network-Security"><a href="#0-AWS-Network-Security" class="headerlink" title="0. AWS Network Security"></a>0. AWS Network Security</h2><ul>
+<li>VPC 의 보안을 강화하고 모니터링 하기 위한 여러 기능이 제공<ul>
+<li>Security Group</li>
+<li>Network ACL</li>
+<li>Network Security Check (Source Destination Check , Uncheck)</li>
+<li>VPC Flow Logs</li>
+<li>Traffic Mirroring</li>
+</ul>
+</li>
+</ul>
+<hr>
+<br>
+
+<h2 id="1-Security-Group"><a href="#1-Security-Group" class="headerlink" title="1. Security Group"></a>1. Security Group</h2><h3 id="1-1-Security-Group-보안-그룹-소개"><a href="#1-1-Security-Group-보안-그룹-소개" class="headerlink" title="1.1 Security Group (=보안 그룹) 소개"></a><span class="exturl" data-url="aHR0cHM6Ly9kb2NzLmF3cy5hbWF6b24uY29tL2tvX2tyL3ZwYy9sYXRlc3QvdXNlcmd1aWRlL1ZQQ19TZWN1cml0eUdyb3Vwcy5odG1s">1.1 Security Group (=보안 그룹) 소개<i class="fa fa-external-link-alt"></i></span></h3><ul>
+<li><p>인스턴스(Instance) 에 대한 인바운드(Inbound) 및 아웃바운드(Outbound) 트래픽을 제어하는 가상 방화벽 역할</p>
+</li>
+<li><p>인바운드(Inbound) 트래픽을 제어하는 규칙과 아웃바운드(Outbound) 트래픽을 제어하는 규칙은 각각 동작</p>
+<ul>
+<li><p>아웃바운드(Outbound) 는 별로 쓸모 없다</p>
+<p>  → 🙅🏻‍♀️ 외부 접속 제한 이나 Security Group ID를 통하여 특정 EC2 만 접속 제한 활용 가능</p>
+</li>
+</ul>
+</li>
+<li><p>🙋🏻‍♀️ 상태를 저장(<span class="exturl" data-url="aHR0cHM6Ly9lbi53aWtpcGVkaWEub3JnL3dpa2kvU3RhdGVmdWxfZmlyZXdhbGw=">Stateful<i class="fa fa-external-link-alt"></i></span>) ← 매우 중요한 개념 ⇒ 아래 1.4 에서 확인</p>
+<ul>
+<li>인스턴스에서 요청을 시작하면 해당 요청의 응답 트래픽은 인바운드 보안 그룹 규칙에 매칭되지 않아도 인바운드가 허용됨 (Allow Return Traffic)<ul>
+<li>Stateful 기능이 없을 경우 Stateless 라고 부르며 Network ACL이 대표적이다.<ul>
+<li>Network ACL 규칙은 요청 트래픽을 인바운드 규칙에 허용과 리턴 트래픽을 아웃바운드 규칙에 반드시 지정 필요.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>허용(Allow) 규칙을 지정할 수 있지만 거부(Deny, Block) 규칙은 지정할 수 없음</p>
+</li>
+<li><p>구성 요소</p>
+<ul>
+<li>Inbound Rule : source address + destination port (range)</li>
+<li>Outbound Rule : destination address + destination port (range)</li>
+<li><span class="exturl" data-url="aHR0cDovL3d3dy5pYW5hLm9yZy9hc3NpZ25tZW50cy9wcm90b2NvbC1udW1iZXJzL3Byb3RvY29sLW51bWJlcnMueGh0bWw=">IP Protocol<i class="fa fa-external-link-alt"></i></span> : TCP, UDP…</li>
+<li>ICMP types and codes</li>
+</ul>
+</li>
+<li><p>🙋🏻‍♀️ EC2 의 Linux OS 에서 동작하는 iptables 와는 전혀 별개이다. ⇒ 아래 1.4.5) 에서 확인</p>
+<ul>
+<li>Security Group는 보통 Hypervisor 단에서 제공되어 지는 기능이다. → 아래 그림 1-1-1 확인</li>
+</ul>
+</li>
+<li><p>인스턴스에 최대 5개의 Security Group(=보안 그룹)을 할당할 수 있음</p>
+</li>
+<li><p>VPC는 자동으로 기본 보안 그룹을 제공. 기본 보안 그룹은 삭제할 수 없음</p>
+<p>  <img src="/images/SG-ACL/security-diagram.png" alt="Security%20Group%20Network%20ACL%20ea8e94b888d349f1bed19bff39f8cd54/security-diagram.png"></p>
+<p>  그림 1-1-1 보안그룹은 하이버바이저레벨에서 제공됨</p>
+</li>
+</ul>
+<br>
+
+<h3 id="1-2-Network-ACL-소개"><a href="#1-2-Network-ACL-소개" class="headerlink" title="1.2 Network ACL 소개"></a><span class="exturl" data-url="aHR0cHM6Ly9kb2NzLmF3cy5hbWF6b24uY29tL2tvX2tyL3ZwYy9sYXRlc3QvdXNlcmd1aWRlL3ZwYy1uZXR3b3JrLWFjbHMuaHRtbA==">1.2 Network ACL 소개<i class="fa fa-external-link-alt"></i></span></h3><ul>
+<li><p>서브넷(Subnet) 기반의 인바운드(Inbound) 및 아웃바운드(Outbound) 트래픽을 제어하는 Second Level 보안 기능을 제공</p>
+</li>
+<li><p>인바운드(Inbound) 트래픽을 제어하는 규칙과 아웃바운드(Outbound) 트래픽을 제어하는 규칙은 각각 동작하나 밀접한 연관이 있음</p>
+</li>
+<li><p>보안 그룹(Security Group)과는 다르게 상태를 저장 하지 않음(Stateless)</p>
+<ul>
+<li><p>Network ACL 규칙은 요청 트래픽을 인바운드 규칙에 허용과 리턴 트래픽을 아웃바운드 규칙에 반드시 지정 필요</p>
+</li>
+<li><p>리턴 트래픽에 대한 제어를 위해서 휘발성 포트(Ephemeral port)에 대한 이해가 필요함 → 휘발성 포트 범위로 허용 필요</p>
+</li>
+<li><p>휘발성 포트(Ephemeral port, 혹은 ‘임시 포트’)</p>
+<ul>
+<li><p>예를 들면 웹클라이언트가 웹서버에 접속 시 웹서버는 TCP 80을 통하여 연결되고 웹클라이언트가 열게되는 임시 포트(예. TCP 52345) 를 <code>Ephemeral port</code> ‘잠시살아있는 포트’ 다.</p>
+</li>
+<li><p>클라이언트에서 사용되는 임시 포트는 OS 별 범위가 다르다</p>
+</li>
+<li><p>일반적으로 <span class="exturl" data-url="aHR0cHM6Ly9lbi53aWtpcGVkaWEub3JnL3dpa2kvRXBoZW1lcmFsX3BvcnQ=">IANA권고<i class="fa fa-external-link-alt"></i></span> 및 <strong>맥과 윈도우(49152~65535)</strong>, Linux(32768~61000) → 아래 Code 창 확인</p>
+</li>
+<li><p>임시 포트 관련 참고 링크</p>
+<ul>
+<li><span class="exturl" data-url="aHR0cHM6Ly9lbi53aWtpcGVkaWEub3JnL3dpa2kvRXBoZW1lcmFsX3BvcnQ=">https://en.wikipedia.org/wiki/Ephemeral_port<i class="fa fa-external-link-alt"></i></span></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly93d3cuY3ltcnUuY29tL2p0ay9taXNjL2VwaGVtZXJhbHBvcnRzLmh0bWw=">https://www.cymru.com/jtk/misc/ephemeralports.html<i class="fa fa-external-link-alt"></i></span></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly93d3cuY3liZXJjaXRpLmJpei90aXBzL2xpbnV4LWluY3JlYXNlLW91dGdvaW5nLW5ldHdvcmstc29ja2V0cy1yYW5nZS5odG1s">https://www.cyberciti.biz/tips/linux-increase-outgoing-network-sockets-range.html<i class="fa fa-external-link-alt"></i></span></li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 리눅스에서 사용되는 임시 포트(Ephemeral port) 범위 확인</span></span><br><span class="line">$ cat /proc/sys/net/ipv4/ip_local_port_range</span><br><span class="line">32768	60999</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>보안 그룹(Security Group)과는 다르게 허용 및 거부(차단) 규칙을 지정 가능</p>
+</li>
+<li><p>보안 그룹(Security Group)과는 다르게 Network ACL이 적용된 모든 서브넷 내부에 인스턴스(EC2)에 영향을 미침</p>
+<ul>
+<li>Network ACL은 여러 개의 서브넷에 연결될 수 있음</li>
+</ul>
+</li>
+<li><p>구성요소</p>
+<ul>
+<li>source (inbound) or destination (outbound) addresses (CIDR block)</li>
+<li>IP protocols (TCP, UDP…)</li>
+<li>destination port numbers</li>
+</ul>
+</li>
+<li><p>트래픽 허용 여부 판단 시 번호순번 대로의 규칙으로 처리함</p>
+<p>  <img src="/images/SG-ACL/security-diagram1.png" alt="Security%20Group%20Network%20ACL%20ea8e94b888d349f1bed19bff39f8cd54/security-diagram%201.png"></p>
+<p>  그림 1-2 네트워크ACL은 서브넷(Subnet) 기반에서 동작</p>
+</li>
+</ul>
+<p><span class="exturl" data-url="aHR0cHM6Ly9kb2NzLmF3cy5hbWF6b24uY29tL2tvX2tyL3ZwYy9sYXRlc3QvdXNlcmd1aWRlL1ZQQ19TZWN1cml0eS5odG1s">보안 그룹(Security Group) 과 네트워크 ACL 간 차이<i class="fa fa-external-link-alt"></i></span></p>
+<p><img src="/images/SG-ACL/Untitled.png" alt="Security%20Group%20Network%20ACL%20ea8e94b888d349f1bed19bff39f8cd54/Untitled.png"></p>
+<br>
+
+<h3 id="1-3-실습을-위한-구성"><a href="#1-3-실습을-위한-구성" class="headerlink" title="1.3 실습을 위한 구성"></a>1.3 실습을 위한 구성</h3><p>1.3.1) Lab Topology</p>
+<ul>
+<li><p><code>서울</code> Region 에 신규 VPC에 신규 EC2 Instance (웹 서버) 가 배치되어 있고 각자 자신의 집PC(HomePC)에서 EC2(웹 서버)를 접속한다</p>
+<p>  <img src="/images/SG-ACL/Untitled1.png" alt="Security%20Group%20Network%20ACL%20ea8e94b888d349f1bed19bff39f8cd54/Untitled%201.png"></p>
+</li>
+</ul>
+<p>1.3.2) 구성을 위한 기본 설정</p>
+<ul>
+<li>본 실습에서 활용할 AWS Region은 <code>서울</code> 입니다. 해당 Region에 대한 <em>EC2-Key Pair</em>를 생성</li>
+<li><code>서울</code> Region 에 리소스는 <em>CloudFormation</em>에 의해 인프라를 자동 구축 (1.3.3항에서 진행)</li>
+</ul>
+<p>1.3.3) CloudFormation</p>
+<details>
+<summary><b>서울 Region에서 CloudFormation 스택을 생성한다.</summary></b>
+<div markdown="1">
+
+<ul>
+<li>1단계 템플릿 지정<ul>
+<li>템플릿 준비 : 준비된 템플릿</li>
+<li>템플릿 소스 : Amazon S3 URL</li>
+<li>Amazon S3 URL : <span class="exturl" data-url="aHR0cHM6Ly9zMy5hcC1ub3J0aGVhc3QtMi5hbWF6b25hd3MuY29tL2Nsb3VkZm9ybWF0aW9uLmNsb3VkbmV0YS5uZXQvTmV0d29ya1NlY3VyaXR5L05ldHdvcmstU2VjdXJpdHlfU2VjdXJpdHlHcm91cC55YW1s">https://s3.ap-northeast-2.amazonaws.com/cloudformation.cloudneta.net/NetworkSecurity/Network-Security_SecurityGroup.yaml<i class="fa fa-external-link-alt"></i></span><ul>
+<li>우측 하단 <code>다음</code> 클릭</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>2단계 스택 세부 정보 지정<ul>
+<li>스택 이름 : SG</li>
+<li>KeyName : 자신의 <em>EC2-Key Pair</em> 를 지정</li>
+</ul>
+</li>
+<li>3단계 스택 옵션 구성<ul>
+<li>우측 하단 <code>다음</code> 클릭</li>
+</ul>
+</li>
+<li>4단계 검토<ul>
+<li>우측 하단 <code>스택 생성</code> 클릭</li>
+</ul>
+</li>
+</ul>
+</div>
+</details>
+
+<details>
+<summary><b>서울 CloudFormation 생성 인프라</summary></b>
+<div markdown="1">
+
+<pre><code>- VPC, 1 Subnet, 1 IGW, 1 Route table
+- Amazon Linux 2 EC2 Instance(Public IP, User data 사용)</code></pre></div>
+</details>
+
+<br>
+
+<p>1.3.4) 검증</p>
+<ul>
+<li><p>사용자 PC에서 <code>서울</code> EC2 Instance Public IP 주소로 SSH 접근한다. 접속 계정 root / qwe123</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ ssh root@13.209.10.34</span><br><span class="line">root@13.209.10.34<span class="string">'s password: qwe123</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>1.3.5) 실습 전 사전 설정</p>
+<details>
+<summary>보안 그룹 '아웃바운드 규칙' 에서 기본 규칙을 삭제한다</summary>
+<div markdown="1">
+
+<ul>
+<li><p>보안 그룹 중 설명 ‘EC2-Instance-SG’ 클릭하여 선택 후 ‘아웃바운드 규칙’ 선택 후 ‘아웃바운드 규칙 편집’ 선택</p>
+<p>  <img src="/images/SG-ACL/2020-05-12-01.png" alt="Security%20Group%20Network%20ACL%20ea8e94b888d349f1bed19bff39f8cd54/_2020-05-12__9.06.41.png"></p>
+<ul>
+<li><p>기본 규칙을 삭제 - 유형(모든 트래픽) 대상(0.0.0.0) ⇒ 하단 <code>규칙 저장</code></p>
+<p><img src="/images/SG-ACL/2020-05-12-02.png" alt="Security%20Group%20Network%20ACL%20ea8e94b888d349f1bed19bff39f8cd54/_2020-05-12__9.08.43.png"></p>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</details>
+
+<ul>
+<li><del>(옵션) VPC Flow Logs 를 설정한다 ← 이 부분은 IAM , CloudWatch 기본 지식이 필요함으로 필자만 설정하게되니 Skip 하면 된다</del></li>
+</ul>
+<details>
+<summary>정보 숨김</summary>
+<div markdown="1">
+
+<ul>
+<li>EC2 ENI 에 VPC Flow Logs 설정<ul>
+<li>Filter: Reject</li>
+<li>Interval : 1분</li>
+<li>Format : Custom format</li>
+<li>${srcaddr} ${srcport} ${dstaddr} ${dstport} ${tcp-flags} ${protocol} ${action}<ul>
+<li><span class="exturl" data-url="aHR0cHM6Ly93d3cubWFuaXRvbmV0d29ya3MuY29tL2Zsb3ctbWFuYWdlbWVudC8yMDE2LzEwLzE2L2RlY29kaW5nLXRjcC1mbGFncw==">tcp-flags 참고<i class="fa fa-external-link-alt"></i></span><ul>
+<li>SYN : 2</li>
+<li>SYN-ACK : 18</li>
+<li>FIN : 1</li>
+<li>RST : 4</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>EC2 ENI 로그 발생 → 차단 발생 후 1분30초 후에 로그에 쌓임</li>
+</ul>
+</li>
+<li><span class="exturl" data-url="aHR0cHM6Ly9kb2NzLmF3cy5hbWF6b24uY29tL2tvX2tyL0FtYXpvbkNsb3VkV2F0Y2gvbGF0ZXN0L2xvZ3MvRmlsdGVyQW5kUGF0dGVyblN5bnRheC5odG1s">CloudWatch Log 필터 참고<i class="fa fa-external-link-alt"></i></span><ul>
+<li>“220.117.X.X” “10.40.1.100” ← 2개의 IP가 동시 일치 필터(AND)</li>
+<li>?”220.117.X.X” ?”10.40.1.100” ← 2개의 IP중 하나만 일치 필터(OR)</li>
+<li>?”80 2 6” ?”22 2 6” ← TCP 80 SYN 혹은 TCP 22 SYN 의 OR 필터</li>
+<li>“80 2 6” -“443” -“805” -“808” -“809” -“123” ← TCP 80 SYN 필터</li>
+<li>“22 2 6” -“443” -“805” -“808” -“809” -“123” ← TCP 22 SYN 필터</li>
+<li>“10.40.1.100” “80 2 6” -“443” -“805” -“808” -“809” -“123” ← EC2로 Web 시도 필터</li>
+<li>“10.40.1.100” “22 2 6” -“443” -“805” -“808” -“809” -“123” ← EC2로 SSH 시도 필터</li>
+</ul>
+</li>
+</ul>
+</div>
+</details>
+
+<br>
+
+<h3 id="1-4-Security-Group-설정-및-확인"><a href="#1-4-Security-Group-설정-및-확인" class="headerlink" title="1.4 Security Group 설정 및 확인"></a>1.4 Security Group 설정 및 확인</h3><p>1.4.1) 현재 EC2 에 적용된 Security Group 확인</p>
+<ul>
+<li><p>인바운드 규칙 : 해당 EC2에 SSH로 어느 사용자(0.0.0.0/0)든 접속 가능</p>
+<p>  <img src="/images/SG-ACL/2020-05-12-03.png" alt="Security%20Group%20Network%20ACL%20ea8e94b888d349f1bed19bff39f8cd54/_2020-05-12__10.15.45.png"></p>
+</li>
+<li><p>아웃바운드 규칙 : 아무 정책이 없으므로 모든 트래픽을 차단</p>
+<p>  <img src="/images/SG-ACL/2020-05-12-04.png" alt="Security%20Group%20Network%20ACL%20ea8e94b888d349f1bed19bff39f8cd54/_2020-05-12__10.18.04.png"></p>
+</li>
+</ul>
+<p>1.4.2) 외부에서 EC2로 SSH 접속 및 확인</p>
+<ul>
+<li><p><strong>(1)</strong> 외부(HomePC)에서 목적지IP를 EC2의 EIP(13.209.10.34)로 접속을 하면, 아래 그림 처럼 NAT 기능에 의해서 EC2 Private IP(10.40.1.100)으로 변환하게 됨</p>
+</li>
+<li><p><strong>(2)</strong> 인바운드 규칙에 목적지Port 22와 출발지IP는 0.0.0.0/0 으로 허용이므로 EC2 내부로 전달함</p>
+</li>
+<li><p><strong>(3)</strong> EC2 내부 어플리케이션(SSH)에서 처리 후 리턴 트래픽(Return Traffic)는 IP와 Port를 출발지와 목적지를 바꾼 후 되돌아간다</p>
+</li>
+<li><p><strong>(4)</strong> 아웃바운드 규칙에 아무 규칙이 없으므로 원칙적으로는 모든 트래픽이 EC2에서 외부로 빠저나가지 못해야 하지만 빠져나간다 🤷🏻‍♀️</p>
+<ul>
+<li>이유는 Stateful 동작에 의해 EC2로 인입 시 상태를 기억하고, 해당 트래픽이 리턴(Return) 시 해당 트래픽은 아웃바운드 규칙과 상관없이 허용됨</li>
+</ul>
+</li>
+<li><p>리턴 트래픽(Return Traffic)는 IP와 Port를 출발지와 목적지를 바꾼 후 되돌아간다</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ ssh root@13.209.10.34</span><br><span class="line">root@13.209.10.34<span class="string">'s password:</span></span><br><span class="line"><span class="string">[root@SGLAB-EC2 ~]# netstat -nap | grep ESTABLISHED</span></span><br><span class="line"><span class="string">tcp        0      0 10.40.1.100:22          220.117.X.X:54812   ESTABLISHED 338/sshd: root@pts/</span></span><br></pre></td></tr></table></figure>
+
+<p>  <img src="/images/SG-ACL/Untitled2.png" alt="Security%20Group%20Network%20ACL%20ea8e94b888d349f1bed19bff39f8cd54/Untitled%202.png"></p>
+</li>
+</ul>
+<p>1.4.3) 내부 EC2에서 외부로 HTTP 접속 및 확인</p>
+<ul>
+<li><p>내부 EC2에서 외부로 접속 시 아웃바운드 규칙에 의해서 차단됨</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># curl ifconfig.me</span></span><br><span class="line">curl: (7) Failed to connect to ifconfig.me port 80: Connection timed out</span><br><span class="line"></span><br><span class="line"><span class="comment"># netstat -nap |grep curl</span></span><br><span class="line">tcp        0      1 10.40.1.100:34972       216.239.36.21:80        SYN_SENT    418/curl</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>현재 아웃바운드 규칙은 아무 규칙도 없음</p>
+<p>  <img src="/images/SG-ACL/Untitled3.png" alt="Security%20Group%20Network%20ACL%20ea8e94b888d349f1bed19bff39f8cd54/Untitled%203.png"></p>
+</li>
+<li><p>(옵션) VPC Flow-logs 에도 내부EC2(10.40.1.100)이 외부(216.239.36.21)로 TCP 80 으로 접속 시도에서 차단(REJECT) 됨을 확인</p>
+<p>  <img src="/images/SG-ACL/2020-05-12-05.png" alt="Security%20Group%20Network%20ACL%20ea8e94b888d349f1bed19bff39f8cd54/_2020-05-12__10.45.18.png"></p>
+</li>
+<li><p>위를 통하여 인바운드와 아웃바운드 규칙이 각기 개별로 동작하는 것을 알 수 있고, Stateful 동작을 알 수 있다</p>
+</li>
+</ul>
+<p>1.4.4) 내부 EC2에서 외부로 HTTP 접속 설정을 위한 아웃바운드 규칙 추가 및 확인</p>
+<ul>
+<li><p>아웃바운드 규칙에 HTTP 접속을 추가한다</p>
+<p>  <img src="/images/SG-ACL/2020-05-12-06.png" alt="Security%20Group%20Network%20ACL%20ea8e94b888d349f1bed19bff39f8cd54/_2020-05-12__10.52.28.png"></p>
+</li>
+<li><p>다시 내부에서 외부로 HTTP 접속을 시도한다 → 아래 처럼 정상적으로 응답이 돌아온다</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ifconfig.me 로 curl 시 자신의 PC가 인터넷 접속 시 자신의 공인IP를 알려줌</span></span><br><span class="line"><span class="comment"># curl ifconfig.me</span></span><br><span class="line">13.209.10.34</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>아래 처럼 아웃바운드로 트래픽이 외부로 나갔다가 되돌아오는(Return) 트래픽은 인바운드 규칙에 없지만, Stateful 동작에 의해서 허용됨</p>
+<p>  <img src="/images/SG-ACL/Untitled4.png" alt="Security%20Group%20Network%20ACL%20ea8e94b888d349f1bed19bff39f8cd54/Untitled%204.png"></p>
+</li>
+</ul>
+<blockquote>
+<p>💡 일반적으로 아웃바운드에 규칙을 잘 사용하지는 않지만, 보안 강화가 필요 시(예, 민감한 정보가 전달 등) 실제 해당 EC2에서 외부에 접속을 시도하는 TCP UDP 서비스 포트 혹은 외부 접속 지 IP 정보만 접속 할 수 있게 제한을 할 수 있다.</p>
+</blockquote>
+<br>
+
+<p>1.4.5) 외부에서 내부 EC2로 HTTP 접속을 위한 설정 및 확인</p>
+<ul>
+<li><p>현재 상태에서 확인</p>
+<ul>
+<li><p>내부 EC2 에서 웹서비스 상태 확인 → 정상 접속 되며, iptables 에 아무런 정책이 없음(즉 모두 허용)</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># curl localhost</span></span><br><span class="line">&lt;html&gt;&lt;h1&gt;Hello from Security Group Test Web Server&lt;/h1&gt;&lt;/html&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># netstat -anp |grep http</span></span><br><span class="line">tcp6       0      0 :::80                   :::*                    LISTEN      3563/httpd</span><br><span class="line"></span><br><span class="line"><span class="comment"># iptables -L -n -v</span></span><br><span class="line">Chain INPUT (policy ACCEPT 208 packets, 14524 bytes)</span><br><span class="line"> pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination</span><br><span class="line"></span><br><span class="line">Chain FORWARD (policy ACCEPT 0 packets, 0 bytes)</span><br><span class="line"> pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination</span><br><span class="line"></span><br><span class="line">Chain OUTPUT (policy ACCEPT 122 packets, 12192 bytes)</span><br><span class="line"> pkts bytes target     prot opt <span class="keyword">in</span>     out     <span class="built_in">source</span>               destination</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>외부에서 EC2로 웹 접속 → 인바운드 규칙에 현재 TCP 22(SSH)만 허용되므로 차단됨</p>
+<p>  ⇒ 즉, 현재 차단은 Linux OS의 iptables 와는 상관 없다는 것이다! , 물론 iptables 설정으로 차단할 수 있으나 운영 관리의 복잡성으로 비권장한다</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ curl 13.209.10.34</span><br><span class="line">curl: (7) Failed to connect to 13.209.10.34 port 80: Operation timed out</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>(옵션) VPC Flow-logs 에도 차단(REJECT) 됨을 확인</p>
+<p>  <img src="/images/SG-ACL/2020-05-12-07.png" alt="Security%20Group%20Network%20ACL%20ea8e94b888d349f1bed19bff39f8cd54/_2020-05-12__11.17.57.png"></p>
+</li>
+</ul>
+</li>
+<li><p>인바운드 규칙에 HTTP 추가</p>
+<p>  <img src="/images/SG-ACL/2020-05-12-08.png" alt="Security%20Group%20Network%20ACL%20ea8e94b888d349f1bed19bff39f8cd54/_2020-05-12__11.19.33.png"></p>
+</li>
+<li><p>외부에서 EC2로 웹 접속 → 성공!</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ curl 13.209.10.34</span><br><span class="line">&lt;html&gt;&lt;h1&gt;Hello from Security Group Test Web Server&lt;/h1&gt;&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>아래 그림 처럼 <strong>(1)</strong> 외부에서 EIP로 HTTP로 접속되고 NAT 후 <strong>(2)</strong> 인바운드 규칙(TCP 80)에 허용되어 <strong>(3)</strong> EC2 내부로 인입되어 어플리케이션에서 처리 후 <strong>(4)</strong> 트래픽이 리턴 된다.</p>
+<p>  <img src="/images/SG-ACL/Untitled5.png" alt="Security%20Group%20Network%20ACL%20ea8e94b888d349f1bed19bff39f8cd54/Untitled%205.png"></p>
+</li>
+</ul>
+<br>
+
+<h3 id="1-5-생성한-자원-삭제"><a href="#1-5-생성한-자원-삭제" class="headerlink" title="1.5 생성한 자원 삭제"></a>1.5 생성한 자원 삭제</h3><ul>
+<li><code>서울</code> Region에서 CloudFormation 스택을 삭제한다</li>
+</ul>
+<hr>
+<br>
+
+<h2 id="2-Network-Access-Control-List"><a href="#2-Network-Access-Control-List" class="headerlink" title="2. Network Access Control List"></a>2. Network Access Control List</h2><h3 id="2-1-실습을-위한-구성"><a href="#2-1-실습을-위한-구성" class="headerlink" title="2.1 실습을 위한 구성"></a>2.1 실습을 위한 구성</h3><p>2.1.1) Lab Topology</p>
+<ul>
+<li><p><code>서울</code> Region 에 신규 VPC에 신규 EC2 Instance (웹 서버) 2대가 배치되어 있고 각자 자신의 집PC(HomePC)에서 EC2(웹 서버)를 접속한다</p>
+<p>  <img src="/images/SG-ACL/Untitled6.png" alt="Security%20Group%20Network%20ACL%20ea8e94b888d349f1bed19bff39f8cd54/Untitled%206.png"></p>
+</li>
+</ul>
+<p>2.1.2) 구성을 위한 기본 설정</p>
+<ul>
+<li>본 실습에서 활용할 AWS Region은 <code>서울</code> 입니다. 해당 Region에 대한 <em>EC2-Key Pair</em>를 생성</li>
+<li><code>서울</code> Region 에 리소스는 <em>CloudFormation</em>에 의해 인프라를 자동 구축 (2.1.3항에서 진행)</li>
+</ul>
+<p>2.1.3) CloudFormation</p>
+<details>
+<summary><b>서울 Region에서 CloudFormation 스택을 생성한다.</summary></b>
+<div markdown="1">
+
+<ul>
+<li>1단계 템플릿 지정<ul>
+<li>템플릿 준비 : 준비된 템플릿</li>
+<li>템플릿 소스 : Amazon S3 URL</li>
+<li>Amazon S3 URL : <span class="exturl" data-url="aHR0cHM6Ly9zMy5hcC1ub3J0aGVhc3QtMi5hbWF6b25hd3MuY29tL2Nsb3VkZm9ybWF0aW9uLmNsb3VkbmV0YS5uZXQvTmV0d29ya1NlY3VyaXR5L05ldHdvcmstTmV0d29ya0FDTC55YW1s">https://s3.ap-northeast-2.amazonaws.com/cloudformation.cloudneta.net/NetworkSecurity/Network-NetworkACL.yaml<i class="fa fa-external-link-alt"></i></span><ul>
+<li>우측 하단 <code>다음</code> 클릭</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>2단계 스택 세부 정보 지정<ul>
+<li>스택 이름 : NACL</li>
+<li>KeyName : 자신의 <em>EC2-Key Pair</em> 를 지정</li>
+</ul>
+</li>
+<li>3단계 스택 옵션 구성<ul>
+<li>우측 하단 <code>다음</code> 클릭</li>
+</ul>
+</li>
+<li>4단계 검토<ul>
+<li>우측 하단 <code>스택 생성</code> 클릭</li>
+</ul>
+</li>
+</ul>
+</div>
+</details>
+
+<details>
+<summary><b>서울 CloudFormation 생성 인프라</summary></b>
+<div markdown="1">
+
+<pre><code>- VPC, 1 Subnet, 1 IGW, 1 Route table
+- Amazon Linux 2 EC2 Instance(User data 사용) - 2대</code></pre></div>
+</details>
+
+<br>
+
+<p>2.1.4) 검증</p>
+<ul>
+<li><p>사용자 PC에서 <code>서울</code> EC2(2대)의 Public IP 주소로 각각 SSH 접근한다. 접속 계정 root / qwe123</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ ssh root@*<span class="string">'EC2 Public IP'</span>*</span><br><span class="line">root@*<span class="string">'EC2 Public IP'</span>*s password: qwe123</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>2.1.5) 실습 전 사전 설정</p>
+<details>
+<summary>보안 그룹 '인바운드 규칙' 과 '아웃바운드 규칙' 은 '모두 허용' 되고 있음을 확인 → Network ACL 실습에 영향도를 제거하기 위함</summary>
+<div markdown="1">
+
+<p><img src="/images/SG-ACL/Untitled7.png" alt="Security%20Group%20Network%20ACL%20ea8e94b888d349f1bed19bff39f8cd54/Untitled%207.png"></p>
+<p><img src="/images/SG-ACL/Untitled8.png" alt="Security%20Group%20Network%20ACL%20ea8e94b888d349f1bed19bff39f8cd54/Untitled%208.png"></p>
+</div>
+</details>
+
+<ul>
+<li><del>(옵션) VPC Flow Logs 를 설정한다 ← 이 부분은 IAM , CloudWatch 기본 지식이 필요함으로 필자만 설정하게되니 Skip 하시면 된다</del></li>
+</ul>
+<details>
+<summary>정보 숨김</summary>
+<div markdown="1">
+
+<ul>
+<li>Subnet(SGLAB2-Subnet0101) 에 VPC Flow Logs 설정<ul>
+<li>Filter: Reject</li>
+<li>Interval : 1분</li>
+<li><span class="exturl" data-url="aHR0cHM6Ly9kb2NzLmF3cy5hbWF6b24uY29tL2tvX2tyL3ZwYy9sYXRlc3QvdXNlcmd1aWRlL2Zsb3ctbG9ncy5odG1sI2Zsb3ctbG9nLXJlY29yZHM=">Format<i class="fa fa-external-link-alt"></i></span> : Custom format</li>
+<li>${srcaddr} ${srcport} ${dstaddr} ${dstport} ${tcp-flags} ${protocol} ${action}<ul>
+<li><span class="exturl" data-url="aHR0cHM6Ly93d3cubWFuaXRvbmV0d29ya3MuY29tL2Zsb3ctbWFuYWdlbWVudC8yMDE2LzEwLzE2L2RlY29kaW5nLXRjcC1mbGFncw==">tcp-flags 참고<i class="fa fa-external-link-alt"></i></span><ul>
+<li>SYN : 2</li>
+<li>SYN-ACK : 18</li>
+<li>FIN : 1</li>
+<li>RST : 4</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>EC2 ENI 로그 발생 → 차단 발생 후 1분30초 후에 로그에 쌓임</li>
+</ul>
+</li>
+<li><span class="exturl" data-url="aHR0cHM6Ly9kb2NzLmF3cy5hbWF6b24uY29tL2tvX2tyL0FtYXpvbkNsb3VkV2F0Y2gvbGF0ZXN0L2xvZ3MvRmlsdGVyQW5kUGF0dGVyblN5bnRheC5odG1s">CloudWatch Log 필터 참고<i class="fa fa-external-link-alt"></i></span><ul>
+<li>“220.117.X.X” “10.40.1.100” ← 2개의 IP가 동시 일치 필터(AND)</li>
+<li>?”220.117.X.X” ?”10.40.1.100” ← 2개의 IP중 하나만 일치 필터(OR)</li>
+<li>?”80 2 6” ?”22 2 6” ← TCP 80 SYN 혹은 TCP 22 SYN 의 OR 필터</li>
+<li>“80 2 6” -“443” -“805” -“808” -“809” -“123” ← TCP 80 SYN 필터</li>
+<li>“22 2 6” -“443” -“805” -“808” -“809” -“123” ← TCP 22 SYN 필터</li>
+<li>“10.40.1.100” “80 2 6” -“443” -“805” -“808” -“809” -“123” ← EC2로 Web 시도 필터</li>
+<li>“10.40.1.100” “22 2 6” -“443” -“805” -“808” -“809” -“123” ← EC2로 SSH 시도 필터</li>
+</ul>
+</li>
+</ul>
+</div>
+</details>
+
+<br>
+
+<h3 id="2-2-Network-ACL-설정-및-확인"><a href="#2-2-Network-ACL-설정-및-확인" class="headerlink" title="2.2 Network ACL 설정 및 확인"></a>2.2 Network ACL 설정 및 확인</h3><p>2.2.1) 현재 Subnet(SGLAB2-Subnet0101) 에 적용된 Network ACL 확인</p>
+<ul>
+<li><p>(default) Network ACL 인바운드 규칙 : 기본적으로 ‘rule #100 모든 트래픽을 허용’ 함, 맨 하단은 모두 차단으로 우선 순서가 낮아서 현재 적용되지 않음</p>
+<p>  <img src="/images/SG-ACL/2020-05-13-01.png" alt="Security%20Group%20Network%20ACL%20ea8e94b888d349f1bed19bff39f8cd54/_2020-05-13__9.38.44.png"></p>
+</li>
+<li><p>(default) Network ACL 아웃바운드 규칙 : 위 인바운드 규칙과 동일, 모든 트래픽을 허용</p>
+<p>  <img src="/images/SG-ACL/2020-05-13-02.png" alt="Security%20Group%20Network%20ACL%20ea8e94b888d349f1bed19bff39f8cd54/_2020-05-13__9.44.11.png"></p>
+</li>
+</ul>
+<p>2.2.2) 신규 Network ACL 생성 적용 및 확인</p>
+<ul>
+<li><p>[VPC - 보안 - 네트워크 ACL] 상단 <code>네트워크 ACL 생성</code> 클릭</p>
+<ul>
+<li>이름 태그 : NACL1</li>
+<li>VPC : (SGLAB2) 선택<ul>
+<li>하단 <code>생성</code> 클릭</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>[VPC - 보안 - 네트워크 ACL] 생성된 <code>NACL1</code> 선택 → 상단 <code>작업</code> 선택 → <code>서브넷 연결 편집</code> 클릭</p>
+<ul>
+<li><p>아래 처럼 10.41.0.0/24 서브넷은 연결 해주기 위해서 선택 후 하단 <code>편집</code> 클릭</p>
+<p>  <img src="/images/SG-ACL/Untitled9.png" alt="Security%20Group%20Network%20ACL%20ea8e94b888d349f1bed19bff39f8cd54/Untitled%209.png"></p>
+</li>
+</ul>
+</li>
+<li><p>[VPC - 보안 - 네트워크 ACL] 생성된 <code>NACL1</code> 선택 후 default 규칙 확인</p>
+<ul>
+<li><p>신규 생성된 Network ACL 인바운드 규칙 : 인입되는 모든 트래픽을 차단</p>
+<p>  <img src="/images/SG-ACL/Untitled10.png" alt="Security%20Group%20Network%20ACL%20ea8e94b888d349f1bed19bff39f8cd54/Untitled%2010.png"></p>
+</li>
+<li><p>신규 생성된 Network ACL 아웃바운드 규칙 : 인입되는 모든 트래픽을 차단</p>
+<p>  <img src="/images/SG-ACL/Untitled11.png" alt="Security%20Group%20Network%20ACL%20ea8e94b888d349f1bed19bff39f8cd54/Untitled%2011.png"></p>
+</li>
+</ul>
+</li>
+</ul>
+<p>2.2.3) NACL1 Network ACL 규칙 편집 1</p>
+<ul>
+<li><p>목적 : 외부에서 EC2대역에 대한 SSH 접속을 허용 (Network ACL inbound outbound rule)</p>
+</li>
+<li><p>NACL Name: NACL1 선택 후 Inbound Rule (인바운드 규칙) 편집</p>
+<ul>
+<li><p>규칙(10), 유형(SSH) - 프로토콜(TCP), 포트범위(22), 소스(0.0.0.0/0), 허용/거부(ALLOW)</p>
+<ul>
+<li>포트범위는 트래픽 인입 시 목적지 포트 범위이다</li>
+<li>소스IP는 트래픽 인입 시 출발지IP 범위이다<ul>
+<li>이후 저장 시 최하단에 모든 트래픽을 거부 DENY Rule 이 존재한다</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>아웃바운드 규칙도 기본(디폴트)로 모든 트래픽을 거부 DENY Rule 이 존재한다</p>
+<p>  <img src="/images/SG-ACL/2020-05-13-03.png" alt="Security%20Group%20Network%20ACL%20ea8e94b888d349f1bed19bff39f8cd54/_2020-05-13__9.57.39.png"></p>
+</li>
+</ul>
+</li>
+<li><p>외부에서 EC2 로 SSH 접속 확인</p>
+<ul>
+<li><p>외부에서 EC2 SSH 접속이 불가능하다</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">HomePC$ ssh root@13.125.132.54</span><br><span class="line">ssh: connect to host 13.125.132.54 port 22: Operation timed out</span><br><span class="line"></span><br><span class="line">HomePC$ ssh root@52.78.166.174</span><br><span class="line">ssh: connect to host 52.78.166.174 port 22: Operation timed out</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>(옵션) Cloudwatch 에도 EC2로 인입되었지만 리턴 트래픽(TCP-SYN 은 18로 표현)이 outbound rule 에 의해서 REJECT 됨을 확인</p>
+<p>  <img src="/images/SG-ACL/2020-05-13-04.png" alt="Security%20Group%20Network%20ACL%20ea8e94b888d349f1bed19bff39f8cd54/_2020-05-13__10.02.11.png"></p>
+</li>
+<li><p>이유 : inbound rule 허용되지만 이후 응답 트래픽이 outbound rule 에 의해 차단</p>
+<p>  ⇒ 보안 규칙(Security group)과는 다르게 Stateful 하지 않고, Stateless 하기 때문에 리턴 트래픽에 대한 허용을 아웃바운드 규칙에 추가해야 한다</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>트래픽 흐름에 따른 설명</p>
+<ul>
+<li><p><strong>(1)</strong> 외부(HomePC)에서 EC2의 PublicIP(13.125.132.54)로 SSH 접속을 시도한다</p>
+</li>
+<li><p><strong>(2)</strong> NAT 기능에 의해서 목적지 PublicIP(13.125.132.54) 를 PrivateIP(10.40.1.100)으로 변경한다</p>
+</li>
+<li><p><strong>(3)</strong> Network ACL에 의해서 출발지IP가 0.0.0.0/0 이고 목적지 포트 SSH 22 이므로 허용(ALLOW) 된다</p>
+</li>
+<li><p><strong>(4)</strong> EC2 내부의 SSH 어플리케이션이 처리 한다</p>
+</li>
+<li><p><strong>(5)</strong> 리턴 트래픽이므로 출발지와 목적지의 IP와 Port 가 뒤바뀌어 전달된다</p>
+</li>
+<li><p><strong>(6)</strong> 리턴 트래픽이 Network ACL 아웃바운드에 규칙에 의해서 차단 된다</p>
+<p>  <img src="/images/SG-ACL/Untitled12.png" alt="Security%20Group%20Network%20ACL%20ea8e94b888d349f1bed19bff39f8cd54/Untitled%2012.png"></p>
+</li>
+</ul>
+</li>
+</ul>
+<p>2.2.4) NACL1 Network ACL 규칙 편집 2 - Stateless 이므로 리턴 트래픽(Return)에 대한 허용 추가</p>
+<ul>
+<li><p>NACL Name: NACL1 선택 후 Outbound Rule (아웃바운드 규칙) 편집</p>
+<ul>
+<li>규칙(110), 유형(사용자지정TCP규칙) - 프로토콜(TCP), 포트범위(32768-65535), 대상(0.0.0.0/0), 허용/거부(ALLOW)<ul>
+<li>포트범위는 돌아가는 트래픽의 목적지 포트 범위이다 → 맥 윈도우 리눅스의 모든 임시 포트 범위를 포함한 범위<ul>
+<li>외부에서 SSH 로 접속 시 클라이언트의 소스 포트는 임시 포트(Ephemeral port 잠시살아있는 포트) 이다<ul>
+<li>클라이언트에서 사용되는 임시 포트는 OS별 범위가 다르다</li>
+<li>일반적으로 IANA권고 및 맥과 윈도우(49152<del>65535), Linux(32768</del>61000)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>대상는 돌아가는 트래픽의 목적지IP 범위이다<ul>
+<li>이후 저장 시 최하단에 모든 트래픽을 거부 DENY Rule 이 존재한다</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>아웃바운드 규칙에 아래와 같이 설정이 된다</p>
+<p>  <img src="/images/SG-ACL/2020-05-13-05.png" alt="Security%20Group%20Network%20ACL%20ea8e94b888d349f1bed19bff39f8cd54/_2020-05-13__4.34.44.png"></p>
+</li>
+<li><p>외부에서 내부의 EC2 2대 모두로 SSH 접속 확인</p>
+<ul>
+<li><p>외부에서 EC2 SSH 접속이 가능하다 → HomePC의 소스포트를 보면 임시포트 중 랜덤하게 할당해서 접속한 것을 알 수 있다</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">HomePC$ ssh root@13.125.132.54</span><br><span class="line">[root@SGLAB2-EC2-1 ~]<span class="comment"># netstat -anp |grep 220.117</span></span><br><span class="line">tcp        0      0 10.41.1.100:22          220.117.X.X:55260   ESTABLISHED 3775/sshd: root@pts</span><br><span class="line"></span><br><span class="line">HomePC$ ssh root@52.78.166.174</span><br><span class="line">[root@SGLAB2-EC2-2 ~]<span class="comment"># netstat -anp |grep 220.117</span></span><br><span class="line">tcp        0      0 10.41.1.200:22          220.117.X.X:52255   ESTABLISHED 3815/sshd: root@pts</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>트래픽 흐름에 따른 설명</p>
+<ul>
+<li><p><strong>(1)</strong> 외부(HomePC)에서 EC2의 PublicIP(13.125.132.54)로 SSH 접속을 시도한다. HomePC 자신의 소스포트는 임시포트 범위 중 랜덤 선택한다</p>
+</li>
+<li><p><strong>(2)</strong> NAT 기능에 의해서 목적지 PublicIP(13.125.132.54) 를 PrivateIP(10.40.1.100)으로 변경한다</p>
+</li>
+<li><p><strong>(3)</strong> Network ACL에 의해서 출발지IP가 0.0.0.0/0 이고 목적지 포트 SSH 22 이므로 허용(ALLOW) 된다</p>
+</li>
+<li><p><strong>(4)</strong> EC2 내부의 SSH 어플리케이션이 처리 한다</p>
+</li>
+<li><p><strong>(5)</strong> 리턴 트래픽이므로 출발지와 목적지의 IP와 Port 가 뒤바뀌어 전달된다</p>
+</li>
+<li><p><strong>(6)</strong> 리턴 트래픽이 Network ACL 아웃바운드에 규칙에 허용되어 통과한다 → 목적지 포트 55260 이 32768~65535 범위에 속함</p>
+</li>
+<li><p><strong>(7)</strong> 소스IP가 PublicIP로 NAT(변경)되어 HomePC로 도착하여 처리가 된다</p>
+<p>  <img src="/images/SG-ACL/Untitled13.png" alt="Security%20Group%20Network%20ACL%20ea8e94b888d349f1bed19bff39f8cd54/Untitled%2013.png"></p>
+</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>💡 위 상황에서도 EC2 간에는 모든 트래픽 통신이 가능하다. 현재 보안그룹(Security group)는 ‘All Traffic 허용’ 상태이고 Network ACL은 10.41.0.0/24(Subnet)에서 다른 대역과 통신 시에만 적용이 되기 때문이다. 예) [root@SGLAB2-EC2-1 ~]# ping 10.41.1.200 → ping ok</p>
+</blockquote>
+<p>2.2.5) NACL1 Network ACL 규칙 편집 3</p>
+<ul>
+<li><p>목적 : 외부에서 EC2대역에 대한 HTTP 접속을 허용</p>
+<ul>
+<li><p>현재는 외부(HomePC) 에서 EC2(웹서버)로 HTTP 접속이 차단됨</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">HomePC$ curl 13.209.84.198</span><br><span class="line">curl: (7) Failed to connect to 13.209.84.198 port 80: Operation timed out</span><br><span class="line"></span><br><span class="line">HomePC$ curl 52.79.50.197</span><br><span class="line">curl: (7) Failed to connect to 52.79.50.197 port 80: Operation timed out</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>NACL Name: NACL1 선택 후 Inbound Rule (인바운드 규칙) 편집</p>
+<ul>
+<li><p>규칙(20), 유형(HTTP) - 프로토콜(TCP), 포트범위(80), 소스(0.0.0.0/0), 허용/거부(ALLOW)</p>
+<ul>
+<li>이후 저장 시 최하단에 모든 트래픽을 거부 DENY Rule 이 존재한다</li>
+</ul>
+<p><img src="/images/SG-ACL/2020-05-13-06.png" alt="Security%20Group%20Network%20ACL%20ea8e94b888d349f1bed19bff39f8cd54/_2020-05-13__4.58.19.png"></p>
+</li>
+</ul>
+</li>
+<li><p>NACL Name: NACL1 선택 후 Outbound Rule (아웃바운드 규칙)</p>
+<ul>
+<li>이미 위에서 임시포트에 대한 허용이 있으므로 추가 설정 필요 없음</li>
+</ul>
+</li>
+<li><p>확인</p>
+<ul>
+<li><p>외부에서 EC2 HTTP 접속이 가능하다</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">HomePC$ curl 13.209.84.198</span><br><span class="line">&lt;html&gt;&lt;h1&gt;Hello from Network ACL Test Web Server 1 - IP 10.41.1.100&lt;/h1&gt;&lt;/html&gt;</span><br><span class="line"></span><br><span class="line">HomePC$ curl 52.79.50.197</span><br><span class="line">&lt;html&gt;&lt;h1&gt;Hello from Network ACL Test Web Server 2 - IP 10.41.1.200&lt;/h1&gt;&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>하지만 아직도 내부인 EC2에서 외부로 인터넷도 차단됨</p>
+<ul>
+<li>ec2$ curl <span class="exturl" data-url="aHR0cDovL3d3dy5nb29nbGUuY29t">www.google.com<i class="fa fa-external-link-alt"></i></span></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>2.2.6) NACL1 Network ACL 규칙 편집 4</p>
+<ul>
+<li><p>목적 : 내부 EC2 에서 외부로 인터넷 접속 및 다운로드 가능 (패치 작업 등 필요)</p>
+<ul>
+<li><p>현재는 내부인 EC2에서 외부로 인터넷 접속이 차단됨</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@SGLAB2-EC2-1 ~]<span class="comment"># curl ifconfig.me</span></span><br><span class="line">curl: (7) Failed to connect to ifconfig.me port 80: Connection timed out</span><br><span class="line"></span><br><span class="line">[root@SGLAB2-EC2-2 ~]<span class="comment"># curl ifconfig.me</span></span><br><span class="line">curl: (7) Failed to connect to ifconfig.me port 80: Connection timed out</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>NACL Name: NACL1 선택 후 <strong>Outbound</strong> Rule (인바운드 규칙) 편집</p>
+<ul>
+<li><p>규칙(120), 유형(HTTP) - 프로토콜(TCP), 포트범위(80), 소스(0.0.0.0/0), 허용/거부(ALLOW)</p>
+</li>
+<li><p>규칙(130), 유형(HTTPS) - 프로토콜(TCP), 포트범위(443), 소스(0.0.0.0/0), 허용/거부(ALLOW)</p>
+<ul>
+<li><p>EC2 입장에서 자신이 클라이언트가 되어서 외부에 인터넷 웹서버에 접속을 시도 시에 대한 허용</p>
+</li>
+<li><p>이후 저장 시 최하단에 모든 트래픽을 거부 DENY Rule 이 존재한다</p>
+<p><img src="/images/SG-ACL/2020-05-13-07.png" alt="Security%20Group%20Network%20ACL%20ea8e94b888d349f1bed19bff39f8cd54/_2020-05-13__5.15.14.png"></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>NACL Name: NACL1 선택 후 <strong>Inbound</strong> Rule (인바운드 규칙) 편집</p>
+<ul>
+<li><p>규칙(30), 유형(사용자지정TCP규칙) - 프로토콜(TCP), 포트범위(32768-61000), 소스(0.0.0.0/0), 허용/거부(ALLOW)</p>
+<ul>
+<li><p>리턴트래픽을 인바운드규칙에 허용되게 Amazon Linux 사용하는 임시 포트(Ephemeral port) 범위를 지정한다</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@SGLAB2-EC2-1 ~]<span class="comment"># cat /proc/sys/net/ipv4/ip_local_port_range</span></span><br><span class="line">32768	60999</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>이후 저장 시 최하단에 모든 트래픽을 거부 DENY Rule 이 존재한다</p>
+<p>  <img src="/images/SG-ACL/2020-05-13-08.png" alt="Security%20Group%20Network%20ACL%20ea8e94b888d349f1bed19bff39f8cd54/_2020-05-13__5.16.25.png"></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>확인</p>
+<ul>
+<li><p>내부 EC2 에서 외부로 HTTP 접속이 가능하다</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[root@SGLAB2-EC2-1 ~]<span class="comment"># curl ifconfig.me</span></span><br><span class="line">13.209.84.198</span><br><span class="line">[root@SGLAB2-EC2-1 ~]<span class="comment"># curl https://checkip.amazonaws.com/</span></span><br><span class="line">13.209.84.198</span><br><span class="line"></span><br><span class="line">[root@SGLAB2-EC2-2 ~]<span class="comment"># curl ifconfig.me</span></span><br><span class="line">52.79.50.197</span><br><span class="line">[root@SGLAB2-EC2-2 ~]<span class="comment"># curl https://checkip.amazonaws.com/</span></span><br><span class="line">52.79.50.197</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>최종 Network ACL 규칙 확인</p>
+<p>  <img src="/images/SG-ACL/2020-05-13-09.png" alt="Security%20Group%20Network%20ACL%20ea8e94b888d349f1bed19bff39f8cd54/_2020-05-13__5.19.59.png"></p>
+<p>  인바운드 규칙</p>
+<p>  <img src="/images/SG-ACL/2020-05-13-10.png" alt="Security%20Group%20Network%20ACL%20ea8e94b888d349f1bed19bff39f8cd54/_2020-05-13__5.20.42.png"></p>
+<p>  아웃바운드 규칙</p>
+</li>
+</ul>
+<br>
+
+<h3 id="2-3-생성한-자원-삭제"><a href="#2-3-생성한-자원-삭제" class="headerlink" title="2.3 생성한 자원 삭제"></a>2.3 생성한 자원 삭제</h3><ul>
+<li>신규 생성한 NACL1 Network ACL 을 삭제한다</li>
+<li><code>서울</code> Region에서 CloudFormation 스택을 삭제한다</li>
+</ul>
+<hr>
+<br>
+
+<h2 id="3-Security-Group-ID-를-활용한-보안-규칙"><a href="#3-Security-Group-ID-를-활용한-보안-규칙" class="headerlink" title="3. Security Group ID 를 활용한 보안 규칙"></a>3. Security Group ID 를 활용한 보안 규칙</h2><h3 id="3-1-Security-Group-ID-를-활용한-보안-규칙-소개"><a href="#3-1-Security-Group-ID-를-활용한-보안-규칙-소개" class="headerlink" title="3.1 Security Group ID 를 활용한 보안 규칙 소개"></a>3.1 Security Group ID 를 활용한 보안 규칙 소개</h3><ul>
+<li><p>보안그룹 인바운드 규칙의 소스와 아웃바운드 규칙의 대상에 IP 대신 보안그룹ID(=Security Group ID)를 사용 할 수 있다</p>
+</li>
+<li><p>통제하려는 IP 대상이 유동적일 경우에 활용 할 수 있다. 예) EC2 오토스케일 환경</p>
+<ul>
+<li>(오토 스케일 그룹 : 웹서버1-10.1.1.1 웹서버2-10.1.1.2 웹서버3-10.1.1.3 …) ⇒ DB서버 10.2.1.11</li>
+<li>기존에 DB서버의 인바운드 규칙에 10.1.1.1~3 현재 3개의 IP만 접속이 되게 설정되어 있다</li>
+<li>하지만 사용자 트래픽의 증가에 따라서 웹서버4(10.1.1.4)가 신규 배치가 되면 DB서버 인바운드 규칙에 10.1.1.4/32 를 추가해줘야 한다</li>
+<li>위 와 같이 IP대상이 유동적일 경우에는 DB서버의 인바운드 규칙에 IP List 대신 웹서버가 사용하는 Security Group ID를 사용하면 된다.</li>
+<li>즉, DB서버의 경우 인입되는 소스IP를 웹서버에 연결된 Security Group ID를 사용하는 모든 웹서버를 허용해주게 된다.</li>
+<li>그럼 신규 웹서버4번이 생성되더라도 기존 웹서버와 동일한 Security Group ID 를 사용하니 DB서버 입장에서 허용하게 된다.</li>
+</ul>
+</li>
+<li><p>아래는 DB서버에 인바운드 규칙에 소스를 IP기반으로 설정 시</p>
+</li>
+</ul>
+<p><img src="/images/SG-ACL/Untitled14.png" alt="Security%20Group%20Network%20ACL%20ea8e94b888d349f1bed19bff39f8cd54/Untitled%2014.png"></p>
+<p><img src="/images/SG-ACL/Untitled15.png" alt="Security%20Group%20Network%20ACL%20ea8e94b888d349f1bed19bff39f8cd54/Untitled%2015.png"></p>
+<ul>
+<li>아래는 DB서버에 인바운드 규칙에 소스를 Security Group 기반으로 설정 시</li>
+</ul>
+<p><img src="/images/SG-ACL/Untitled16.png" alt="Security%20Group%20Network%20ACL%20ea8e94b888d349f1bed19bff39f8cd54/Untitled%2016.png"></p>
+<p><img src="/images/SG-ACL/Untitled17.png" alt="Security%20Group%20Network%20ACL%20ea8e94b888d349f1bed19bff39f8cd54/Untitled%2017.png"></p>
+<br>
+
+<h3 id="3-2-실습을-위한-구성-웹과-DB간-보안-설정-예시"><a href="#3-2-실습을-위한-구성-웹과-DB간-보안-설정-예시" class="headerlink" title="3.2 실습을 위한 구성 - 웹과 DB간 보안 설정 예시"></a>3.2 실습을 위한 구성 - 웹과 DB간 보안 설정 예시</h3><p>3.2.1) Lab Topology</p>
+<ul>
+<li><p><code>서울</code> Region 에 신규 VPC에 신규 EC2 Instances (웹 서버 2대, DB 1대) 가 배치되어 있고 각자 자신의 집PC(HomePC)에서 EC2(웹 서버)를 접속한다.</p>
+<p>  <img src="/images/SG-ACL/Untitled18.png" alt="Security%20Group%20Network%20ACL%20ea8e94b888d349f1bed19bff39f8cd54/Untitled%2018.png"></p>
+</li>
+</ul>
+<p>3.2.2) 구성을 위한 기본 설정</p>
+<ul>
+<li>본 실습에서 활용할 AWS Region은 <code>서울</code> 입니다. 해당 Region에 대한 <em>EC2-Key Pair</em>를 생성</li>
+<li><code>서울</code> Region 에 리소스는 <em>CloudFormation</em>에 의해 인프라를 자동 구축 (3.2.3항에서 진행)</li>
+</ul>
+<p>3.2.3) CloudFormation</p>
+<details>
+<summary><b>서울 Region에서 CloudFormation 스택을 생성한다.</summary></b>
+<div markdown="1">
+
+<ul>
+<li>1단계 템플릿 지정<ul>
+<li>템플릿 준비 : 준비된 템플릿</li>
+<li>템플릿 소스 : Amazon S3 URL</li>
+<li>Amazon S3 URL : <span class="exturl" data-url="aHR0cHM6Ly9zMy5hcC1ub3J0aGVhc3QtMi5hbWF6b25hd3MuY29tL2Nsb3VkZm9ybWF0aW9uLmNsb3VkbmV0YS5uZXQvTmV0d29ya1NlY3VyaXR5L05ldHdvcmstU0dJRC55YW1s">https://s3.ap-northeast-2.amazonaws.com/cloudformation.cloudneta.net/NetworkSecurity/Network-SGID.yaml<i class="fa fa-external-link-alt"></i></span><ul>
+<li>우측 하단 <code>다음</code> 클릭</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>2단계 스택 세부 정보 지정<ul>
+<li>스택 이름 : SGID</li>
+<li>KeyName : 자신의 <em>EC2-Key Pair</em> 를 지정</li>
+</ul>
+</li>
+<li>3단계 스택 옵션 구성<ul>
+<li>우측 하단 <code>다음</code> 클릭</li>
+</ul>
+</li>
+<li>4단계 검토<ul>
+<li>우측 하단 <code>스택 생성</code> 클릭</li>
+</ul>
+</li>
+</ul>
+</div>
+</details>
+
+<details>
+<summary><b>서울 CloudFormation 생성 인프라</summary></b>
+<div markdown="1">
+
+<pre><code>- VPC, 1 Subnet, 1 IGW, 1 Route table
+- Amazon Linux 2 EC2 Instance 3대 (Public IP, User data 사용 - 웹서버2대, DB서버1대</code></pre></div>
+</details>
+
+<br>
+
+<p>3.2.4) 검증</p>
+<ul>
+<li><p>사용자 PC에서 <code>서울</code> EC2(3대) Instances Public IP 주소로 SSH 접근한다. 접속 계정 root / qwe123</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ ssh root@13.209.10.34</span><br><span class="line">root@13.209.10.34<span class="string">'s password: qwe123</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Web1 과 Web2 EC2에서 DB EC2(10.42.1.200) 로 mysql 접속. DB 접속 계정 gasida / qwe123</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[root@WEB1 ~]<span class="comment"># mysql -h 10.42.1.200 -P 3306 -ugasida -pqwe123</span></span><br><span class="line">Welcome to the MariaDB monitor.  Commands end with ; or \g.</span><br><span class="line">..</span><br><span class="line">MariaDB [(none)]&gt; SHOW DATABASES;</span><br><span class="line">+--------------------+</span><br><span class="line">| Database           |</span><br><span class="line">+--------------------+</span><br><span class="line">| information_schema |</span><br><span class="line">| mysql              |</span><br><span class="line">| performance_schema |</span><br><span class="line">| sample             |</span><br><span class="line">+--------------------+</span><br><span class="line">4 rows <span class="keyword">in</span> <span class="built_in">set</span> (0.00 sec)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Web1 과 Web2 의 PublicIP 로 웹 접속 시 index.php 페이지에서 mysql DB로 연결된 화면 출력 확인 → <span class="exturl" data-url="aHR0cHM6Ly9kb2NzLmF3cy5hbWF6b24uY29tL2tvX2tyL0FtYXpvblJEUy9sYXRlc3QvVXNlckd1aWRlL0NIQVBfVHV0b3JpYWxzLldlYlNlcnZlckRCLkNyZWF0ZVdlYlNlcnZlci5odG1s">참고 링크<i class="fa fa-external-link-alt"></i></span></p>
+<ul>
+<li><p>Web - DB 간 연결이 정상일 경우 아래와 같은 화면이 출력된다</p>
+<p><img src="/images/SG-ACL/Untitled19.png" alt="Security%20Group%20Network%20ACL%20ea8e94b888d349f1bed19bff39f8cd54/Untitled%2019.png"></p>
+</li>
+<li><p>Name 과 ADDRESS 에 값을 추가 후 왼쪽에 <code>Add Data</code> 클릭 시 실제 DB에 table 에 반영된다</p>
+<p>  <img src="/images/SG-ACL/2020-05-14-01.png" alt="Security%20Group%20Network%20ACL%20ea8e94b888d349f1bed19bff39f8cd54/_2020-05-14__3.46.59.png"></p>
+</li>
+<li><p>DB 테이블 확인</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">[root@WEB1 ~]<span class="comment"># mysql -h 10.42.1.200 -P 3306 -ugasida -pqwe123</span></span><br><span class="line">Welcome to the MariaDB monitor.  Commands end with ; or \g.</span><br><span class="line">..</span><br><span class="line">MariaDB [(none)]&gt; SHOW DATABASES;</span><br><span class="line">+--------------------+</span><br><span class="line">| Database           |</span><br><span class="line">+--------------------+</span><br><span class="line">| information_schema |</span><br><span class="line">| mysql              |</span><br><span class="line">| performance_schema |</span><br><span class="line">| sample             |</span><br><span class="line">+--------------------+</span><br><span class="line">4 rows <span class="keyword">in</span> <span class="built_in">set</span> (0.00 sec)</span><br><span class="line"></span><br><span class="line">MariaDB [(none)]&gt; USE sample;</span><br><span class="line"></span><br><span class="line">MariaDB [sample]&gt; SHOW tables;</span><br><span class="line">+------------------+</span><br><span class="line">| Tables_in_sample |</span><br><span class="line">+------------------+</span><br><span class="line">| EMPLOYEES        |</span><br><span class="line">+------------------+</span><br><span class="line">1 row <span class="keyword">in</span> <span class="built_in">set</span> (0.00 sec)</span><br><span class="line"></span><br><span class="line">MariaDB [sample]&gt; SELECT * FROM EMPLOYEES;</span><br><span class="line">+----+--------+------------------+</span><br><span class="line">| ID | NAME   | ADDRESS          |</span><br><span class="line">+----+--------+------------------+</span><br><span class="line">|  1 | gasida | samsung-dong 123 |</span><br><span class="line">|  2 | ongja  | suwon 111        |</span><br><span class="line">+----+--------+------------------+</span><br><span class="line">2 rows <span class="keyword">in</span> <span class="built_in">set</span> (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+<p>3.2.5) 실습 전 사전 설정</p>
+<ul>
+<li>현재 적용된 <code>보안 그룹</code> 과 <code>Network ACL</code> 을 확인한다</li>
+</ul>
+<br>
+
+<h3 id="3-3-Security-Group-ID-를-활용한-보안-규칙-설정-웹과-DB간-보안-설정-예시"><a href="#3-3-Security-Group-ID-를-활용한-보안-규칙-설정-웹과-DB간-보안-설정-예시" class="headerlink" title="3.3 Security Group ID 를 활용한 보안 규칙 설정 - 웹과 DB간 보안 설정 예시"></a>3.3 Security Group ID 를 활용한 보안 규칙 설정 - 웹과 DB간 보안 설정 예시</h3><p>3.3.1) 보안 요구 조건</p>
+<ul>
+<li>외부 → 웹서버<ul>
+<li>외부의 인터넷 사용자는 웹브라우저로 웹서버로 접속이 가능해야함 - TCP 80(HTTP)</li>
+<li>외부에 있는 관리자는 웹서버 관리를 위해서 SSH로 접속이 가능해야함 - TCP 22(SSH)</li>
+</ul>
+</li>
+<li>웹서버 → 외부<ul>
+<li>웹서버는 보안 패치 등 필요로 인해 외부에서 업데이트 및 다운로드가 가능해야함 - TCP 80(HTTP) 443(HTTPS)</li>
+</ul>
+</li>
+<li>웹서버 → DB서버<ul>
+<li>웹서버들만 DB서버에 mysql 접속이 가능해야함 - TCP 3306(MYSQL) ⇒ Security Group ID 를 활용할 예정</li>
+</ul>
+</li>
+<li>DB서버 → 외부<ul>
+<li>DB서버는 보안 패치 등 필요로 인해 외부에서 업데이트 및 다운로드가 가능해야함 - TCP 80(HTTP) 443(HTTPS)</li>
+</ul>
+</li>
+<li>외부 → DB서버<ul>
+<li>일반적인 환경에서는 DB서버에 외부에서 직접 접속을 하지 않는다. 다만 실습의 편의를 위해서 외부에서 SSH접속을 허용함</li>
+</ul>
+</li>
+</ul>
+<p>3.3.2) ‘외부 → 웹서버’ 보안 요구 조건 관련 보안그룹 설정 및 확인</p>
+<ul>
+<li><p>이미 Cloudformation 배포 시 웹서버에 인바운드 보안규칙에 HTTP, SSH 에 대한 접속이 가능하게 설정되어 있다</p>
+</li>
+<li><p>트래픽 흐름에 따른 설명</p>
+<ul>
+<li><p><strong>(1)</strong> 외부(HomePC)에서 EC2의 PublicIP로 HTTP 혹은 SSH 접속을 시도한다. HomePC 자신의 소스포트는 임시포트 범위 중 랜덤 선택한다. NAT 기능에 의해서 목적지 IP는 PublicIP 를 PrivateIP(10.42.1.100 혹은 10.42.1.101)로 변경된다. Web 보안그룹 인바운드 규칙에 허용되어 EC2 내부에서 처리한다</p>
+</li>
+<li><p><strong>(2)</strong> 리턴 트래픽은 출발지와 목적지의 IP와 Port 가 뒤바뀌어 전달된다. 보안그룹으로 리턴 트래픽은 자동으로 허용되어 사용자에게 도달한다</p>
+<p>  <img src="/images/SG-ACL/Untitled20.png" alt="Security%20Group%20Network%20ACL%20ea8e94b888d349f1bed19bff39f8cd54/Untitled%2020.png"></p>
+</li>
+</ul>
+</li>
+</ul>
+<p>3.3.3) ‘웹서버 → 외부’ 보안 요구 조건 관련 보안그룹 설정 및 확인</p>
+<ul>
+<li><p>보안 요구 조건 : 웹서버는 보안 패치 등 필요로 인해 외부에서 업데이트 및 다운로드가 가능해야함 - TCP 80(HTTP) 443(HTTPS)</p>
+</li>
+<li><p>Web 보안그룹 아웃바운드 규칙 변경 → TCP 80(HTTP) 443(HTTPS) 제외한 나머지 트래픽은 차단</p>
+<ul>
+<li><p>기존의 ‘모든 트래픽 허용’ 규칙은 삭제한다</p>
+</li>
+<li><p>HTTP 와 HTTPS 를 허용하는 규칙을 추가한다</p>
+<p>  <img src="/images/SG-ACL/2020-05-15-01.png" alt="Security%20Group%20Network%20ACL%20ea8e94b888d349f1bed19bff39f8cd54/_2020-05-15__3.58.27.png"></p>
+</li>
+</ul>
+</li>
+<li><p>‘웹서버 → 외부’ 로 HTTP or HTTPS 통신 허용을 확인한다</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 아래 처럼 HTTP HTTPS는 외부 통신이 허용된다</span></span><br><span class="line">[root@WEB1 ~]<span class="comment"># curl -O http://example.com/foo.txt --silent</span></span><br><span class="line">[root@WEB1 ~]<span class="comment"># curl -O https://example.com/bar.txt --silent</span></span><br><span class="line">[root@WEB1 ~]<span class="comment"># ls *.txt</span></span><br><span class="line">bar.txt  foo.txt</span><br><span class="line"></span><br><span class="line"><span class="comment"># 아래 처럼 HTTP HTTPS 이외에 다른 트래픽은 외부로 통신이 차단된다</span></span><br><span class="line">[root@WEB1 ~]<span class="comment"># ping -c 1 -W 1 www.google.com</span></span><br><span class="line">PING www.google.com (172.217.25.68) 56(84) bytes of data.</span><br><span class="line">--- www.google.com ping statistics ---</span><br><span class="line">1 packets transmitted, 0 received, 100% packet loss, time 0ms</span><br><span class="line"></span><br><span class="line">[root@WEB1 ~]<span class="comment"># ssh root@10.42.1.101</span></span><br><span class="line">ssh: connect to host 10.42.1.101 port 22: Connection timed out</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>트래픽 흐름에 따른 설명</p>
+<ul>
+<li><p><strong>(1)</strong> 웹서버(EC2)에서 인터넷(HTTP HTTPS)에 접속을 시도한다. Web보안그룹 아웃바운드 규칙에 의해서 허용되어</p>
+</li>
+<li><p><strong>(2)</strong> 리턴 트래픽은 출발지와 목적지의 IP와 Port 가 뒤바뀌어 전달된다. 보안그룹으로 리턴 트래픽은 자동으로 허용되어 사용자에게 도달한다</p>
+<p>  <img src="/images/SG-ACL/Untitled21.png" alt="Security%20Group%20Network%20ACL%20ea8e94b888d349f1bed19bff39f8cd54/Untitled%2021.png"></p>
+</li>
+</ul>
+</li>
+</ul>
+<p>3.3.4) ‘웹서버 → DB서버’ 보안 요구 조건 관련 보안그룹 설정 및 확인</p>
+<ul>
+<li><p>보안 요구 조건 : 웹서버들만 DB서버에 mysql 접속이 가능해야함 - TCP 3306(MYSQL) ⇒ Security Group ID 를 활용할 예정</p>
+</li>
+<li><p>Web 보안그룹 아웃바운드 규칙 변경 → TCP 3306(MYSQL) 대상(DB서버) 허용</p>
+<ul>
+<li><p>유형(MYSQL) , 대상(DB서버에 적용되어 있는 보안그룹 ID) 를 지정하여 규칙을 추가한다</p>
+<p>  <img src="/images/SG-ACL/2020-05-15-02.png" alt="Security%20Group%20Network%20ACL%20ea8e94b888d349f1bed19bff39f8cd54/_2020-05-15__4.32.19.png"></p>
+</li>
+</ul>
+</li>
+<li><p>DB 보안그룹 인바운드 규칙 변경 → TCP 3306(MYSQL) 소스(웹서버) 허용</p>
+<ul>
+<li><p>유형(MYSQL), 소스(웹서버에 적용되어 있는 보안그룹 ID) 를 지정하여 규칙을 변경한다</p>
+<p>  <img src="/images/SG-ACL/2020-05-15-03.png" alt="Security%20Group%20Network%20ACL%20ea8e94b888d349f1bed19bff39f8cd54/_2020-05-15__4.35.26.png"></p>
+</li>
+</ul>
+</li>
+<li><p>‘웹서버 → DB서버’ 로 MYSQL 접속을 확인한다</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@WEB1 ~]<span class="comment"># mysql -h 10.42.1.200 -P 3306 -ugasida -pqwe123</span></span><br><span class="line">Welcome to the MariaDB monitor.  Commands end with ; or \g.</span><br><span class="line">Your MariaDB connection id is 19</span><br><span class="line">Server version: 5.5.64-MariaDB MariaDB Server</span><br><span class="line">Copyright (c) 2000, 2017, Oracle, MariaDB Corporation Ab and others.</span><br><span class="line">Type <span class="string">'help;'</span> or <span class="string">'\h'</span> <span class="keyword">for</span> <span class="built_in">help</span>. Type <span class="string">'\c'</span> to clear the current input statement.</span><br><span class="line">MariaDB [(none)]&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>트래픽 흐름에 따른 설명</p>
+<ul>
+<li><p><strong>(1)</strong> 웹서버에서 DB서버로 접속을 시도한다. (목적지) 대상이 보안그룹(DB서버)로 향하기 때문에 허용된다</p>
+</li>
+<li><p><strong>(2)</strong> DB서버로 인입되는 트래픽의 소스가 보안그룹 (웹서버)를 사용함으로 허용된다.</p>
+</li>
+<li><p><strong>(3)</strong> DB서버 내부에서 처리 후 리턴 트래픽은 아웃바운드 규칙과 상관없이 빠져나간다</p>
+</li>
+<li><p><strong>(4)</strong> DB서버에서 돌아오는 트래픽은 웹서버 역시 리턴트래픽으로 인바운드 규칙과 성관없이 허용되어 최종적으로 웹서버에 돌아온다</p>
+<p>  <img src="/images/SG-ACL/Untitled22.png" alt="Security%20Group%20Network%20ACL%20ea8e94b888d349f1bed19bff39f8cd54/Untitled%2022.png"></p>
+</li>
+</ul>
+</li>
+</ul>
+<p>3.3.5) ‘DB서버 → 외부’ 보안 요구 조건 관련 보안그룹 설정 및 확인 ⇒ 3.3.3) 항목과 동일한 설정</p>
+<ul>
+<li><p>보안 요구 조건 : DB서버는 보안 패치 등 필요로 인해 외부에서 업데이트 및 다운로드가 가능해야함 - TCP 80(HTTP) 443(HTTPS)</p>
+</li>
+<li><p>DB 보안그룹 아웃바운드 규칙 변경 → TCP 80(HTTP) 443(HTTPS) 제외한 나머지 트래픽은 차단</p>
+<ul>
+<li><p>기존의 ‘모든 트래픽 허용’ 규칙은 삭제한다</p>
+</li>
+<li><p>HTTP 와 HTTPS 를 허용하는 규칙을 추가한다</p>
+<p>  <img src="/images/SG-ACL/2020-05-15-04.png" alt="Security%20Group%20Network%20ACL%20ea8e94b888d349f1bed19bff39f8cd54/_2020-05-15__4.56.49.png"></p>
+</li>
+</ul>
+</li>
+<li><p>‘DB서버 → 외부’ 로 HTTP or HTTPS 통신 허용을 확인한다</p>
+</li>
+</ul>
+<p>3.3.6) 최종 설정된 보안그룹 확인</p>
+<ul>
+<li><p>웹서버 보안그룹 인바운드 규칙</p>
+<p>  <img src="/images/SG-ACL/Untitled23.png" alt="Security%20Group%20Network%20ACL%20ea8e94b888d349f1bed19bff39f8cd54/Untitled%2023.png"></p>
+</li>
+<li><p>웹서버 보안그룹 아웃바운드 규칙</p>
+<p>  <img src="/images/SG-ACL/Untitled24.png" alt="Security%20Group%20Network%20ACL%20ea8e94b888d349f1bed19bff39f8cd54/Untitled%2024.png"></p>
+</li>
+<li><p>DB서버 보안그룹 인바운드 규칙</p>
+<p>  <img src="/images/SG-ACL/Untitled25.png" alt="Security%20Group%20Network%20ACL%20ea8e94b888d349f1bed19bff39f8cd54/Untitled%2025.png"></p>
+</li>
+<li><p>DB서버 보안그룹 아웃바운드 규칙</p>
+<p>  <img src="/images/SG-ACL/Untitled26.png" alt="Security%20Group%20Network%20ACL%20ea8e94b888d349f1bed19bff39f8cd54/Untitled%2026.png"></p>
+</li>
+</ul>
+<br>
+
+<h3 id="3-4-생성한-자원-삭제"><a href="#3-4-생성한-자원-삭제" class="headerlink" title="3.4 생성한 자원 삭제"></a>3.4 생성한 자원 삭제</h3><ul>
+<li><code>서울</code> Region에서 CloudFormation 스택을 삭제한다</li>
+</ul>
+<hr>
+<br>
+
+<h2 id="4-Network-Security-Check-Source-Destination-Check-Uncheck-향후-내용-추가-예정"><a href="#4-Network-Security-Check-Source-Destination-Check-Uncheck-향후-내용-추가-예정" class="headerlink" title="4. Network Security Check (Source Destination Check , Uncheck) - 향후 내용 추가 예정"></a>4. Network Security Check (Source Destination Check , Uncheck) - 향후 내용 추가 예정</h2><br>
+    </div>
+
+    
+    
+    
+        
+
+  <div class="followme">
+    <p>Welcome to my other publishing channels</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/rss2.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/SecurityGroup/" rel="tag"><i class="fa fa-tag"></i> SecurityGroup</a>
+              <a href="/tags/ACL/" rel="tag"><i class="fa fa-tag"></i> ACL</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/05/07/VPN-SitetoSite-with-Dynamic-Route/" rel="prev" title="AWS VPN Site to Site with Dynamic Route">
+      <i class="fa fa-chevron-left"></i> AWS VPN Site to Site with Dynamic Route
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/05/16/Transit-Gateway/" rel="next" title="LabGuide - AWS Transit Gateway">
+      LabGuide - AWS Transit Gateway <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          목차
+        </li>
+        <li class="sidebar-nav-overview">
+          종합
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#0-AWS-Network-Security"><span class="nav-text">0. AWS Network Security</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-Security-Group"><span class="nav-text">1. Security Group</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-Security-Group-보안-그룹-소개"><span class="nav-text">1.1 Security Group (&#x3D;보안 그룹) 소개</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-Network-ACL-소개"><span class="nav-text">1.2 Network ACL 소개</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-실습을-위한-구성"><span class="nav-text">1.3 실습을 위한 구성</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-Security-Group-설정-및-확인"><span class="nav-text">1.4 Security Group 설정 및 확인</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-5-생성한-자원-삭제"><span class="nav-text">1.5 생성한 자원 삭제</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Network-Access-Control-List"><span class="nav-text">2. Network Access Control List</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-실습을-위한-구성"><span class="nav-text">2.1 실습을 위한 구성</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-Network-ACL-설정-및-확인"><span class="nav-text">2.2 Network ACL 설정 및 확인</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-생성한-자원-삭제"><span class="nav-text">2.3 생성한 자원 삭제</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Security-Group-ID-를-활용한-보안-규칙"><span class="nav-text">3. Security Group ID 를 활용한 보안 규칙</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-Security-Group-ID-를-활용한-보안-규칙-소개"><span class="nav-text">3.1 Security Group ID 를 활용한 보안 규칙 소개</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-실습을-위한-구성-웹과-DB간-보안-설정-예시"><span class="nav-text">3.2 실습을 위한 구성 - 웹과 DB간 보안 설정 예시</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-Security-Group-ID-를-활용한-보안-규칙-설정-웹과-DB간-보안-설정-예시"><span class="nav-text">3.3 Security Group ID 를 활용한 보안 규칙 설정 - 웹과 DB간 보안 설정 예시</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-생성한-자원-삭제"><span class="nav-text">3.4 생성한 자원 삭제</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-Network-Security-Check-Source-Destination-Check-Uncheck-향후-내용-추가-예정"><span class="nav-text">4. Network Security Check (Source Destination Check , Uncheck) - 향후 내용 추가 예정</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">CloudNet@</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-name">포스트</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">카테고리</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">태그</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2Nsb3VkbmV0YQ==" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;cloudneta"><i class="fab fa-github fa-fw"></i>GitHub</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="bWFpbHRvOmFkbWluQGNsb3VkbmV0YS5uZXQ=" title="E-Mail → mailto:admin@cloudneta.net"><i class="fa fa-envelope fa-fw"></i>E-Mail</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly93d3cubm90aW9uLnNvL0Nsb3VkTmV0LUJsb2ctYzlkZmE0NGEyN2ZmNDMxZGFmZGQyZWRhY2M4YTE4NjM=" title="Notion → https:&#x2F;&#x2F;www.notion.so&#x2F;CloudNet-Blog-c9dfa44a27ff431dafdd2edacc8a1863"><i class="fa fa-book fa-fw"></i>Notion</span>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CloudNet@</span>
+</div>
+  <div class="powered-by">Powered by <span class="exturl theme-link" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & <span class="exturl theme-link" data-url="aHR0cHM6Ly90aGVtZS1uZXh0LmpzLm9yZy9taXN0Lw==">NexT.Mist</span>
+  </div>
+  <div class="addthis_inline_share_toolbox">
+    <script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5ed513b1de5cbed6" async="async"></script>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://cloudnet-1.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://cloudneta.github.io/2020/05/15/SecurityGroup-NetworkACL/";
+    this.page.identifier = "2020/05/15/SecurityGroup-NetworkACL/";
+    this.page.title = "Security Group & Network ACL";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://cloudnet-1.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+</body>
+</html>
