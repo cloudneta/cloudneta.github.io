@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
 <meta name="generator" content="Hexo 4.2.1">
+<meta name="naver-site-verification" content="0e8ced0bfa10b2d3e75a852580f99d3bba940a32" />
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
@@ -19,7 +20,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"cloudneta.github.io","root":"/","scheme":"Mist","version":"8.0.0-rc.3","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+    var CONFIG = {"hostname":"cloudneta.github.io","root":"/","scheme":"Mist","version":"8.0.0-rc.3","exturl":true,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
   <meta name="description" content="작성자 : gasida.cloudnet@">
@@ -265,9 +266,9 @@
 <div markdown="1">
 
 <ul>
-<li><a href="https://docs.aws.amazon.com/ko_kr/vpn/latest/s2svpn/VPC_VPN.html" target="_blank" rel="noopener">Site-to-Site VPN User Guide</a></li>
-<li><a href="https://docs.aws.amazon.com/ko_kr/vpc/latest/adminguide/Welcome.html" target="_blank" rel="noopener">Site-to-Site VPN Network Administrator Guide</a></li>
-<li><a href="https://wiki.vyos.net/wiki/User_Guide" target="_blank" rel="noopener">VYOS User Guide</a></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly9kb2NzLmF3cy5hbWF6b24uY29tL2tvX2tyL3Zwbi9sYXRlc3QvczJzdnBuL1ZQQ19WUE4uaHRtbA==">Site-to-Site VPN User Guide<i class="fa fa-external-link-alt"></i></span></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly9kb2NzLmF3cy5hbWF6b24uY29tL2tvX2tyL3ZwYy9sYXRlc3QvYWRtaW5ndWlkZS9XZWxjb21lLmh0bWw=">Site-to-Site VPN Network Administrator Guide<i class="fa fa-external-link-alt"></i></span></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly93aWtpLnZ5b3MubmV0L3dpa2kvVXNlcl9HdWlkZQ==">VYOS User Guide<i class="fa fa-external-link-alt"></i></span></li>
 </ul>
 </div>
 </details>
@@ -275,7 +276,7 @@
 <hr>
 <br>
 
-<h3 id="1-AWS-VPN-Site-to-Site-with-Static-Route"><a href="#1-AWS-VPN-Site-to-Site-with-Static-Route" class="headerlink" title="1. AWS VPN Site to Site with Static Route"></a>1. AWS VPN Site to Site with Static Route</h3><p>1.1 <a href="https://docs.aws.amazon.com/ko_kr/vpn/latest/s2svpn/VPC_VPN.html" target="_blank" rel="noopener">AWS Site-to-Site VPN</a></p>
+<h3 id="1-AWS-VPN-Site-to-Site-with-Static-Route"><a href="#1-AWS-VPN-Site-to-Site-with-Static-Route" class="headerlink" title="1. AWS VPN Site to Site with Static Route"></a>1. AWS VPN Site to Site with Static Route</h3><p>1.1 <span class="exturl" data-url="aHR0cHM6Ly9kb2NzLmF3cy5hbWF6b24uY29tL2tvX2tyL3Zwbi9sYXRlc3QvczJzdnBuL1ZQQ19WUE4uaHRtbA==">AWS Site-to-Site VPN<i class="fa fa-external-link-alt"></i></span></p>
 <ul>
 <li>AWS Site-to-Site VPN(S2S VPN) 은 Amazon VPC 망과 외부망(ex. 기업망 등) 안전한 연결을 해주는 것을 말함</li>
 <li>주요 용어<ul>
@@ -293,7 +294,7 @@
 </li>
 <li>제약사항 : IPv6 트래픽 미지원, AWS VPN 연결 시 Path MTU discovery 미지원 (→ MTU 설정을 맞출 것을 권장)</li>
 </ul>
-<p>1.2 <a href="https://docs.aws.amazon.com/ko_kr/vpn/latest/s2svpn/VPC_VPN.html" target="_blank" rel="noopener">AWS S2S 작동 방식</a></p>
+<p>1.2 <span class="exturl" data-url="aHR0cHM6Ly9kb2NzLmF3cy5hbWF6b24uY29tL2tvX2tyL3Zwbi9sYXRlc3QvczJzdnBuL1ZQQ19WUE4uaHRtbA==">AWS S2S 작동 방식<i class="fa fa-external-link-alt"></i></span></p>
 <ul>
 <li>AWS VGW 와 TGW 에서 동작합니다</li>
 </ul>
@@ -313,22 +314,22 @@
 <li><p>특히 AWS VGW 정기 유지 관리 시 순차적으로 터널이 비활성화 된다</p>
 <p>  → 🚧 필자가 AWS VPN 운영 시 에도 매달 26~28일 사이에 Tunnel1, Tunnel 2 가 시간차를 두고 Down 되었었다</p>
 </li>
-<li><p><a href="https://aws.amazon.com//vpn/site-to-site-vpn-sla/" target="_blank" rel="noopener">AWS S2S VPN SLA</a> 는 99.95% 입니다. → 한 달 5분 2초는 계약 상 유지 관리 등을 위해서 비활성화가 되어도…</p>
-<p>  <img src="/images/VPN-SitetoSite-with-Static-Route/2020-05-07-01.png" alt="AWS%20VPN%20Site%20to%20Site%20with%20Static%20Route%2078d272b9998c46a4875aa9c090b80ccf/_2020-05-07__2.01.22.png"><br><a href="https://uptime.is/" target="_blank" rel="noopener">https://uptime.is/</a> 참고</p>
+<li><p><span class="exturl" data-url="aHR0cHM6Ly9hd3MuYW1hem9uLmNvbS8vdnBuL3NpdGUtdG8tc2l0ZS12cG4tc2xhLw==">AWS S2S VPN SLA<i class="fa fa-external-link-alt"></i></span> 는 99.95% 입니다. → 한 달 5분 2초는 계약 상 유지 관리 등을 위해서 비활성화가 되어도…</p>
+<p>  <img src="/images/VPN-SitetoSite-with-Static-Route/2020-05-07-01.png" alt="AWS%20VPN%20Site%20to%20Site%20with%20Static%20Route%2078d272b9998c46a4875aa9c090b80ccf/_2020-05-07__2.01.22.png"><br><span class="exturl" data-url="aHR0cHM6Ly91cHRpbWUuaXMv">https://uptime.is/<i class="fa fa-external-link-alt"></i></span> 참고</p>
 </li>
 </ul>
 </li>
-<li><p><a href="https://docs.aws.amazon.com/ko_kr/vpn/latest/s2svpn/your-cgw.html" target="_blank" rel="noopener">CGW (=고객 게이트웨이)</a> 는 고객 측에 있는 물리적 또는 소프트웨어 어플라이언스이다.</p>
+<li><p><span class="exturl" data-url="aHR0cHM6Ly9kb2NzLmF3cy5hbWF6b24uY29tL2tvX2tyL3Zwbi9sYXRlc3QvczJzdnBuL3lvdXItY2d3Lmh0bWw=">CGW (=고객 게이트웨이)<i class="fa fa-external-link-alt"></i></span> 는 고객 측에 있는 물리적 또는 소프트웨어 어플라이언스이다.</p>
 <ul>
 <li><p>CGW가 1대의 장비라면 논리적인 터널 인터페이스 2개를 설정하여 AWS VPN Tunnel 1,2 와 연결 설정한다</p>
 <p>  <img src="/images/VPN-SitetoSite-with-Static-Route/Untitled2.png" alt="AWS%20VPN%20Site%20to%20Site%20with%20Static%20Route%2078d272b9998c46a4875aa9c090b80ccf/Untitled%202.png"></p>
 </li>
 </ul>
 </li>
-<li><p>서로 통신을 위한 라우팅은 <a href="https://docs.aws.amazon.com/ko_kr/vpn/latest/s2svpn/cgw-static-routing-examples.html" target="_blank" rel="noopener">Static</a> 과 <a href="https://docs.aws.amazon.com/ko_kr/vpn/latest/s2svpn/cgw-dynamic-routing-examples.html" target="_blank" rel="noopener">Dynamic(BGP)</a> 를 지원한다.</p>
+<li><p>서로 통신을 위한 라우팅은 <span class="exturl" data-url="aHR0cHM6Ly9kb2NzLmF3cy5hbWF6b24uY29tL2tvX2tyL3Zwbi9sYXRlc3QvczJzdnBuL2Nndy1zdGF0aWMtcm91dGluZy1leGFtcGxlcy5odG1s">Static<i class="fa fa-external-link-alt"></i></span> 과 <span class="exturl" data-url="aHR0cHM6Ly9kb2NzLmF3cy5hbWF6b24uY29tL2tvX2tyL3Zwbi9sYXRlc3QvczJzdnBuL2Nndy1keW5hbWljLXJvdXRpbmctZXhhbXBsZXMuaHRtbA==">Dynamic(BGP)<i class="fa fa-external-link-alt"></i></span> 를 지원한다.</p>
 </li>
 </ul>
-<p>1.3 <a href="https://docs.aws.amazon.com/ko_kr/vpn/latest/s2svpn/site-site-architechtures.html" target="_blank" rel="noopener">S2S VPN 아키텍처</a></p>
+<p>1.3 <span class="exturl" data-url="aHR0cHM6Ly9kb2NzLmF3cy5hbWF6b24uY29tL2tvX2tyL3Zwbi9sYXRlc3QvczJzdnBuL3NpdGUtc2l0ZS1hcmNoaXRlY2h0dXJlcy5odG1s">S2S VPN 아키텍처<i class="fa fa-external-link-alt"></i></span></p>
 <ul>
 <li><p>AWS VGW —-(S2S VPN) —- IDC(CGW)</p>
 <p>  <img src="/images/VPN-SitetoSite-with-Static-Route/Untitled3.png" alt="AWS%20VPN%20Site%20to%20Site%20with%20Static%20Route%2078d272b9998c46a4875aa9c090b80ccf/Untitled%203.png"></p>
@@ -339,7 +340,7 @@
 <li><p>다중 S2S VPN 연결 : 여러개의 고객 VPN 망이 연결 되는 구성 환경</p>
 <p>  <img src="/images/VPN-SitetoSite-with-Static-Route/Untitled5.png" alt="AWS%20VPN%20Site%20to%20Site%20with%20Static%20Route%2078d272b9998c46a4875aa9c090b80ccf/Untitled%205.png"></p>
 </li>
-<li><p><a href="https://docs.aws.amazon.com/ko_kr/vpn/latest/s2svpn/vpn-redundant-connection.html" target="_blank" rel="noopener">S2S VPN 이중화를 통한 고가용성 구성</a></p>
+<li><p><span class="exturl" data-url="aHR0cHM6Ly9kb2NzLmF3cy5hbWF6b24uY29tL2tvX2tyL3Zwbi9sYXRlc3QvczJzdnBuL3Zwbi1yZWR1bmRhbnQtY29ubmVjdGlvbi5odG1s">S2S VPN 이중화를 통한 고가용성 구성<i class="fa fa-external-link-alt"></i></span></p>
 <ul>
 <li><p>1안 : CGW 가 이중화 구성이나 클러스터 동작이 아닌 A-S 동작인 경우 두개의 CGW 를 두 개의 VGW에 연결</p>
 <ul>
@@ -361,7 +362,7 @@
 <p>1.4 VPN Performance</p>
 <ul>
 <li><p>VGW 1개 Tunnel 은 1.25Gbps Throughput 성능을 가짐</p>
-<p>  → <a href="https://aws.amazon.com/ko/blogs/networking-and-content-delivery/scaling-vpn-throughput-using-aws-transit-gateway/" target="_blank" rel="noopener">TGW 의 ECMP 를 사용 시 하여 Throughput 성능 향상</a>을 할 수 있음</p>
+<p>  → <span class="exturl" data-url="aHR0cHM6Ly9hd3MuYW1hem9uLmNvbS9rby9ibG9ncy9uZXR3b3JraW5nLWFuZC1jb250ZW50LWRlbGl2ZXJ5L3NjYWxpbmctdnBuLXRocm91Z2hwdXQtdXNpbmctYXdzLXRyYW5zaXQtZ2F0ZXdheS8=">TGW 의 ECMP 를 사용 시 하여 Throughput 성능 향상<i class="fa fa-external-link-alt"></i></span>을 할 수 있음</p>
 </li>
 </ul>
 <hr>
@@ -381,7 +382,7 @@
 </li>
 </ul>
 <blockquote>
-<p>☝ VYOS는 리눅스(Debian) 기반에 라우팅, 방화벽, VPN 기능을 제공하여 VPN 역할로 선택함. <a href="https://wiki.vyos.net/wiki/User_Guide" target="_blank" rel="noopener">참고 링크</a></p>
+<p>☝ VYOS는 리눅스(Debian) 기반에 라우팅, 방화벽, VPN 기능을 제공하여 VPN 역할로 선택함. <span class="exturl" data-url="aHR0cHM6Ly93aWtpLnZ5b3MubmV0L3dpa2kvVXNlcl9HdWlkZQ==">참고 링크<i class="fa fa-external-link-alt"></i></span></p>
 </blockquote>
 <p>2.2 기본 설정</p>
 <ul>
@@ -397,7 +398,7 @@
 <li>1단계 템플릿 지정<ul>
 <li>템플릿 준비 : 준비된 템플릿</li>
 <li>템플릿 소스 : Amazon S3 URL</li>
-<li>Amazon S3 URL : <a href="https://s3.ap-northeast-2.amazonaws.com/cloudformation.cloudneta.net/VPN/gasida_vpn_idc1.yaml" target="_blank" rel="noopener">https://s3.ap-northeast-2.amazonaws.com/cloudformation.cloudneta.net/VPN/gasida_vpn_idc1.yaml</a><ul>
+<li>Amazon S3 URL : <span class="exturl" data-url="aHR0cHM6Ly9zMy5hcC1ub3J0aGVhc3QtMi5hbWF6b25hd3MuY29tL2Nsb3VkZm9ybWF0aW9uLmNsb3VkbmV0YS5uZXQvVlBOL2dhc2lkYV92cG5faWRjMS55YW1s">https://s3.ap-northeast-2.amazonaws.com/cloudformation.cloudneta.net/VPN/gasida_vpn_idc1.yaml<i class="fa fa-external-link-alt"></i></span><ul>
 <li>우측 하단 <code>다음</code> 클릭</li>
 </ul>
 </li>
@@ -441,7 +442,7 @@
 <li>1단계 템플릿 지정<ul>
 <li>템플릿 준비 : 준비된 템플릿</li>
 <li>템플릿 소스 : Amazon S3 URL</li>
-<li>Amazon S3 URL : <a href="https://s3.ap-northeast-2.amazonaws.com/cloudformation.cloudneta.net/VPN/gasida_vpn_aws.yaml" target="_blank" rel="noopener">https://s3.ap-northeast-2.amazonaws.com/cloudformation.cloudneta.net/VPN/gasida_vpn_aws.yaml</a><ul>
+<li>Amazon S3 URL : <span class="exturl" data-url="aHR0cHM6Ly9zMy5hcC1ub3J0aGVhc3QtMi5hbWF6b25hd3MuY29tL2Nsb3VkZm9ybWF0aW9uLmNsb3VkbmV0YS5uZXQvVlBOL2dhc2lkYV92cG5fYXdzLnlhbWw=">https://s3.ap-northeast-2.amazonaws.com/cloudformation.cloudneta.net/VPN/gasida_vpn_aws.yaml<i class="fa fa-external-link-alt"></i></span><ul>
 <li>우측 하단 <code>다음</code> 클릭</li>
 </ul>
 </li>
@@ -513,7 +514,7 @@
 </li>
 </ul>
 <blockquote>
-<p>☝ 본격적인 실습에 앞서, Site to Site VPN 리소스는 소량의 과금이 불가피 하다. (VPN 연결 시간 단위 요금 부과 - 시간 당 $0.05 등)<br>자세한 사항은 <a href="https://aws.amazon.com/ko/global-accelerator/pricing/https://aws.amazon.com/ko/vpn/pricing/" target="_blank" rel="noopener">요금 링크</a>를 참고 바란다.</p>
+<p>☝ 본격적인 실습에 앞서, Site to Site VPN 리소스는 소량의 과금이 불가피 하다. (VPN 연결 시간 단위 요금 부과 - 시간 당 $0.05 등)<br>자세한 사항은 <span class="exturl" data-url="aHR0cHM6Ly9hd3MuYW1hem9uLmNvbS9rby9nbG9iYWwtYWNjZWxlcmF0b3IvcHJpY2luZy9odHRwczovL2F3cy5hbWF6b24uY29tL2tvL3Zwbi9wcmljaW5nLw==">요금 링크<i class="fa fa-external-link-alt"></i></span>를 참고 바란다.</p>
 </blockquote>
 <hr>
 <br>
@@ -762,13 +763,13 @@
 </div>
   <div class="links-of-author motion-element">
       <span class="links-of-author-item">
-        <a href="https://github.com/cloudneta" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;cloudneta" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2Nsb3VkbmV0YQ==" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;cloudneta"><i class="fab fa-github fa-fw"></i>GitHub</span>
       </span>
       <span class="links-of-author-item">
-        <a href="mailto:admin@cloudneta.net" title="E-Mail → mailto:admin@cloudneta.net" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+        <span class="exturl" data-url="bWFpbHRvOmFkbWluQGNsb3VkbmV0YS5uZXQ=" title="E-Mail → mailto:admin@cloudneta.net"><i class="fa fa-envelope fa-fw"></i>E-Mail</span>
       </span>
       <span class="links-of-author-item">
-        <a href="https://www.notion.so/CloudNet-Blog-c9dfa44a27ff431dafdd2edacc8a1863" title="Notion → https:&#x2F;&#x2F;www.notion.so&#x2F;CloudNet-Blog-c9dfa44a27ff431dafdd2edacc8a1863" rel="noopener" target="_blank"><i class="fa fa-book fa-fw"></i>Notion</a>
+        <span class="exturl" data-url="aHR0cHM6Ly93d3cubm90aW9uLnNvL0Nsb3VkTmV0LUJsb2ctYzlkZmE0NGEyN2ZmNDMxZGFmZGQyZWRhY2M4YTE4NjM=" title="Notion → https:&#x2F;&#x2F;www.notion.so&#x2F;CloudNet-Blog-c9dfa44a27ff431dafdd2edacc8a1863"><i class="fa fa-book fa-fw"></i>Notion</span>
       </span>
   </div>
 
@@ -799,7 +800,7 @@
   </span>
   <span class="author" itemprop="copyrightHolder">CloudNet@</span>
 </div>
-  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  <div class="powered-by">Powered by <span class="exturl theme-link" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & <span class="exturl theme-link" data-url="aHR0cHM6Ly90aGVtZS1uZXh0LmpzLm9yZy9taXN0Lw==">NexT.Mist</span>
   </div>
   <div class="addthis_inline_share_toolbox">
     <script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5ed513b1de5cbed6" async="async"></script>
