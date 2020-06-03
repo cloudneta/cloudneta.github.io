@@ -9,23 +9,7 @@
 
     <url>
         <loc>http://cloudneta.github.io/2020/05/15/SecurityGroup-NetworkACL/</loc>
-        <lastmod>2020-06-02T05:11:35.865Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>http://cloudneta.github.io/2020/05/06/Route53-Geoproximity/</loc>
-        <lastmod>2020-06-02T03:57:45.702Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>http://cloudneta.github.io/2020/05/06/Route53-Geolocation/</loc>
-        <lastmod>2020-06-02T03:33:15.966Z</lastmod>
+        <lastmod>2020-06-03T02:37:47.806Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -33,7 +17,23 @@
 
     <url>
         <loc>http://cloudneta.github.io/2020/05/07/VPN-SitetoSite-with-Dynamic-Route/</loc>
-        <lastmod>2020-06-02T03:30:36.282Z</lastmod>
+        <lastmod>2020-06-03T02:37:37.150Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://cloudneta.github.io/2020/05/06/Route53-Geoproximity/</loc>
+        <lastmod>2020-06-03T02:37:24.918Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://cloudneta.github.io/2020/05/06/Route53-Geolocation/</loc>
+        <lastmod>2020-06-03T02:37:12.070Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -41,15 +41,7 @@
 
     <url>
         <loc>http://cloudneta.github.io/2020/05/07/VPN-SitetoSite-with-Static-Route/</loc>
-        <lastmod>2020-06-02T02:35:21.844Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>http://cloudneta.github.io/2020/05/06/Accelerator/</loc>
-        <lastmod>2020-06-02T02:32:08.068Z</lastmod>
+        <lastmod>2020-06-03T02:37:01.122Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -57,7 +49,15 @@
 
     <url>
         <loc>http://cloudneta.github.io/2020/05/16/Transit-Gateway/</loc>
-        <lastmod>2020-06-02T02:25:44.462Z</lastmod>
+        <lastmod>2020-06-03T02:36:50.266Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://cloudneta.github.io/2020/05/06/Accelerator/</loc>
+        <lastmod>2020-06-03T02:35:28.570Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 

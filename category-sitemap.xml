@@ -8,29 +8,43 @@
     </url>
 
     <url>
-        <loc>http://cloudneta.github.io/categories/Network-Connectivity-Network-Security/</loc>
-        <lastmod>2020-06-02T05:11:35.865Z</lastmod>
+        <loc>http://cloudneta.github.io/categories/Network-Connectivity/Network-Security/</loc>
+        <lastmod>2020-06-03T02:37:47.806Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>http://cloudneta.github.io/categories/Load-Balancing-Route53/</loc>
-        <lastmod>2020-06-02T03:57:45.702Z</lastmod>
+        <loc>http://cloudneta.github.io/categories/Network-Connectivity/</loc>
+        <lastmod>2020-06-03T02:37:47.806Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>http://cloudneta.github.io/categories/Network-Connectivity-External-Connectivity/</loc>
-        <lastmod>2020-06-02T03:30:36.282Z</lastmod>
+        <loc>http://cloudneta.github.io/categories/Network-Connectivity/External-Connectivity/</loc>
+        <lastmod>2020-06-03T02:37:37.150Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>http://cloudneta.github.io/categories/Load-Balancing-Global-Accelerator/</loc>
-        <lastmod>2020-06-02T02:32:08.068Z</lastmod>
+        <loc>http://cloudneta.github.io/categories/Load-Balancing/Route53/</loc>
+        <lastmod>2020-06-03T02:37:24.918Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>http://cloudneta.github.io/categories/Load-Balancing/</loc>
+        <lastmod>2020-06-03T02:37:24.918Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>http://cloudneta.github.io/categories/Load-Balancing/Global-Accelerator/</loc>
+        <lastmod>2020-06-03T02:35:28.570Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
